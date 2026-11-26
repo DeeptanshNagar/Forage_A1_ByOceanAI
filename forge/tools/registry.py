@@ -100,6 +100,24 @@ class ToolRegistry:
         return tags[:k]
 
 
+GENERIC_FIT_WORDS = {"live", "current", "real", "time", "data", "information", "info", "tool", "api", "internet", "web",
+                     "use", "using", "find", "show", "look", "get", "fetch", "provide", "access", "public", "online",
+                     "structured", "lookup", "search", "query", "return", "user", "users", "input", "inputs", "need",
+                     "needs", "capability", "external", "service", "system", "value", "values", "text", "file", "exact"}
+
+
+def tool_fits_need(tool: Tool, capability: str, justification: str) -> tuple[bool, list[str]]:
+    """Tag equality is not enough (mechanism tags like 'internet_api' say HOW, not WHAT): the need must share a
+    specific term with the tool's description/tags. Returns (fits, shared terms)."""
+    from ..textutils import stems
+
+    generic = {s for w in GENERIC_FIT_WORDS for s in stems(w)}
+    need = stems(capability.replace("_", " ") + " " + justification) - generic
+    offer = stems(tool.name.replace("_", " ") + " " + tool.description + " " + " ".join(t.replace("_", " ") for t in tool.capability_tags)) - generic
+    shared = sorted(need & offer)
+    return bool(shared), shared
+
+
 def discover(package: str = "forge.tools") -> ToolRegistry:
     reg = ToolRegistry()
     pkg = importlib.import_module(package)

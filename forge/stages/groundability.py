@@ -155,11 +155,15 @@ def corpus_stems(ctx: RunContext) -> set[str]:
     return _CORPUS_STEMS[key]
 
 
-def _capability_backed(ctx: RunContext, cap: str) -> str | None:
+def _capability_backed(ctx: RunContext, cap: str, justification: str = "") -> str | None:
+    from ..tools.registry import tool_fits_need
+
     has_csv = any(d.type == "csv" for d in ctx.documents())
     for t in ctx.registry.tools.values():
         if cap in t.capability_tags and not t.is_stub and (t.requires_data != "csv" or has_csv):
-            return t.name
+            fits, _ = tool_fits_need(t, cap, justification)
+            if fits:
+                return t.name
     return None
 
 
@@ -211,7 +215,7 @@ def run_groundability(ctx: RunContext, req: Requirements) -> tuple[Requirements,
     for t in req.must_answer_topics:
         topics.append(probe_topic(ctx, t, "must_answer"))
     for need in req.tool_needs:
-        tool = _capability_backed(ctx, need.capability)
+        tool = _capability_backed(ctx, need.capability, need.justification)
         if tool:
             topics.append(TopicGroundability(topic=need.capability, kind="capability", status="TOOL_BACKED",
                                              retrieval_max_score=0.0, retrieved=[], llm_verdict="n/a", evidence=[],

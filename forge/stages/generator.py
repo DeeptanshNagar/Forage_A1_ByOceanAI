@@ -11,6 +11,7 @@ from typing import Any
 from ..context import RunContext
 from ..llm import all_prompt_versions
 from ..logging_utils import info, stage_banner, success
+from ..tools.registry import tool_fits_need
 from ..schemas import (AgentDefinition, AgentOutput, DocumentProfile, GeneratedPromptParts, GroundabilityReport,
                        OutputContract, Requirements, RetrievalConfig, SystemPromptSpec, ToolBinding, ToolSelection)
 from ..textutils import truncate
@@ -96,7 +97,8 @@ def select_tools(ctx: RunContext, req: Requirements) -> tuple[list[ToolBinding],
         elif tool.requires_data == "csv" and not has_csv:
             reason = "requires CSV data that the corpus lacks"
         else:
-            need = next((n for n in needs if n.capability in tool.capability_tags), None)
+            need = next((n for n in needs if n.capability in tool.capability_tags
+                         and tool_fits_need(tool, n.capability, n.justification)[0]), None)
             if need is None:
                 reason = "no requirement-level tool need matches this tool's capabilities"
             elif choice.name in chosen:
@@ -110,7 +112,8 @@ def select_tools(ctx: RunContext, req: Requirements) -> tuple[list[ToolBinding],
         if any(need.capability in reg.get(n).capability_tags for n in chosen):
             continue
         for t in shortlist:
-            if need.capability in t.capability_tags and not t.is_stub and (t.requires_data != "csv" or has_csv):
+            if (need.capability in t.capability_tags and not t.is_stub and (t.requires_data != "csv" or has_csv)
+                    and tool_fits_need(t, need.capability, need.justification)[0]):
                 chosen[t.name] = ToolBinding(name=t.name, requirement_ref=need.requirement_ref,
                                              justification=need.justification)
                 log["added_deterministically"].append(t.name)
@@ -127,11 +130,12 @@ def select_tools(ctx: RunContext, req: Requirements) -> tuple[list[ToolBinding],
 
 def prune_unjustified(tools: list[ToolBinding], req: Requirements, ctx: RunContext) -> list[ToolBinding]:
     """Validator usable on any definition: drop tools without a requirement-level justification."""
-    caps = {n.requirement_ref: n.capability for n in req.tool_needs}
+    needs = {n.requirement_ref: n for n in req.tool_needs}
     out = []
     for b in tools:
         t = ctx.registry.get(b.name)
-        if t and not t.is_stub and caps.get(b.requirement_ref) in t.capability_tags:
+        n = needs.get(b.requirement_ref)
+        if t and n and not t.is_stub and n.capability in t.capability_tags and tool_fits_need(t, n.capability, n.justification)[0]:
             out.append(b)
     return out
 

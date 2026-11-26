@@ -110,3 +110,22 @@ def test_http_api_allowlist():
 def test_tool_run_never_raises():
     out = default_registry().get("calculator").run({"expression": "1/0"})
     assert out["ok"] is False and "division" in out["error"]
+
+
+def test_mechanism_tag_does_not_attach_unrelated_tool(cooking_ctx):
+    """Real-run regression: 'show live stock-market prices' mapped to tag 'internet_api' must NOT attach a weather API."""
+    from forge.stages.groundability import run_groundability
+    from forge.tools.registry import tool_fits_need
+
+    reg = default_registry()
+    need = ToolNeed(capability="internet_api", requirement_ref="T2",
+                    justification="To show live stock-market prices of our suppliers and calculate customs duty.")
+    assert not tool_fits_need(reg.get("http_api"), need.capability, need.justification)[0]
+    assert tool_fits_need(reg.get("http_api"), "live_weather", "tell users the current weather at the port city")[0]
+    req = Requirements(purpose="p", brief="b", must_answer_topics=["rice"], tool_needs=[need])
+    new_req, report = run_groundability(cooking_ctx, req)
+    cap = next(t for t in report.topics if t.kind == "capability")
+    assert cap.status == "UNSUPPORTED" and not new_req.tool_needs
+    assert any("stock-market" in t for t in new_req.must_refuse_topics)
+    tools, _ = select_tools(cooking_ctx, req)
+    assert "http_api" not in [t.name for t in tools]
