@@ -12,3 +12,5 @@ runs/
 .venv/
 .streamlit/secrets.toml
 *.log
+
+.vercel

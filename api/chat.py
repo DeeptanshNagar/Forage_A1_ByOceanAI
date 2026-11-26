@@ -5,7 +5,7 @@ POST /api/chat {"agent": "hr", "question": ...} -> the agent's structured answer
 
 Configuration (Vercel environment variables):
   GROQ_API_KEY      required for live answers
-  GROQ_MODEL        default llama-3.1-8b-instant
+  GROQ_MODEL        default qwen/qwen3.8-27b
   FORGE_BASE_URL    default https://api.groq.com/openai/v1 (any OpenAI-compatible endpoint works)
   FORGE_LLM=mock    deterministic offline backend (tests only; never presented as model output)
 """
@@ -42,7 +42,7 @@ _hits: dict[str, list[float]] = {}
 
 def _settings():
     mock = os.environ.get("FORGE_LLM", "").lower() == "mock"
-    model = os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant")
+    model = os.environ.get("GROQ_MODEL", "qwen/qwen3.8-27b")
     return load_settings(
         llm_backend="mock" if mock else "openai",
         base_url=os.environ.get("FORGE_BASE_URL", "https://api.groq.com/openai/v1"),
