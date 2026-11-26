@@ -193,7 +193,9 @@ def ui() -> None:
     """Launch the Streamlit UI (factory + chat)."""
     import subprocess
 
-    raise typer.Exit(subprocess.call([sys.executable, "-m", "streamlit", "run", str(Path(__file__).parent / "runner" / "app_ui.py")]))
+    root = Path(__file__).resolve().parent.parent  # .streamlit/config.toml (theme) is read from the working directory
+    raise typer.Exit(subprocess.call([sys.executable, "-m", "streamlit", "run", str(root / "forge" / "runner" / "app_ui.py")],
+                                     cwd=root))
 
 
 def main() -> None:  # pragma: no cover
