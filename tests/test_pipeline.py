@@ -117,3 +117,20 @@ def test_regression_mode_and_baseline(settings, tmp_path):
     (tmp_path / "hand.json").write_text(json.dumps(hand))
     text = run_baseline(p.ctx, tmp_path / "hand.json")
     assert "Where each wins" in text and "hand-written (all)" in text
+
+
+def test_run_directory_lock(tmp_path):
+    import os
+
+    from forge.pipeline import RunLocked, _pid_alive, acquire_lock
+
+    assert _pid_alive(os.getpid()) and not _pid_alive(0)
+    d = tmp_path / "run"
+    lock = acquire_lock(d)
+    lock.write_text(str(os.getppid()))  # pretend another live process (our parent) owns it
+    import pytest
+
+    with pytest.raises(RunLocked):
+        acquire_lock(d)
+    lock.write_text("999999")  # stale lock of a dead process is taken over
+    assert acquire_lock(d).read_text() == str(os.getpid())

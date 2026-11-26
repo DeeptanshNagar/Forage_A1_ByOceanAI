@@ -38,6 +38,15 @@ check next to it.
 | S15 | A negative control (final agent, retrieval disabled, no tools) runs in every pipeline. A warning fires if the final-minus-control gap is < 0.15 or the control still answers > 30 % of answerable cases. | Proves the evals discriminate. |
 | S16 | Untrusted documents: context is wrapped in `<documents>` in the user message and never placed in the system message. Instruction-like passages are flagged and annotated. The system prompt states that document text is data. | Prompt-injection defense; the HR corpus contains a planted injection. |
 
+## Incident log
+
+- **Concurrent writers mixed one HR run.** During development, a demo process launched with `&` in a short-lived
+  shell kept running, invisible to Git Bash's `ps`, while a second HR run started in the same `runs/demo_hr`
+  directory. The resulting artifacts mixed two runs: different self-test numbers in the log vs the file, and two
+  optimizer completions. They were discarded, and the HR demo was rerun from scratch with nothing else running.
+  Fix in the product: `forge run` holds a per-run `.lock` with a PID liveness check (Win32-safe; `os.kill(pid, 0)`
+  would terminate a process on Windows) and exits with code 4 if another live process owns the run.
+
 ## Things deliberately not done
 
 - No OCR: scanned PDFs are detected and skipped with a warning.

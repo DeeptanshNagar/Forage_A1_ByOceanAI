@@ -22,6 +22,50 @@ STAGES = ["ingest", "intake", "groundability", "generate", "evalgen", "tournamen
           "final_analysis", "negative_control", "report"]
 
 
+class RunLocked(RuntimeError):
+    pass
+
+
+def _pid_alive(pid: int) -> bool:
+    import os
+    import sys
+
+    if pid <= 0:
+        return False
+    if sys.platform == "win32":  # os.kill(pid, 0) would TERMINATE the process on Windows
+        import ctypes
+
+        h = ctypes.windll.kernel32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        code = ctypes.c_ulong()
+        ctypes.windll.kernel32.GetExitCodeProcess(h, ctypes.byref(code))
+        ctypes.windll.kernel32.CloseHandle(h)
+        return code.value == 259  # STILL_ACTIVE
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+
+def acquire_lock(run_dir: Path) -> Path:
+    """One writer per run directory: two concurrent processes would silently mix artifacts."""
+    import os
+
+    lock = run_dir / ".lock"
+    if lock.exists():
+        try:
+            pid = int(lock.read_text().strip() or 0)
+        except ValueError:
+            pid = 0
+        if pid != os.getpid() and _pid_alive(pid):
+            raise RunLocked(f"run directory {run_dir} is in use by process {pid}")
+    run_dir.mkdir(parents=True, exist_ok=True)
+    lock.write_text(str(os.getpid()))
+    return lock
+
+
 def new_run_id(prefix: str = "run") -> str:
     return f"{prefix}_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:4]}"
 
@@ -184,6 +228,17 @@ class Pipeline:
 
     # ------------------------------------------------------------------ orchestration
     def run(self, max_iters: int | None = None, resume: bool = False) -> int:
+        try:
+            lock = acquire_lock(self.ctx.run_dir)
+        except RunLocked as e:
+            error(str(e))
+            return 4
+        try:
+            return self._run(max_iters, resume)
+        finally:
+            lock.unlink(missing_ok=True)
+
+    def _run(self, max_iters: int | None, resume: bool) -> int:
         if resume:
             self.meta["resumed"] = True
             info(f"resuming {self.run_id}; already done: {self.meta.get('stages_done')}")
