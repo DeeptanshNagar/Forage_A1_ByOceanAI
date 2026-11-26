@@ -1,0 +1,73 @@
+name: Deploy to AWS (ECS Fargate)
+
+# Manual, one-click deploy. One-time setup (see docs/PRODUCTION.md):
+#   secrets: AWS_ROLE_ARN (an IAM role trusted for GitHub OIDC; no long-lived AWS keys), GROQ_API_KEY
+#   variables: AWS_VPC_ID, AWS_PUBLIC_SUBNET_IDS (comma-separated, two AZs), optional AWS_CERTIFICATE_ARN
+
+on:
+  workflow_dispatch:
+    inputs:
+      stack-name:
+        description: CloudFormation stack name
+        default: forgeai
+      region:
+        description: AWS region
+        default: us-east-1
+
+permissions:
+  contents: read
+  id-token: write   # OIDC federation to AWS
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      STACK: ${{ inputs.stack-name }}
+      AWS_REGION: ${{ inputs.region }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ inputs.region }}
+
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Ensure ECR repository (scan on push, immutable tags)
+        run: |
+          aws ecr describe-repositories --repository-names forgeai >/dev/null 2>&1 || \
+          aws ecr create-repository --repository-name forgeai \
+            --image-scanning-configuration scanOnPush=true --image-tag-mutability IMMUTABLE
+
+      - name: Build and push image
+        id: image
+        run: |
+          IMAGE="${{ steps.ecr.outputs.registry }}/forgeai:${GITHUB_SHA::12}"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "uri=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy CloudFormation stack (rolling, circuit-breaker rollback)
+        run: |
+          aws cloudformation deploy \
+            --stack-name "$STACK" \
+            --template-file deploy/aws/cloudformation.yml \
+            --capabilities CAPABILITY_IAM \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              ImageUri="${{ steps.image.outputs.uri }}" \
+              VpcId="${{ vars.AWS_VPC_ID }}" \
+              PublicSubnetIds="${{ vars.AWS_PUBLIC_SUBNET_IDS }}" \
+              CertificateArn="${{ vars.AWS_CERTIFICATE_ARN }}" \
+              GroqApiKey="${{ secrets.GROQ_API_KEY }}"
+
+      - name: Wait for a stable service and print the URL
+        run: |
+          CLUSTER=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].Outputs[?OutputKey=='ClusterName'].OutputValue" --output text)
+          SERVICE=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].Outputs[?OutputKey=='ServiceName'].OutputValue" --output text)
+          aws ecs wait services-stable --cluster "$CLUSTER" --services "$SERVICE"
+          URL=$(aws cloudformation describe-stacks --stack-name "$STACK" --query "Stacks[0].Outputs[?OutputKey=='Url'].OutputValue" --output text)
+          echo "Deployed: $URL" | tee -a "$GITHUB_STEP_SUMMARY"

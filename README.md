@@ -11,7 +11,10 @@ and hands back a working agent with a report card that **admits what it still ge
 [![Live app](https://img.shields.io/badge/▶%20Try%20the%20full%20app-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://agentsmithbyoceanai.streamlit.app/)
 [![Results site](https://img.shields.io/badge/Results%20%2B%20live%20chat-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://forgeai-six-sigma.vercel.app)
 
+[![CI](https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI/actions/workflows/ci.yml/badge.svg)](https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-ECS%20Fargate-FF9900?logo=amazonwebservices&logoColor=white)
 ![Tests](https://img.shields.io/badge/tests-85%20passing-2ea44f)
 ![Models](https://img.shields.io/badge/runs%20on-3B%20models%20·%204%20GB%20GPU-6f42c1)
 ![Ollama](https://img.shields.io/badge/Ollama-local-black)
@@ -290,6 +293,25 @@ The demo scores were measured locally with the 3B models (`qwen2.5:3b-instruct` 
 
 ---
 
+## 🐳 Production-grade: Docker + AWS
+
+One container image runs the full app everywhere: your laptop, CI, and AWS. → **[docs/PRODUCTION.md](docs/PRODUCTION.md)**
+
+```bash
+docker compose --profile local up --build     # app + Ollama with the demo's exact 3B models (identical to `forge ui`)
+docker compose --profile cloud up --build     # app on a hosted model (FORGE_API_KEY in .env)
+```
+
+| | |
+|---|---|
+| 🐳 **Docker** | Multi-stage build, non-root user, health check, volumes for runs and cache, no secrets in the image; Compose with an Ollama sidecar and an optional GPU |
+| ✅ **CI on every push** | 85 tests → Dockerfile + CloudFormation lint → build the image, **start it, wait for healthy, render the app inside it** → publish to GHCR |
+| ☁️ **AWS ECS Fargate** | One-click GitHub deploy via **OIDC** (no stored AWS keys) → ECR with scan-on-push and immutable tags → ALB with TLS 1.3 and sticky websocket sessions → **circuit-breaker rollback**, CPU autoscaling, Secrets Manager, CloudWatch + Container Insights, least-privilege IAM |
+
+Why Fargate and not Lambda or Vercel for the factory: Streamlit needs long-lived websockets and a build runs 15–40 minutes, far beyond serverless request limits.
+
+---
+
 ## 🔬 Under the hood
 
 <details>
@@ -363,10 +385,11 @@ prompts/      22 versioned prompt templates (docs/PROMPTS.md)
 demos/        briefs, sources/, synthesis_prompts/, hand_written/, run_hr/, run_procurement/, run_cooking_unseen/
 configs/      ollama_small.toml (4 GB GPU profile used for the demos), cloud_groq.toml (hosted app)
 api/ public/  Vercel results site + serverless chat
-deploy/       Streamlit Community Cloud entry point
+deploy/       streamlit/ (Streamlit Cloud entry) · aws/cloudformation.yml (ECS Fargate stack)
+Dockerfile    production image · docker-compose.yml (+ .gpu.yml) · .github/workflows/ (CI, AWS deploy)
 scripts/      synthesize_docs.py, acceptance_check.py, demo_summary.py, build_site.py
 tests/        85 tests (mock backend, offline) + fixtures/cooking_faq (third, unseen domain)
-docs/         DECISIONS.md PROMPTS.md DEPLOYMENT.md screenshots/
+docs/         DECISIONS.md PROMPTS.md DEPLOYMENT.md PRODUCTION.md screenshots/
 ```
 </details>
 

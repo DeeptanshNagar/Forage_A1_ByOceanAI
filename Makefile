@@ -2,7 +2,7 @@
 PY ?= python
 SMALL = --config configs/ollama_small.toml
 
-.PHONY: install test mock-demo demo-hr demo-procurement demos models synth ui baseline-hr regress-demo
+.PHONY: install test mock-demo demo-hr demo-procurement demos models synth ui baseline-hr regress-demo docker-build docker-local docker-cloud site
 
 install:
 	$(PY) -m pip install -e ".[dev,synth]"
@@ -36,3 +36,16 @@ baseline-hr:
 
 ui:
 	$(PY) -m forge ui
+
+# ---- production (docs/PRODUCTION.md)
+docker-build:
+	docker build -t forgeai:latest .
+
+docker-local:   # app + Ollama with the demo's 3B models, identical to `forge ui`
+	docker compose --profile local up --build
+
+docker-cloud:   # app on Groq; needs FORGE_API_KEY in .env
+	docker compose --profile cloud up --build
+
+site:           # regenerate the Vercel results-site data from the committed runs
+	$(PY) scripts/build_site.py

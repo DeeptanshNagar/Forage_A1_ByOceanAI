@@ -3,11 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ForgeAI</title>
+<title>Agent Smith · ForgeAI</title>
 <meta name="description" content="ForgeAI: the agent that builds agents. Brief + documents in; a tested RAG agent and an honest quality report out.">
+<meta name="theme-color" content="#4f46e5">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agent Smith · ForgeAI: the agent that builds agents">
+<meta property="og:description" content="Brief + documents in → a tested RAG agent, its own eval set, a self-improvement loop and an honest report. Runs on 3B models.">
+<meta property="og:image" content="https://forgeai-six-sigma.vercel.app/og.png">
+<meta property="og:url" content="https://forgeai-six-sigma.vercel.app">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234f46e5'/%3E%3Cstop offset='1' stop-color='%23c026d3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='700' font-size='34' fill='white' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="data/site.json" as="fetch" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <style>
 :root{
   --bg:#f7f7fb; --card:#fff; --line:#e7e5f3; --ink:#18181b; --ink2:#52514e; --muted:#78716c;
@@ -54,6 +63,7 @@ code{font:12.5px ui-monospace,SFMono-Regular,Consolas,monospace;background:#f2f1
 .tabs{display:flex;gap:6px;margin:22px 0 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .tab{appearance:none;border:1px solid var(--line);border-bottom:none;background:#ffffffb3;border-radius:10px 10px 0 0;padding:8px 16px;
   font:500 .95rem Inter,sans-serif;color:var(--ink2);cursor:pointer}
+:focus-visible{outline:2px solid #6366f1;outline-offset:2px}
 .tab[aria-selected=true]{background:var(--brandSoft);border-color:#c7d2fe;color:var(--brandInk);box-shadow:inset 0 -2px 0 var(--brand)}
 .seg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
 .seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:500 .88rem Inter,sans-serif;color:var(--ink2);cursor:pointer}
@@ -254,7 +264,7 @@ function renderResults() {
         `<tr><td><code>${esc(f.id)}</code></td><td>${esc(f.split)}</td><td>${esc(f.category)}${f.subcategory ? ` <span class="muted">(${esc(f.subcategory)})</span>` : ""}</td>
          <td>${esc(f.question)}</td><td>${esc(f.answer)}</td><td>${esc(f.why)}</td></tr>`).join("")}</table></div>`
       : `<div class="card">No failing cases in the final evaluation.</div>`,
-    report: `<div class="card report">${window.marked ? marked.parse(r.report) : `<pre>${esc(r.report)}</pre>`}</div>`,
+    report: `<div class="card report" id="reportBox"><span class="muted">Loading report…</span></div>`,
   };
   $("#results").innerHTML = `
     <div class="card accent"><div class="kicker">Brief</div><p style="margin:0">${esc(r.brief)}</p><div style="margin-top:8px">${tags}</div></div>
@@ -282,7 +292,27 @@ function renderResults() {
       .map(([id, l]) => `<button aria-pressed="${SUB === id}" data-s="${id}">${l}</button>`).join("")}</div>
     <div id="sub">${sub[SUB]}</div>`;
   wireChart($("#chartCard"), r.series);
+  if (SUB === "report") loadReport(r);
   $("#subSeg").querySelectorAll("button").forEach(b => b.onclick = () => { SUB = b.dataset.s; renderResults(); });
+}
+
+// ---------------------------------------------------------------- report (lazy: markdown + renderer fetched on demand)
+const reportCache = {};
+let markedReady = null;
+function loadMarked() {
+  return markedReady ||= new Promise((ok, fail) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js";
+    s.onload = ok; s.onerror = fail; document.head.appendChild(s);
+  });
+}
+async function loadReport(r) {
+  const box = $("#reportBox");
+  try {
+    const [md] = await Promise.all([reportCache[r.id] ||= fetch(r.report_url).then(x => x.text()), loadMarked().catch(() => null)]);
+    if ($("#reportBox") !== box) return;  // user switched away meanwhile
+    box.innerHTML = window.marked ? marked.parse(md) : `<pre style="white-space:pre-wrap">${esc(md)}</pre>`;
+  } catch { box.innerHTML = `<div class="err">Could not load the report.</div>`; }
 }
 
 // ---------------------------------------------------------------- chat

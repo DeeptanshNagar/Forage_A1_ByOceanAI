@@ -147,11 +147,22 @@ def chip(text: str, kind: str = "") -> str:
     return f'<span class="fx-chip {kind}">{esc(text)}</span>'
 
 
+@st.cache_data(max_entries=512, show_spinner=False)
+def _read_json(path: str, mtime: float):  # mtime in the key: a rewritten file is re-read, an unchanged one never is
+    return json.loads(Path(path).read_text(encoding="utf-8"))
+
+
 def rj(p: Path, default=None):
     try:
-        return json.loads(p.read_text(encoding="utf-8"))
+        return _read_json(str(p), p.stat().st_mtime)
     except Exception:  # noqa: BLE001
         return default
+
+
+@st.cache_resource(max_entries=16, show_spinner="Loading agent and building its search index…")
+def shared_runtime(path: str, mtime: float, settings_key: str, _settings) -> AgentRuntime:
+    """One runtime per (agent file, settings) for the whole server: the document index is built once, not per visitor."""
+    return AgentRuntime(load_definition(path), _settings, llm=LLM(_settings))
 
 
 def pct(v) -> str:
@@ -173,6 +184,7 @@ def backend_status(base_url: str, api_key: str = "") -> tuple[bool, list[str]]:
         return False, []
 
 
+@st.cache_data(ttl=10, show_spinner=False)
 def list_runs() -> list[Path]:
     dirs = [p.parent for pat in ("demos/run_*/scorecard_summary.json", "runs/*/scorecard_summary.json") for p in ROOT.glob(pat)]
     return sorted(set(dirs), key=lambda d: (not d.parts[-2] == "demos", -d.stat().st_mtime))
@@ -584,10 +596,7 @@ with chat_tab:
         hkey = f"hist::{apath}::{settings.llm_backend}"
         if top[2].button("Clear chat", icon=":material/delete_sweep:", width="stretch"):
             st.session_state[hkey] = []
-        key = f"rt::{apath}::{settings.llm_backend}"
-        if key not in st.session_state:
-            st.session_state[key] = AgentRuntime(load_definition(apath), settings, llm=LLM(settings))
-        rt: AgentRuntime = st.session_state[key]
+        rt: AgentRuntime = shared_runtime(str(apath), apath.stat().st_mtime, settings.model_dump_json(), settings)
         defn = rt.defn
         st.markdown(f"""<div class="fx-card accent"><div class="fx-kicker">Agent</div><h4>{esc(defn.name)}</h4><p>{esc(defn.description)}</p>
             <div style="margin-top:8px">{''.join(chip(t.name, 'info') for t in defn.tools) or chip('no tools')}

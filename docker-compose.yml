@@ -1,0 +1,56 @@
+# ForgeAI with Docker Compose.
+#
+#   docker compose --profile local up --build      # app + Ollama with the demo's 3B models (same as localhost)
+#   docker compose --profile cloud up --build      # app on Groq (needs FORGE_API_KEY in .env)
+#   add  -f docker-compose.yml -f docker-compose.gpu.yml  to give Ollama an NVIDIA GPU
+#
+# Then open http://localhost:8501
+
+x-app: &app
+  build: .
+  image: forgeai:latest
+  ports: ["8501:8501"]
+  volumes:
+    - forge-runs:/app/runs
+    - forge-cache:/app/.forge_cache
+  restart: unless-stopped
+
+services:
+  ollama:
+    profiles: ["local"]
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}   # pin a tag in production
+    volumes: [ollama-models:/root/.ollama]
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  ollama-pull:                       # one-shot: pulls the models, then exits
+    profiles: ["local"]
+    image: ${OLLAMA_IMAGE:-ollama/ollama:latest}
+    environment: [OLLAMA_HOST=ollama:11434]
+    entrypoint: ["/bin/sh", "-c", "ollama pull qwen2.5:3b-instruct && ollama pull llama3.2:3b"]
+    depends_on:
+      ollama: {condition: service_healthy}
+
+  app:
+    <<: *app
+    profiles: ["local"]
+    environment:
+      FORGE_UI_CONFIG: configs/docker_ollama.toml
+    depends_on:
+      ollama-pull: {condition: service_completed_successfully}
+
+  app-cloud:
+    <<: *app
+    profiles: ["cloud"]
+    environment:
+      FORGE_UI_CONFIG: configs/cloud_groq.toml
+      FORGE_API_KEY: ${FORGE_API_KEY:-}   # from .env; without it the sidebar shows "Model not reachable"
+
+volumes:
+  forge-runs:
+  forge-cache:
+  ollama-models:

@@ -82,12 +82,17 @@ def run_data(agent_id: str, label: str, folder: str) -> dict:
         "tools": [{"name": t["name"], "why": t.get("justification", "")} for t in agent.get("tools", [])],
         "retrieval": {k: (agent.get("retrieval") or {}).get(k) for k in ("strategy", "chunk_size", "chunk_overlap", "top_k", "hybrid_alpha", "rerank")},
         "changes": changes, "failures": fails, "suggestions": suggestions,
-        "report": (d / "REPORT.md").read_text(encoding="utf-8") if (d / "REPORT.md").exists() else "",
+        "report_url": f"data/reports/{agent_id}.md",  # fetched only when the Report tab is opened
     }
 
 
 def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    (OUT.parent / "reports").mkdir(exist_ok=True)
+    for agent_id, _, folder in RUNS:
+        rp = ROOT / folder / "REPORT.md"
+        if rp.exists():
+            (OUT.parent / "reports" / f"{agent_id}.md").write_text(rp.read_text(encoding="utf-8"), encoding="utf-8")
     data = {"runs": [run_data(*r) for r in RUNS]}
     OUT.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size // 1024} KB, {len(data['runs'])} runs)")
