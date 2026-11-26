@@ -1,0 +1,11 @@
+runs/
+.forge_cache/
+.forge_index/
+.venv/
+**/__pycache__/
+*.log
+.env
+.streamlit/
+docs/screenshots/
+tests/*
+!tests/fixtures

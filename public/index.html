@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ForgeAI</title>
+<meta name="description" content="ForgeAI: the agent that builds agents. Brief + documents in; a tested RAG agent and an honest quality report out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+:root{
+  --bg:#f7f7fb; --card:#fff; --line:#e7e5f3; --ink:#18181b; --ink2:#52514e; --muted:#78716c;
+  --brand:#4f46e5; --brand2:#7c3aed; --brandSoft:#eef2ff; --brandInk:#3730a3;
+  --dev:#2a78d6; --held:#eb6834; --grid:#ecebe7;
+  --good:#166534; --goodBg:#ecfdf3; --goodLine:#a7f3c4;
+  --warn:#92400e; --warnBg:#fff7e6; --warnLine:#fbd38d;
+  --bad:#991b1b; --badBg:#fef2f2; --badLine:#fecaca;
+}
+*{box-sizing:border-box}
+html{padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+body{margin:0;font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+  background:radial-gradient(1100px 480px at 90% -10%,#ede9fe 0%,rgba(237,233,254,0) 60%),
+             radial-gradient(900px 420px at -10% 5%,#e0f2fe 0%,rgba(224,242,254,0) 55%),var(--bg)}
+h1,h2,h3,h4,.disp{font-family:"Space Grotesk",Inter,system-ui,sans-serif;letter-spacing:-.01em}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+a{color:var(--brand)}
+code{font:12.5px ui-monospace,SFMono-Regular,Consolas,monospace;background:#f2f1f8;border-radius:6px;padding:1px 6px}
+
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:28px 30px 24px;color:#fff;
+  background:linear-gradient(120deg,#312e81 0%,#4f46e5 38%,#7c3aed 70%,#c026d3 100%);box-shadow:0 18px 40px -18px rgba(79,70,229,.55)}
+.hero:after{content:"";position:absolute;right:-90px;top:-100px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.22),rgba(255,255,255,0) 70%)}
+.hero .row{display:flex;gap:16px;align-items:center;position:relative;z-index:1}
+.logo{width:52px;height:52px;border-radius:14px;flex:none;display:grid;place-items:center;font:700 25px "Space Grotesk",sans-serif;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35)}
+.hero h1{margin:0;font-size:2.1rem;line-height:1.1}
+.hero p{margin:4px 0 0;color:#e0e7ff;max-width:780px}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:16px;position:relative;z-index:1}
+.flow span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px 11px;font-size:.8rem}
+.flow i{font-style:normal;color:#c7d2fe;font-size:.8rem}
+.status{position:relative;z-index:1;margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+
+.chip{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px;font-size:.78rem;font-weight:500;
+  border:1px solid #e4e3df;background:#fafaf9;color:#3f3f46;margin:2px 4px 2px 0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip.good{background:var(--goodBg);border-color:var(--goodLine);color:var(--good)}
+.chip.warn{background:var(--warnBg);border-color:var(--warnLine);color:var(--warn)}
+.chip.bad{background:var(--badBg);border-color:var(--badLine);color:var(--bad)}
+.chip.info{background:var(--brandSoft);border-color:#c7d2fe;color:var(--brandInk)}
+.hero .chip{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35);color:#fff}
+.hero .chip.good{background:#14532d;border-color:#22c55e;color:#dcfce7}
+.hero .chip.bad{background:#7f1d1d;border-color:#f87171;color:#fee2e2}
+
+.tabs{display:flex;gap:6px;margin:22px 0 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tab{appearance:none;border:1px solid var(--line);border-bottom:none;background:#ffffffb3;border-radius:10px 10px 0 0;padding:8px 16px;
+  font:500 .95rem Inter,sans-serif;color:var(--ink2);cursor:pointer}
+.tab[aria-selected=true]{background:var(--brandSoft);border-color:#c7d2fe;color:var(--brandInk);box-shadow:inset 0 -2px 0 var(--brand)}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 14px}
+.seg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:500 .88rem Inter,sans-serif;color:var(--ink2);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--brandSoft);border-color:#a5b4fc;color:var(--brandInk)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px;
+  box-shadow:0 1px 2px rgba(30,27,75,.04),0 8px 24px -16px rgba(30,27,75,.18)}
+.card.accent{border-top:3px solid #6366f1}
+.kicker{text-transform:uppercase;letter-spacing:.07em;font-size:.7rem;font-weight:700;color:#6366f1;margin-bottom:4px}
+.muted{color:var(--muted);font-size:.85rem}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px 12px;border-top:4px solid #6366f1;box-shadow:0 8px 24px -18px rgba(30,27,75,.35)}
+.kpi:nth-child(2){border-top-color:#8b5cf6}.kpi:nth-child(3){border-top-color:#0ea5e9}.kpi:nth-child(4){border-top-color:#f43f5e}.kpi:nth-child(5){border-top-color:#a8a29e}
+.kpi .l{font-size:.82rem;color:var(--ink2)}
+.kpi .v{font:600 1.9rem "Space Grotesk",sans-serif;color:#1e1b4b;line-height:1.2;font-variant-numeric:tabular-nums}
+.kpi .d{display:inline-block;font-size:.78rem;border-radius:999px;padding:1px 8px;background:var(--goodBg);color:var(--good);margin-top:2px}
+.kpi .d.flat{background:#f2f1ee;color:var(--ink2)}
+.grid2{display:grid;grid-template-columns:3fr 2fr;gap:18px;align-items:start}
+.grid2>*,.kpis>*{min-width:0}
+.hero>*{min-width:0}.hero .row>div{min-width:0}
+h3.sec{margin:6px 0 10px;color:#312e81;font-size:1.15rem}
+
+.chart{position:relative}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;font-size:.85rem;color:var(--ink2);margin-bottom:4px}
+.legend b{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:#1e1b4b;color:#fff;border-radius:10px;padding:8px 10px;font-size:.8rem;
+  box-shadow:0 8px 20px -8px rgba(0,0,0,.4);white-space:nowrap;transform:translate(-50%,-110%)}
+.tip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+
+.bar{height:8px;border-radius:999px;background:#ecebf5;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#4f46e5,#7c3aed)}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #f0eff7;vertical-align:top}
+th{color:var(--ink2);font-weight:500;background:#fafaff}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.conflict{border:1px solid #f3e3a3;background:#fdfbea;border-radius:12px;padding:12px 14px;color:#6b5300;margin-top:12px;font-size:.9rem}
+.report{max-height:560px;overflow:auto;padding-right:6px;font-size:.9rem}
+.report table{margin:8px 0}
+
+.chatwrap{display:grid;gap:12px}
+.msg{border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:#fff}
+.msg.user{background:linear-gradient(90deg,#eef2ff,#f5f3ff);border-color:#c7d2fe}
+.src{border-left:3px solid #8b5cf6;background:#faf5ff;border-radius:0 10px 10px 0;padding:8px 12px;margin:6px 0;font-size:.86rem}
+.src b{color:#5b21b6;font-weight:600}
+.refused{border:1px solid var(--warnLine);background:linear-gradient(90deg,#fffbeb,#fff7ed);border-radius:12px;padding:10px 14px;color:#78350f}
+.err{border:1px solid var(--badLine);background:var(--badBg);border-radius:12px;padding:10px 14px;color:var(--bad)}
+.meta{color:var(--muted);font-size:.78rem;margin-top:6px}
+details summary{cursor:pointer;color:var(--brandInk);font-size:.85rem;margin-top:6px}
+details pre{white-space:pre-wrap;font:12px ui-monospace,Consolas,monospace;background:#fafaff;border:1px solid var(--line);border-radius:10px;padding:10px;max-height:260px;overflow:auto}
+form.ask{display:flex;gap:8px}
+form.ask input{flex:1;min-width:0;border:1px solid #c7d2fe;border-radius:12px;padding:12px 14px;font:inherit;background:#fff}
+form.ask input:focus{outline:2px solid #a5b4fc;outline-offset:1px}
+.btn{appearance:none;border:0;border-radius:12px;padding:10px 18px;font:600 .95rem Inter,sans-serif;color:#fff;cursor:pointer;
+  background:linear-gradient(90deg,#4f46e5,#7c3aed);box-shadow:0 8px 20px -10px rgba(79,70,229,.7)}
+.btn:disabled{background:#d4d4e8;color:#6b6b80;box-shadow:none;cursor:not-allowed}
+.sugg button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;margin:3px 4px 3px 0;
+  font:.85rem Inter,sans-serif;color:var(--ink2);cursor:pointer;text-align:left}
+.sugg button:hover{border-color:#a5b4fc;color:var(--brandInk)}
+.typing{display:inline-flex;gap:4px}.typing i{width:6px;height:6px;border-radius:50%;background:#a5b4fc;animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{50%{transform:translateY(-4px);opacity:.5}}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.step b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-size:.75rem;margin-right:6px}
+footer{margin-top:30px;color:var(--muted);font-size:.82rem;text-align:center}
+[hidden]{display:none!important}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}.hero h1{font-size:1.7rem}}
+@media (max-width:420px){.wrap{padding:16px 16px 40px}.kpi .v{font-size:1.5rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="row"><div class="logo">F</div><div>
+      <h1>ForgeAI</h1>
+      <p>The agent that builds agents. Give it a one-paragraph brief and a folder of documents: it builds a RAG agent, writes its tests, grades it, fixes it, and reports honestly what still fails.</p>
+    </div></div>
+    <div class="flow"><span>Brief</span><i>→</i><span>Intake</span><i>→</i><span>Groundability guard</span><i>→</i><span>Generate agent</span><i>→</i><span>Generate evals</span><i>→</i><span>Judge</span><i>→</i><span>Critic + optimizer ×3</span><i>→</i><span>Honest report</span></div>
+    <div class="status" id="status"><span class="chip">checking live model…</span></div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="results">Results</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="chat">Chat with an agent</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="how">How it works</button>
+  </nav>
+
+  <section id="tab-results">
+    <div class="seg" id="runSeg"></div>
+    <div id="results"></div>
+  </section>
+
+  <section id="tab-chat" hidden>
+    <div class="seg" id="chatSeg"></div>
+    <div class="card accent" id="agentCard"></div>
+    <div class="card" style="background:#fafaff">
+      <div class="muted" id="liveNote"></div>
+    </div>
+    <div class="sugg" id="sugg"></div>
+    <div class="chatwrap" id="msgs" style="margin:12px 0"></div>
+    <form class="ask" id="ask"><input id="q" maxlength="400" placeholder="Ask the agent a question" autocomplete="off" aria-label="Question"><button class="btn" id="send">Ask</button></form>
+  </section>
+
+  <section id="tab-how" hidden>
+    <div class="card"><p style="margin:0">ForgeAI is a pipeline that runs <b>unattended</b> on small open models (built and evaluated with <code>qwen2.5:3b-instruct</code> + <code>llama3.2:3b</code> via Ollama on a 4 GB GPU). The factory runs locally. A full build takes 15–40 minutes, longer than a serverless request allows, so this site shows the committed evidence and lets you chat with the agents it produced.</p></div>
+    <div class="steps" id="steps"></div>
+    <div class="card" style="margin-top:14px"><div class="kicker">Run the factory yourself</div>
+      <pre style="white-space:pre-wrap;margin:6px 0 0;font:13px ui-monospace,Consolas,monospace">pip install -e .[ui]
+ollama pull qwen2.5:3b-instruct &amp;&amp; ollama pull llama3.2:3b
+python -m forge ui                       # web UI: build, results, chat
+python -m forge run --brief-file brief.txt --docs my_docs/ --config configs/ollama_small.toml --non-interactive</pre></div>
+  </section>
+
+  <footer>ForgeAI · scores are computed by code from the committed run artifacts · every remaining failure is listed, not hidden</footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct = v => v == null ? "–" : (v * 100).toFixed(1) + "%";
+const f3 = v => v == null ? "–" : v.toFixed(3);
+const chip = (t, k = "") => `<span class="chip ${k}" title="${esc(t)}">${esc(t)}</span>`;
+let DATA = null, RUN = 0, CHAT = 0, SUB = "guard", LIVE = null;
+const history = {};
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll(".tab").forEach(b => b.onclick = () => {
+  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", x === b));
+  ["results", "chat", "how"].forEach(t => $("#tab-" + t).hidden = t !== b.dataset.tab);
+});
+
+// ---------------------------------------------------------------- chart (2 series + reference rule, hover tooltip)
+function chart(series, nc) {
+  const W = 640, H = 270, L = 40, R = 48, T = 14, B = 34, n = series.length;
+  const x = i => L + (n === 1 ? (W - L - R) / 2 : i * (W - L - R) / (n - 1));
+  const y = v => T + (1 - v) * (H - T - B);
+  let g = "";
+  for (let v = 0; v <= 1.0001; v += 0.2) g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/>
+    <text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="var(--ink2)">${v.toFixed(1)}</text>`;
+  series.forEach((s, i) => g += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="var(--ink2)">${esc(s.label)}</text>`);
+  if (nc != null) g += `<line x1="${L}" x2="${W - R}" y1="${y(nc)}" y2="${y(nc)}" stroke="#a8a29e" stroke-dasharray="4 4" stroke-width="1.5"/>
+    <text x="${L + 6}" y="${y(nc) - 6}" font-size="11" fill="var(--ink2)">No-retrieval control ${nc.toFixed(2)}</text>`;
+  const line = (k, c) => {
+    const pts = series.map((s, i) => s[k] == null ? null : [x(i), y(s[k])]).filter(Boolean);
+    return `<polyline fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round" points="${pts.map(p => p.join(",")).join(" ")}"/>` +
+      pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="${c}" stroke="#fff" stroke-width="2"/>`).join("");
+  };
+  g += line("heldout", "var(--held)") + line("dev", "var(--dev)");
+  const colW = n > 1 ? (W - L - R) / (n - 1) : W - L - R;
+  series.forEach((s, i) => g += `<rect class="hit" data-i="${i}" x="${x(i) - colW / 2}" y="${T}" width="${colW}" height="${H - T - B}" fill="transparent"/>`);
+  return `<div class="legend"><span><b style="background:var(--dev)"></b>Dev</span><span><b style="background:var(--held)"></b>Held-out</span></div>
+    <div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Composite score per iteration, dev and held-out">${g}</svg><div class="tip" hidden></div></div>`;
+}
+function wireChart(root, series) {
+  const svg = root.querySelector("svg"), tip = root.querySelector(".tip");
+  svg.querySelectorAll(".hit").forEach(r => {
+    r.onmouseenter = r.onmousemove = e => {
+      const s = series[+r.dataset.i], box = root.querySelector(".chart").getBoundingClientRect();
+      tip.innerHTML = `<b>${esc(s.label)}</b><br><i style="background:var(--dev)"></i>Dev ${f3(s.dev)}<br><i style="background:var(--held)"></i>Held-out ${f3(s.heldout)}`;
+      tip.style.left = (e.clientX - box.left) + "px"; tip.style.top = (e.clientY - box.top) + "px"; tip.hidden = false;
+    };
+    r.onmouseleave = () => tip.hidden = true;
+  });
+}
+
+// ---------------------------------------------------------------- results
+const STATUS = {SUPPORTED: ["✓ supported", "good"], PARTIAL: ["◐ partial", "warn"], UNSUPPORTED: ["✕ not in docs", "bad"]};
+function renderResults() {
+  const r = DATA.runs[RUN], k = r.kpi;
+  $("#runSeg").innerHTML = DATA.runs.map((x, i) => `<button aria-pressed="${i === RUN}" data-i="${i}">${esc(x.label)}</button>`).join("");
+  $("#runSeg").querySelectorAll("button").forEach(b => b.onclick = () => { RUN = +b.dataset.i; renderResults(); });
+  const allCached = r.calls && r.cached_calls === r.calls;
+  const tags = chip("real local models: " + Object.values(r.models || {}).filter((v, i, a) => v && a.indexOf(v) === i).join(" + "), "info") +
+    chip(`${r.calls} model calls`) + (allCached ? chip("replayed from recorded real-model calls", "warn") : chip(`${Math.round(r.wall_time_s / 60)} min live build`, "good"));
+  const delta = (a, b) => { if (a == null || b == null) return ""; const d = a - b, flat = Math.abs(d) < 5e-4;
+    return `<span class="d ${flat ? "flat" : ""}">${flat ? "± 0.000" : (d > 0 ? "↑ +" : "↓ ") + d.toFixed(3)} vs v0</span>`; };
+  const selftestWarn = k.judge_selftest != null && k.judge_threshold != null && k.judge_selftest < k.judge_threshold;
+  const req = r.requirements;
+  const sub = {
+    guard: `<div class="grid2"><div class="card"><div class="kicker">Scope</div><p style="margin:0">${esc(req.scope)}</p>
+        <div class="kicker" style="margin-top:10px">Audience · tone</div><p style="margin:0">${esc(req.audience)} · ${esc(req.tone)}</p>
+        <div class="kicker" style="margin-top:10px">Must answer</div>${req.must_answer.map(t => chip(t)).join("")}
+        <div class="kicker" style="margin-top:10px">Must refuse</div>${req.must_refuse.map(t => chip(t, "bad")).join("")}</div>
+      <div><p style="margin:0 0 8px"><b>Groundability guard:</b> can the documents support each requested topic?</p>
+        <div class="tblwrap"><table><tr><th>Topic</th><th>Kind</th><th>Status</th></tr>${r.guard.map(t =>
+          `<tr><td>${esc(t.topic)}</td><td>${esc(t.kind)}</td><td>${chip(...(STATUS[t.status] || [t.status, ""]))}</td></tr>`).join("")}</table></div>
+        ${r.contradictions.map(c => `<div class="conflict"><b>The documents disagree on “${esc(c.topic)}”</b>; the agent is told to flag this.<br>
+          <code>${esc(c.doc_a)}</code> “${esc(c.quote_a)}”<br><code>${esc(c.doc_b)}</code> “${esc(c.quote_b)}”</div>`).join("")}</div></div>`,
+    changes: r.changes.length ? `<div class="tblwrap"><table><tr><th>Iter</th><th>Fix</th><th>Targets</th><th>Cases</th><th>Dev</th><th>Held-out</th><th>Decision</th><th>Why</th></tr>${r.changes.map(c =>
+        `<tr><td class="num">${c.iteration}</td><td><code>${esc(c.fix)}</code></td><td>${esc(c.category)}${c.subcategory ? ` <span class="muted">(${esc(c.subcategory)})</span>` : ""}</td><td class="num">${c.cases}</td>
+         <td class="num">${f3(c.dev[0])} → ${f3(c.dev[1])}</td><td class="num">${f3(c.heldout[0])} → ${f3(c.heldout[1])}</td>
+         <td>${c.accepted ? chip("✓ accepted", "good") : chip("↩ rolled back", "warn")}</td><td>${esc(c.why)}</td></tr>`).join("")}</table></div>
+        <p class="muted">A patch is kept only if dev does not drop and held-out (never shown to the optimizer) stays within tolerance.</p>`
+      : `<div class="card">No patches were needed or attempted.</div>`,
+    fails: r.failures.length ? `<div class="tblwrap"><table><tr><th>Case</th><th>Split</th><th>Category</th><th>Question</th><th>Agent answered</th><th>Why it failed</th></tr>${r.failures.map(f =>
+        `<tr><td><code>${esc(f.id)}</code></td><td>${esc(f.split)}</td><td>${esc(f.category)}${f.subcategory ? ` <span class="muted">(${esc(f.subcategory)})</span>` : ""}</td>
+         <td>${esc(f.question)}</td><td>${esc(f.answer)}</td><td>${esc(f.why)}</td></tr>`).join("")}</table></div>`
+      : `<div class="card">No failing cases in the final evaluation.</div>`,
+    report: `<div class="card report">${window.marked ? marked.parse(r.report) : `<pre>${esc(r.report)}</pre>`}</div>`,
+  };
+  $("#results").innerHTML = `
+    <div class="card accent"><div class="kicker">Brief</div><p style="margin:0">${esc(r.brief)}</p><div style="margin-top:8px">${tags}</div></div>
+    ${selftestWarn ? `<div class="conflict" style="margin:-4px 0 14px"><b>Judge reliability warning:</b> the LLM judge scored ${pct(k.judge_selftest)} on its self-test (threshold ${pct(k.judge_threshold)}), so LLM-judged metrics in this run should be read with caution. Rule-based checks keep veto power.</div>` : ""}
+    <div class="kpis">
+      <div class="kpi"><div class="l">Dev composite</div><div class="v">${f3(k.dev)}</div>${delta(k.dev, k.dev_v0)}</div>
+      <div class="kpi"><div class="l">Held-out composite</div><div class="v">${f3(k.heldout)}</div>${delta(k.heldout, k.heldout_v0)}</div>
+      <div class="kpi" title="Share of all ${k.n_evals} generated eval cases judged correct"><div class="l">Pass rate</div><div class="v">${pct(k.pass_rate)}</div><span class="muted">${k.n_evals} generated evals</span></div>
+      <div class="kpi" title="Answers with claims or numbers not in the documents"><div class="l">Hallucination rate</div><div class="v">${pct(k.hallucination_rate)}</div></div>
+      <div class="kpi" title="Same agent and evals with retrieval switched off; low means the evals really test the documents"><div class="l">No-retrieval control</div><div class="v">${f3(k.negative_control)}</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card" id="chartCard"><h3 class="sec" style="margin-top:0">Score per iteration</h3>${chart(r.series, k.negative_control)}
+        <p class="muted" style="margin:6px 0 0">Dev cases drive the fixes; held-out cases are never shown to the optimizer.</p></div>
+      <div>
+        <div class="card"><h3 class="sec" style="margin-top:0">Pass rate by eval type</h3>${r.by_category.map(c =>
+          `<div style="display:flex;justify-content:space-between;font-size:.88rem;margin-top:8px"><span>${esc(c.type)} <span class="muted">(${c.n})</span></span><span class="num">${pct(c.pass_rate)}</span></div>
+           <div class="bar"><span style="width:${(c.pass_rate || 0) * 100}%"></span></div>`).join("")}</div>
+        <div class="card"><h3 class="sec" style="margin-top:0">Tools attached</h3>${r.tools.length ? r.tools.map(t =>
+          `<div style="margin:4px 0">${chip(t.name, "info")} <span class="muted">${esc(t.why)}</span></div>`).join("") : chip("none: the brief needs no tools", "good")}
+          <div class="kicker" style="margin-top:10px">Retrieval</div>${Object.entries(r.retrieval).map(([a, b]) => chip(`${a}: ${b}`)).join("")}</div>
+      </div>
+    </div>
+    <div class="seg" id="subSeg" style="margin-top:6px">${[["guard", "Requirements & guard"], ["changes", "Change log"], ["fails", "What still fails"], ["report", "Full report"]]
+      .map(([id, l]) => `<button aria-pressed="${SUB === id}" data-s="${id}">${l}</button>`).join("")}</div>
+    <div id="sub">${sub[SUB]}</div>`;
+  wireChart($("#chartCard"), r.series);
+  $("#subSeg").querySelectorAll("button").forEach(b => b.onclick = () => { SUB = b.dataset.s; renderResults(); });
+}
+
+// ---------------------------------------------------------------- chat
+function renderAnswer(m) {
+  if (m.pending) return `<div class="typing"><i></i><i></i><i></i></div>`;
+  if (m.error) return `<div class="err">${esc(m.error)}</div>`;
+  let h = m.refused ? `<div class="refused"><b>Declined.</b> ${esc(m.refusal_reason || "Not covered by the documents.")}</div>${m.answer ? `<p>${esc(m.answer)}</p>` : ""}`
+                    : `<div>${esc(m.answer || "(empty answer)")}</div>`;
+  h += (m.sources || []).map(s => `<div class="src"><b>${esc(s.doc)}</b> · ${esc(s.locator)}<br>“${esc((s.quote || "").slice(0, 260))}”</div>`).join("");
+  const meta = [`confidence ${(+m.confidence || 0).toFixed(2)}`, `${m.latency_s}s`, `${m.model}`];
+  if (m.tool_calls?.length) meta.push("tools: " + m.tool_calls.map(t => t.tool).join(", "));
+  h += `<div class="meta">${esc(meta.join(" · "))}</div>`;
+  h += `<details><summary>Trace: retrieved passages${m.tool_calls?.length ? " and tool calls" : ""}</summary><pre>${esc(JSON.stringify({retrieved: m.retrieved, tool_calls: m.tool_calls}, null, 2))}</pre></details>`;
+  return h;
+}
+function renderChat() {
+  const r = DATA.runs[CHAT], msgs = history[r.id] ||= [];
+  $("#chatSeg").innerHTML = DATA.runs.map((x, i) => `<button aria-pressed="${i === CHAT}" data-i="${i}">${esc(x.name)}</button>`).join("");
+  $("#chatSeg").querySelectorAll("button").forEach(b => b.onclick = () => { CHAT = +b.dataset.i; renderChat(); });
+  $("#agentCard").innerHTML = `<div class="kicker">Agent</div><h3 style="margin:0 0 4px">${esc(r.name)}</h3><p style="margin:0 0 8px;color:var(--ink2)">${esc(r.description)}</p>
+    ${r.tools.length ? r.tools.map(t => chip(t.name, "info")).join("") : chip("no tools")}${r.requirements.must_refuse.slice(0, 4).map(t => chip("refuses: " + t, "bad")).join("")}`;
+  $("#liveNote").innerHTML = LIVE?.ok && LIVE.key_configured
+    ? `Live answers on this site come from <b>${esc(LIVE.model)}</b> (hosted, via an OpenAI-compatible API) using the agent definition ForgeAI produced. The scores on the Results tab were measured locally with the 3B models, so answers here can differ.`
+    : `The live model is not configured on this deployment right now, so questions will return an error. The Results tab still shows the full evidence.`;
+  $("#sugg").innerHTML = msgs.length ? "" : `<div class="muted" style="margin-bottom:4px">Try a question from the agent's generated test set:</div>` +
+    r.suggestions.map(s => `<button type="button">${esc(s)}</button>`).join("");
+  $("#sugg").querySelectorAll("button").forEach(b => b.onclick = () => ask(b.textContent));
+  $("#msgs").innerHTML = msgs.map(m => `<div class="msg user">${esc(m.q)}</div><div class="msg">${renderAnswer(m)}</div>`).join("");
+}
+async function ask(q) {
+  q = (q || "").trim(); if (!q) return;
+  const r = DATA.runs[CHAT], m = {q, pending: true};
+  (history[r.id] ||= []).push(m); $("#q").value = ""; $("#send").disabled = true; renderChat();
+  try {
+    const res = await fetch("/api/chat", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({agent: r.id, question: q})});
+    const body = await res.json().catch(() => ({error: `HTTP ${res.status}`}));
+    Object.assign(m, res.ok ? body : {error: body.error || `HTTP ${res.status}`});
+  } catch (e) { m.error = "Could not reach the API: " + e.message; }
+  m.pending = false; $("#send").disabled = false; renderChat();
+  $("#msgs").lastElementChild?.scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+$("#ask").onsubmit = e => { e.preventDefault(); ask($("#q").value); };
+
+// ---------------------------------------------------------------- how it works
+const STEPS = [["Intake", "Reads the brief and inspects the documents; asks at most 5 clarifying questions; writes structured requirements."],
+  ["Groundability guard", "Checks every requested topic against the documents with verified quotes; unsupported topics become refusals."],
+  ["Generate agent", "System prompt, chunking + hybrid retrieval config, only the tools the brief needs, and a JSON output contract."],
+  ["Generate evals", "20–40 cases from the documents: answerable (source + key facts), must-refuse, and edge cases; every quote verified."],
+  ["Judge", "Rule-based checks plus two LLM judge prompts that must agree; a self-test measures the judge's own accuracy."],
+  ["Critic → optimizer", "Classifies each failure (retrieval miss, prompt defect, hallucination, wrong refusal) and applies one targeted patch; up to 3 iterations, with rollback."],
+  ["Negative control", "The same agent with retrieval off must score low; this shows the evals really test the documents."],
+  ["Honest report", "Scorecards per iteration, a change log, and what still fails and why, all computed by code."]];
+$("#steps").innerHTML = STEPS.map(([t, d], i) => `<div class="step"><div><b>${i + 1}</b><strong>${t}</strong></div><div class="muted" style="margin-top:6px">${d}</div></div>`).join("");
+
+// ---------------------------------------------------------------- boot
+(async () => {
+  try { DATA = await (await fetch("data/site.json")).json(); } catch (e) { $("#results").innerHTML = `<div class="err">Could not load data/site.json</div>`; return; }
+  renderResults(); renderChat();
+  try {
+    LIVE = await (await fetch("/api/chat")).json();
+    $("#status").innerHTML = LIVE.ok && LIVE.key_configured ? chip("● live chat: " + LIVE.model, "good") : chip("live chat not configured", "bad");
+  } catch { $("#status").innerHTML = chip("live chat API unreachable", "bad"); }
+  renderChat();
+})();
+</script>
+</body>
+</html>
