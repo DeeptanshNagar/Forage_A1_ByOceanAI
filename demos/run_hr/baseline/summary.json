@@ -1,0 +1,113 @@
+{
+  "factory": {
+    "n": 28,
+    "pass_rate": 0.8929,
+    "answerable_correct_rate": 0.85,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.8916,
+    "grounded_rate": 0.95,
+    "hallucination_rate": 0.05,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "refusal_f1": 1.0,
+    "wrong_refusals": 0,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 0.069,
+    "judge_calls_cases": 20,
+    "judge_agreement_rate": 0.9,
+    "judge_uncertain": 2,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 14,
+        "pass_rate": 0.8571
+      },
+      "edge": {
+        "n": 6,
+        "pass_rate": 0.8333
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.9255
+  },
+  "hand": {
+    "n": 28,
+    "pass_rate": 0.6429,
+    "answerable_correct_rate": 0.6,
+    "refuse_correct_rate": 0.75,
+    "fact_coverage": 0.7417,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 0.75,
+    "refusal_f1": 0.8571,
+    "wrong_refusals": 0,
+    "missed_refusals": 2,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.9545,
+    "contract_valid_rate": 0.9286,
+    "avg_latency_s": 6.68,
+    "judge_calls_cases": 22,
+    "judge_agreement_rate": 0.9545,
+    "judge_uncertain": 1,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 14,
+        "pass_rate": 0.6429
+      },
+      "edge": {
+        "n": 6,
+        "pass_rate": 0.5
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 0.75
+      }
+    },
+    "composite": 0.7912
+  },
+  "wins": {
+    "factory": [
+      "ans-004",
+      "ans-012",
+      "ans-013",
+      "ref-015",
+      "ref-017",
+      "edg-023",
+      "edg-025"
+    ],
+    "hand": [],
+    "both_pass": [
+      "ans-001",
+      "ans-002",
+      "ans-003",
+      "ans-006",
+      "ans-007",
+      "ans-008",
+      "ans-009",
+      "ans-010",
+      "ans-014",
+      "ref-016",
+      "ref-018",
+      "ref-019",
+      "ref-020",
+      "ref-021",
+      "ref-022",
+      "edg-026",
+      "edg-027",
+      "edg-028"
+    ],
+    "both_fail": [
+      "ans-005",
+      "ans-011",
+      "edg-024"
+    ]
+  }
+}
