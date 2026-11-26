@@ -19,6 +19,17 @@ validator on the report, and warnings when scores look too good.
 > `make mock-demo` use the deterministic **mock** backend; every mock report carries a banner saying it is not model
 > evidence. The default [`forge.toml`](forge.toml) names `qwen2.5:7b-instruct` / `llama3.1:8b` for machines that fit them.
 
+## Screenshots
+
+Web UI (`python -m forge ui`), real local models.
+
+| | |
+|---|---|
+| ![Results dashboard](docs/screenshots/01_results_dashboard.png) **Results:** scores per iteration, dev vs held-out, against the no-retrieval control | ![Groundability guard](docs/screenshots/02_groundability_guard.png) **Groundability guard:** the pension topic is not in the documents, so it becomes a refusal; a cross-document conflict is flagged |
+| ![Change log](docs/screenshots/03_change_log.png) **Critic → optimizer:** each targeted patch with before/after scores, accepted or rolled back | ![What still fails](docs/screenshots/04_what_still_fails.png) **Honest report:** remaining failures and their category |
+| ![Grounded answer](docs/screenshots/05_chat_grounded_answer.png) **Chat:** answer with verbatim source quotes | ![Refusal](docs/screenshots/06_chat_refusal.png) **Chat:** refuses what the documents do not cover |
+| ![Tool use](docs/screenshots/07_chat_tool_use.png) **Chat:** catalogue lookup + calculator on the procurement agent | ![Build run](docs/screenshots/08_build_agent.png) **Build:** an unseen brief running unattended, stage by stage |
+
 ## Architecture
 
 ```mermaid

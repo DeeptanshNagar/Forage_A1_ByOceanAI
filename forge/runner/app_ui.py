@@ -33,52 +33,103 @@ DEV, HELD, INK_2, GRID = "#2a78d6", "#eb6834", "#52514e", "#ecebe7"
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-.stApp { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif; }
-h1, h2, h3, .fx-title { font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif !important; letter-spacing: -0.01em; }
-.block-container { padding-top: 2.2rem; max-width: 1240px; }
-[data-testid="stSidebar"] { border-right: 1px solid #e4e3df; }
+.stApp { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+         background: radial-gradient(1200px 500px at 85% -10%, #ede9fe 0%, rgba(237,233,254,0) 60%),
+                     radial-gradient(900px 420px at -10% 10%, #e0f2fe 0%, rgba(224,242,254,0) 55%), #f7f7fb; }
+h1, h2, h3, h4, h5, .fx-title { font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif !important; letter-spacing: -0.01em; }
+h5 { color:#312e81 !important; }
+.block-container { padding-top: 1.6rem; max-width: 1260px; }
+[data-testid="stHeader"] { background: transparent; }
 
-.fx-hero { display:flex; align-items:center; gap:16px; margin: 0 0 6px; }
-.fx-logo { width:46px; height:46px; border-radius:12px; flex:none; display:grid; place-items:center;
-           background: linear-gradient(135deg,#4f46e5 0%,#7c3aed 55%,#db2777 100%); color:#fff;
-           font: 700 22px 'Space Grotesk', system-ui, sans-serif; box-shadow: 0 6px 18px rgba(79,70,229,.25); }
-.fx-title { font-size: 2rem; font-weight: 700; line-height: 1.1; margin:0; color:#18181b; }
-.fx-sub { color:#57534e; margin: 2px 0 0; font-size: .98rem; }
+/* sidebar: deep indigo */
+[data-testid="stSidebar"] { background: linear-gradient(180deg, #1e1b4b 0%, #312e81 55%, #4c1d95 100%); }
+[data-testid="stSidebar"] * { color: #e0e7ff; }
+[data-testid="stSidebar"] code { background: rgba(255,255,255,.10); color:#fff; border-radius:6px; }
+[data-testid="stSidebar"] .fx-card { background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.14); box-shadow:none; }
+[data-testid="stSidebar"] .fx-card p, [data-testid="stSidebar"] .fx-kicker { color:#c7d2fe; }
+[data-testid="stSidebar"] .fx-brand { font: 700 1.25rem 'Space Grotesk', system-ui, sans-serif; color:#fff; margin: 0 0 14px;
+           display:flex; gap:10px; align-items:center; }
+[data-testid="stSidebar"] .fx-brand i { width:30px; height:30px; border-radius:9px; display:grid; place-items:center; font-style:normal;
+           background: linear-gradient(135deg,#818cf8,#c084fc 55%,#f472b6); color:#fff; font-size:15px; }
+[data-testid="stSidebar"] input { color:#18181b !important; }
+[data-testid="stSidebar"] .fx-chip.good { background:#14532d; border-color:#22c55e; color:#dcfce7; }
+[data-testid="stSidebar"] .fx-chip.bad  { background:#7f1d1d; border-color:#f87171; color:#fee2e2; }
+[data-testid="stSidebar"] .fx-chip.warn { background:#78350f; border-color:#fbbf24; color:#fef3c7; }
 
-.fx-flow { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin: 14px 0 6px; }
-.fx-flow span.s { background:#fff; border:1px solid #e4e3df; border-radius:999px; padding:4px 11px; font-size:.8rem; color:#3f3f46; }
-.fx-flow span.a { color:#a8a29e; font-size:.8rem; }
+/* hero */
+.fx-hero { position:relative; overflow:hidden; border-radius:20px; padding:26px 28px 22px; margin: 0 0 18px; color:#fff;
+           background: linear-gradient(120deg, #312e81 0%, #4f46e5 38%, #7c3aed 70%, #c026d3 100%);
+           box-shadow: 0 18px 40px -18px rgba(79,70,229,.55); }
+.fx-hero::after { content:""; position:absolute; right:-80px; top:-90px; width:300px; height:300px; border-radius:50%;
+                  background: radial-gradient(circle, rgba(255,255,255,.22), rgba(255,255,255,0) 70%); }
+.fx-hero .row { display:flex; align-items:center; gap:16px; }
+.fx-logo { width:50px; height:50px; border-radius:14px; flex:none; display:grid; place-items:center;
+           background: rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.35); color:#fff;
+           font: 700 24px 'Space Grotesk', system-ui, sans-serif; }
+.fx-title { font-size: 2.1rem; font-weight: 700; line-height: 1.1; margin:0; color:#fff; }
+.fx-sub { color:#e0e7ff; margin: 4px 0 0; font-size: 1rem; max-width: 820px; }
+.fx-flow { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top: 16px; position:relative; z-index:1; }
+.fx-flow span.s { background: rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); border-radius:999px;
+                  padding:4px 11px; font-size:.8rem; color:#fff; }
+.fx-flow span.a { color:#c7d2fe; font-size:.8rem; }
 
-.fx-card { background:#fff; border:1px solid #e4e3df; border-radius:14px; padding:16px 18px; margin-bottom:12px; }
-.fx-card h4 { margin:0 0 6px; font: 600 1rem 'Space Grotesk', system-ui, sans-serif; color:#18181b; }
-.fx-card p { margin:0; color:#52514e; font-size:.92rem; line-height:1.5; }
-.fx-kicker { text-transform:uppercase; letter-spacing:.06em; font-size:.72rem; font-weight:600; color:#78716c; margin-bottom:4px; }
+/* tabs */
+.stTabs [data-baseweb="tab-list"] { gap: 6px; }
+.stTabs [data-baseweb="tab"] { background: #ffffffb3; border:1px solid #e4e3f1; border-radius: 10px 10px 0 0; padding: 6px 14px; }
+.stTabs [aria-selected="true"] { background: #eef2ff; border-color:#c7d2fe; color:#3730a3 !important; }
+
+/* cards */
+.fx-card { background:#fff; border:1px solid #e7e5f3; border-radius:16px; padding:16px 18px; margin-bottom:12px;
+           box-shadow: 0 1px 2px rgba(30,27,75,.04), 0 8px 24px -16px rgba(30,27,75,.18); }
+.fx-card.accent { border-top: 3px solid #6366f1; }
+.fx-card h4 { margin:0 0 6px; font: 600 1.05rem 'Space Grotesk', system-ui, sans-serif; color:#1e1b4b; }
+.fx-card p { margin:0; color:#52514e; font-size:.92rem; line-height:1.55; }
+.fx-kicker { text-transform:uppercase; letter-spacing:.07em; font-size:.7rem; font-weight:700; color:#6366f1; margin-bottom:4px; }
 
 .fx-chip { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:2px 10px; font-size:.78rem;
            font-weight:500; border:1px solid #e4e3df; background:#fafaf9; color:#3f3f46; margin: 2px 4px 2px 0; }
-.fx-chip.good { background:#ecfdf3; border-color:#b7ebc6; color:#166534; }
+.fx-chip.good { background:#ecfdf3; border-color:#a7f3c4; color:#166534; }
 .fx-chip.warn { background:#fff7e6; border-color:#fbd38d; color:#92400e; }
 .fx-chip.bad  { background:#fef2f2; border-color:#fecaca; color:#991b1b; }
 .fx-chip.info { background:#eef2ff; border-color:#c7d2fe; color:#3730a3; }
 
+/* KPI cards: one accent per card */
+div[data-testid="stMetric"] { background:#fff; border:1px solid #e7e5f3; border-radius:16px; padding:14px 16px 12px;
+                              border-top: 4px solid #6366f1; box-shadow: 0 8px 24px -18px rgba(30,27,75,.35); }
+div[data-testid="stColumn"]:nth-child(2) div[data-testid="stMetric"] { border-top-color:#8b5cf6; }
+div[data-testid="stColumn"]:nth-child(3) div[data-testid="stMetric"] { border-top-color:#0ea5e9; }
+div[data-testid="stColumn"]:nth-child(4) div[data-testid="stMetric"] { border-top-color:#f43f5e; }
+div[data-testid="stColumn"]:nth-child(5) div[data-testid="stMetric"] { border-top-color:#a8a29e; }
+div[data-testid="stMetricValue"] { font-family:'Space Grotesk', system-ui, sans-serif; color:#1e1b4b; }
+
+/* stepper */
 .fx-steps { display:grid; gap:6px; }
-.fx-step { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:10px; border:1px solid #e4e3df; background:#fff; font-size:.9rem; }
+.fx-step { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:11px; border:1px solid #e7e5f3; background:#fff; font-size:.9rem; }
 .fx-step .dot { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; font-size:.72rem; font-weight:700; flex:none;
-                background:#f2f1ee; color:#78716c; }
+                background:#eef2ff; color:#6366f1; }
+.fx-step.done { background: linear-gradient(90deg,#f0fdf4,#fff); border-color:#bbf7d0; }
 .fx-step.done .dot { background:#16a34a; color:#fff; }
-.fx-step.run  { border-color:#c7d2fe; background:#f5f7ff; }
+.fx-step.run  { border-color:#a5b4fc; background: linear-gradient(90deg,#eef2ff,#fff); }
 .fx-step.run .dot { background:#4f46e5; color:#fff; animation: fxpulse 1.2s ease-in-out infinite; }
 .fx-step.fail { border-color:#fecaca; background:#fef2f2; }
 .fx-step.fail .dot { background:#dc2626; color:#fff; }
 .fx-step .t { margin-left:auto; color:#78716c; font-size:.78rem; font-variant-numeric: tabular-nums; }
-@keyframes fxpulse { 50% { box-shadow: 0 0 0 5px rgba(79,70,229,.18); } }
+@keyframes fxpulse { 50% { box-shadow: 0 0 0 5px rgba(79,70,229,.2); } }
 
-.fx-src { border-left:3px solid #c7d2fe; background:#fafaf9; border-radius:0 8px 8px 0; padding:8px 12px; margin:6px 0; font-size:.86rem; }
-.fx-src b { color:#3730a3; font-weight:600; }
+/* chat */
+[data-testid="stChatMessage"] { background:#fff; border:1px solid #e7e5f3; border-radius:16px; padding: 12px 14px; }
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) { background: linear-gradient(90deg,#eef2ff,#f5f3ff); border-color:#c7d2fe; }
+.fx-src { border-left:3px solid #8b5cf6; background:#faf5ff; border-radius:0 10px 10px 0; padding:8px 12px; margin:6px 0; font-size:.86rem; }
+.fx-src b { color:#5b21b6; font-weight:600; }
 .fx-src q { color:#44403c; }
-.fx-refused { border:1px solid #fbd38d; background:#fffbeb; border-radius:10px; padding:10px 14px; color:#78350f; }
+.fx-refused { border:1px solid #fbd38d; background: linear-gradient(90deg,#fffbeb,#fff7ed); border-radius:12px; padding:10px 14px; color:#78350f; }
 .fx-meta { color:#78716c; font-size:.78rem; margin-top:6px; }
-div[data-testid="stMetric"] { background:#fff; border:1px solid #e4e3df; border-radius:14px; padding:12px 16px; }
+
+.stButton button[kind="primary"] { background: linear-gradient(90deg,#4f46e5,#7c3aed); border:0; color:#fff;
+                                   box-shadow: 0 8px 20px -10px rgba(79,70,229,.7); }
+.stButton button[kind="primary"]:hover { background: linear-gradient(90deg,#4338ca,#6d28d9); }
+[data-testid="stFileUploaderDropzone"] { background:#fff; border:1.5px dashed #a5b4fc; border-radius:14px; }
+.stTextArea textarea { background:#fff; }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
@@ -138,7 +189,7 @@ def agent_files() -> list[Path]:
 # --------------------------------------------------------------------------- sidebar
 
 with st.sidebar:
-    st.markdown('<div class="fx-kicker">Model backend</div>', unsafe_allow_html=True)
+    st.markdown('<div class="fx-brand"><i>F</i>ForgeAI</div><div class="fx-kicker">Model backend</div>', unsafe_allow_html=True)
     mode = st.radio("Backend", ["Local models (Ollama)", "Mock (offline, not model evidence)"], label_visibility="collapsed")
     mock = mode.startswith("Mock")
     small = ROOT / "configs" / "ollama_small.toml"
@@ -170,7 +221,7 @@ with st.sidebar:
 # --------------------------------------------------------------------------- header
 
 st.markdown("""
-<div class="fx-hero"><div class="fx-logo">F</div><div>
+<div class="fx-hero"><div class="row"><div class="fx-logo">F</div><div>
   <p class="fx-title">ForgeAI</p>
   <p class="fx-sub">Give it a one-paragraph brief and a folder of documents. It builds a RAG agent, writes the tests, grades it and fixes it, then reports what still fails.</p>
 </div></div>
@@ -179,7 +230,7 @@ st.markdown("""
   <span class="s">Groundability guard</span><span class="a">→</span><span class="s">Generate agent</span><span class="a">→</span>
   <span class="s">Generate evals</span><span class="a">→</span><span class="s">Judge</span><span class="a">→</span>
   <span class="s">Critic + optimizer ×3</span><span class="a">→</span><span class="s">Honest report</span>
-</div>""", unsafe_allow_html=True)
+</div></div>""", unsafe_allow_html=True)
 
 build_tab, results_tab, chat_tab = st.tabs([":material/construction: Build an agent", ":material/monitoring: Results",
                                             ":material/forum: Chat"])
@@ -241,7 +292,7 @@ def render_run(d: Path, key: str) -> None:
     tags = chip(f"backend: {backend}", "warn" if backend == "mock" else "info")
     if metrics.get("calls") and metrics.get("cached_calls") == metrics.get("calls"):
         tags += chip("all model calls replayed from cache")
-    st.markdown(f"""<div class="fx-card"><div class="fx-kicker">Brief</div>
+    st.markdown(f"""<div class="fx-card accent"><div class="fx-kicker">Brief</div>
         <p>{esc(brief_text)}</p>
         <div style="margin-top:8px">{tags}</div></div>""", unsafe_allow_html=True)
 
@@ -489,7 +540,7 @@ with chat_tab:
             st.session_state[key] = AgentRuntime(load_definition(apath), settings, llm=LLM(settings))
         rt: AgentRuntime = st.session_state[key]
         defn = rt.defn
-        st.markdown(f"""<div class="fx-card"><div class="fx-kicker">Agent</div><h4>{esc(defn.name)}</h4><p>{esc(defn.description)}</p>
+        st.markdown(f"""<div class="fx-card accent"><div class="fx-kicker">Agent</div><h4>{esc(defn.name)}</h4><p>{esc(defn.description)}</p>
             <div style="margin-top:8px">{''.join(chip(t.name, 'info') for t in defn.tools) or chip('no tools')}
             {''.join(chip('refuses: ' + x[:48], 'bad') for x in defn.must_refuse_topics[:4])}</div></div>""", unsafe_allow_html=True)
 
