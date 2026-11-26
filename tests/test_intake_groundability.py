@@ -132,3 +132,33 @@ def test_generator_produces_complete_definition(cooking_ctx):
     assert agent.output_contract.rules and agent.retrieval.index_paths
     assert agent.generation_metadata["prompt_versions"] and agent.generation_metadata["requirements_hash"]
     assert agent.tools == []  # no tool need -> no tools
+
+
+def test_interactive_intake_and_approval_checkpoint(cooking_ctx):
+    docs, w = load_folder(COOKING / "docs")
+    profile = build_profile("x", docs, w)
+    asked = []
+
+    def ask(prompt):
+        asked.append(prompt)
+        if prompt == "continue?":  # approval checkpoint: requester edits requirements.json, then continues
+            data = json.loads(cooking_ctx.path("requirements.json").read_text())
+            data["tone"] = "cheerful"
+            cooking_ctx.path("requirements.json").write_text(json.dumps(data))
+            return "ok"
+        return "home cooks" if "audience" in prompt.lower() else ""
+
+    req = run_intake(cooking_ctx, "Answer cooking questions for beginners.", profile, mode="interactive",
+                     approve=True, ask=ask)
+    assert len([a for a in asked if a.startswith("[q")]) <= 5
+    assert req.tone == "cheerful" and any(a.field == "approval" for a in req.assumptions)
+    assert any(a.answer == "home cooks" and a.source == "user" for a in req.intake)
+
+
+def test_negative_constraint_and_tool_need_backstops():
+    from forge.stages.intake import extract_negative_constraints, need_supported
+
+    b = "Help staff with leave. It must not give legal advice or comment on individual cases, and should refer people to HR."
+    assert extract_negative_constraints(b) == ["legal advice", "comment on individual cases"]
+    assert not need_supported("structured_data", "to extract information", b)
+    assert need_supported("live_information", "", "Show live market prices.")
