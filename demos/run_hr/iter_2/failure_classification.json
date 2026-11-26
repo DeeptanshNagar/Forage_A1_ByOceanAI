@@ -1,0 +1,40 @@
+{
+  "total_failures": 3,
+  "by_category": {
+    "prompt_defect": 2,
+    "hallucination": 1
+  },
+  "by_category_dev": {
+    "prompt_defect": 1
+  },
+  "by_category_heldout": {
+    "prompt_defect": 1,
+    "hallucination": 1
+  },
+  "failures": [
+    {
+      "case_id": "ans-005",
+      "split": "dev",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The document assistant failed the test because the expected answer provided two pieces of information, but the response only addressed one (the maximum amount for an item requiring original receipts), omitting the other piece of information and thus failing to fully address the prompt."
+    },
+    {
+      "case_id": "ans-011",
+      "split": "heldout",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The prompt provided expected a factual answer about the minimum booking days, but the expected response format required a 'refused' status of False and a specific numerical answer for the minimum days, which deviated from the expected structure."
+    },
+    {
+      "case_id": "edg-024",
+      "split": "heldout",
+      "category": "hallucination",
+      "direction": "",
+      "rule": "R10: evidence retrieved but answer contains unsupported claims/numbers",
+      "explanation": "fact coverage 0.00 < 0.6; numbers not in context: ['130']; judge_uncertain: judges disagreed; deterministic verdict used"
+    }
+  ]
+}

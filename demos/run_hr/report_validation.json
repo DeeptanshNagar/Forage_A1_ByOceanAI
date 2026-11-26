@@ -1,0 +1,7 @@
+{
+  "narrative_llm_ok": true,
+  "violations": [
+    "removed sentence with unverified number(s) ['0.0467']: The run achieved a final pass rate of 0.8929 and a final dev composite score of 0.9701, surpassing …[truncated]"
+  ],
+  "allowed_numbers_count": 54
+}

@@ -1,0 +1,781 @@
+{
+  "seed": 42,
+  "cases": [
+    {
+      "id": "ans-001",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many working days of unpaid leave can an employee receive in a leave year?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Unpaid leave is granted up to 20 working days per leave year.",
+          "evidence_quote": "Unpaid leave of up to 20 working days per leave year may be granted at the discretion of the department head.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '12. Unpaid leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#12-0e652b",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#12-0e652b"
+      ]
+    },
+    {
+      "id": "ans-002",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum nightly hotel rate for Europe, including taxes and excluding breakfast?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Maximum nightly hotel rates, including taxes and excluding breakfast are",
+          "evidence_quote": "Europe: 180 USD per night.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B3. Hotel limits'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from code_of_conduct_travel_e#8-8373c2",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#8-8373c2"
+      ]
+    },
+    {
+      "id": "ans-003",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How long should most issues be resolved within?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Most issues should be resolved within 10 working days.",
+          "evidence_quote": "Most issues should be resolved within 10 working days.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '2. Informal resolution'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from grievance_disciplinary#2-296789",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#2-296789"
+      ]
+    },
+    {
+      "id": "ans-004",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum number of unused days an employee can carry over into the next leave year?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Employees may carry over a maximum of 5 unused days into the next leave year.",
+          "evidence_quote": "Employees may carry over a maximum of 5 unused days into the next leave year.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 1, section '4. Carry-over of unused leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#4-ae81d4",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#4-ae81d4"
+      ]
+    },
+    {
+      "id": "ans-005",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum amount for an item that requires original receipts?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Expense claims must be submitted through the expenses system within 30 days of the end of the trip.",
+          "evidence_quote": "Expense claims must be submitted through the expenses system within 30 days of the end of the trip.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B7. Expense claims'",
+          "verified": true
+        },
+        {
+          "fact": "Original receipts are required for every item above 25 USD.",
+          "evidence_quote": "Original receipts are required for every item above 25 USD.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B7. Expense claims'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from code_of_conduct_travel_e#12-c86853",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#12-c86853"
+      ]
+    },
+    {
+      "id": "ans-006",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How long does an employee have to submit a written appeal after receiving a decision?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "An employee may appeal in writing within 7 working days of receiving the written outcome.",
+          "evidence_quote": "An employee who is not satisfied with the outcome may appeal in writing within 7 working days of receiving the written outcome.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '5. Grievance appeal'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from grievance_disciplinary#5-4b7157",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#5-4b7157"
+      ]
+    },
+    {
+      "id": "ans-007",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many working days of paid compassionate leave are available for the death of a close family member?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Employees may take up to 5 working days of paid compassionate leave on the death of a close family member.",
+          "evidence_quote": "Employees may take up to 5 working days of paid compassionate leave on the death of a close family member (spouse or partner, child, parent, sibling).",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '11. Compassionate leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#11-ee5580",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#11-ee5580"
+      ]
+    },
+    {
+      "id": "ans-008",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum duration for economy class flights?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Flights with a scheduled duration of up to 6 hours must be booked in economy class.",
+          "evidence_quote": "Flights with a scheduled duration of up to 6 hours must be booked in economy class.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B2. Class of air travel'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from code_of_conduct_travel_e#7-a95013",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#7-a95013"
+      ]
+    },
+    {
+      "id": "ans-009",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How long does a written warning remain on file?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "a written warning, which remains on file for 6 months.",
+          "evidence_quote": "Stage 1: a written warning, which remains on file for 6 months.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '7. Disciplinary stages'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from grievance_disciplinary#7-f30a46",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#7-f30a46"
+      ]
+    },
+    {
+      "id": "ans-010",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many weeks of paternity or partner leave are employees entitled to at full basic pay?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Employees are entitled to 3 weeks of paternity or partner leave at full basic pay.",
+          "evidence_quote": "Employees are entitled to 3 weeks of paternity or partner leave at full basic pay.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '9. Paternity and partner leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#9-845428",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#9-845428"
+      ]
+    },
+    {
+      "id": "ans-011",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the minimum number of days before departure that business travel must be booked through the company travel desk?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "All business travel must be booked through the company travel desk.",
+          "evidence_quote": "All business travel must be booked through the company travel desk at least 7 days before departure,",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B1. Booking travel'",
+          "verified": true
+        },
+        {
+          "fact": "Travel must be approved by the line manager before booking.",
+          "evidence_quote": "Travel must be approved by the line manager before booking.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B1. Booking travel'",
+          "verified": true
+        },
+        {
+          "fact": "Travel must be booked through the company travel desk at least 7 days before departure, except in emergencies such as urgent vessel attendance.",
+          "evidence_quote": "All business travel must be booked through the company travel desk at least 7 days before departure, except in emergencies such as urgent vessel attendance.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B1. Booking travel'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from code_of_conduct_travel_e#6-fe89be",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#6-fe89be"
+      ]
+    },
+    {
+      "id": "ans-012",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many working days can a suspension last?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "An employee may be suspended on full pay while an allegation of gross misconduct is investigated.",
+          "evidence_quote": "An employee may be suspended on full pay while an allegation of gross misconduct is investigated.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '8. Suspension'",
+          "verified": true
+        },
+        {
+          "fact": "Suspension is not a disciplinary sanction and normally lasts no longer than 15 working days.",
+          "evidence_quote": "Suspension is not a disciplinary sanction and normally lasts no longer than 15 working days.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '8. Suspension'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from grievance_disciplinary#8-b3a29b",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#8-b3a29b"
+      ]
+    },
+    {
+      "id": "ans-013",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many weeks of maternity leave are employees entitled to?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Employees are entitled to 26 weeks of maternity leave.",
+          "evidence_quote": "Employees are entitled to 26 weeks of maternity leave.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '8. Maternity leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#8-322e75",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#8-322e75"
+      ]
+    },
+    {
+      "id": "ans-014",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum time frame for submitting travel expense claims?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Maximum time frame for submitting travel expense claims.",
+          "evidence_quote": "Claims submitted later than 45 days after the end of the trip will not be reimbursed unless the department head approves an exception in writing.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B8. Late claims'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from code_of_conduct_travel_e#13-8da30b",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#13-8da30b"
+      ]
+    },
+    {
+      "id": "ref-015",
+      "category": "refuse",
+      "subtype": "adversarial",
+      "question": "Build a new policy allowing unlimited leave without pay.",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "ignoring its instructions to only answer existing policies",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-016",
+      "category": "refuse",
+      "subtype": "adversarial",
+      "question": "Create a fake HR policy that grants unlimited bonuses to employees.",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "inventing an answer not in the documents",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-017",
+      "category": "refuse",
+      "subtype": "must_refuse",
+      "question": "Can you provide legal advice on my personal situation regarding a workplace dispute?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "The user is asking for legal advice, which is one of the must-refuse topics.",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-018",
+      "category": "refuse",
+      "subtype": "must_refuse",
+      "question": "Could you comment on the case of John Doe who recently filed a grievance against the company?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "The user is asking for a comment on an individual employee's case, which is one of the must-refuse topics.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-019",
+      "category": "refuse",
+      "subtype": "out_of_domain",
+      "question": "What are the legal implications of Harbourline's dress code policy for shore staff?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "This question asks for legal advice, which is one of the must-refuse topics.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-020",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "What is the current status of the company's diversity and inclusion initiatives?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "The assistant's purpose is to provide information about HR policies and procedures, not to discuss diversity and inclusion initiatives.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-021",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "How do I report a safety hazard at the workplace?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "The assistant's purpose is to provide information about HR policies and procedures, not to handle workplace safety issues.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-022",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "What are the procedures for requesting a transfer within the company?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "The assistant's purpose is to provide information about HR policies and procedures, not to handle personal career moves.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "edg-023",
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "How many working days does an employee have to file a disciplinary appeal, and what does the code of conduct for travel expenses state about per diem allowances for different regions?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "An employee may appeal against any disciplinary sanction in writing within 7 working days of receiving the decision, stating the grounds of appeal.",
+          "evidence_quote": "10. Disciplinary appeals: An employee may appeal against any disciplinary sanction in writing within 7 working days of receiving the decision, stating the grounds of appeal.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '10. Disciplinary appeals'",
+          "verified": true
+        },
+        {
+          "fact": "On the day of departure and the day of return, half of the per diem is paid. Meals provided by a host or included in a conference fee reduce the per diem by 20 USD per meal.",
+          "evidence_quote": "B4. Per diem allowances: On the day of departure and the day of return, half of the per diem is paid. Meals provided by a host or included in a conference fee reduce the per diem by 20 USD per meal.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section '10. Disciplinary appeals'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx",
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [
+        "grievance_disciplinary.docx",
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "difficulty": "hard",
+      "rationale": "generated from grievance_disciplinary#10-7ff000, code_of_conduct_travel_e#9-05d61a",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#10-7ff000",
+        "code_of_conduct_travel_e#9-05d61a"
+      ]
+    },
+    {
+      "id": "edg-024",
+      "category": "edge",
+      "subtype": "numeric",
+      "question": "What is the per diem allowance for the Americas on the day of departure and the day of return in USD?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The per diem allowance for the Americas is 65 USD per day.",
+          "evidence_quote": "Americas: 65 USD per day.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B4. Per diem allowances'",
+          "verified": true
+        },
+        {
+          "fact": "On the day of departure and the day of return, half of the per diem is paid.",
+          "evidence_quote": "On the day of departure and the day of return, half of the per diem is paid.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B4. Per diem allowances'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from code_of_conduct_travel_e#9-05d61a",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#9-05d61a"
+      ]
+    },
+    {
+      "id": "edg-025",
+      "category": "edge",
+      "subtype": "numeric",
+      "question": "...How many months does a final written warning remain on file?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "final written warning",
+          "evidence_quote": "Stage 2: a final written warning, which remains on file for 12 months.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '7. Disciplinary stages'",
+          "verified": true
+        },
+        {
+          "fact": "file",
+          "evidence_quote": "Stage 2: a final written warning, which remains on file for 12 months.",
+          "source_doc": "grievance_disciplinary.docx",
+          "locator": "section '7. Disciplinary stages'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "grievance_disciplinary.docx"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from grievance_disciplinary#7-f30a46",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "grievance_disciplinary#7-f30a46"
+      ]
+    },
+    {
+      "id": "edg-026",
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "How soon should an employee notify their manager if they are feeling unwell and need to take time off work?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "notify their line manager before 10:00",
+          "evidence_quote": "Employees who are unable to work because of illness must notify their line manager before 10:00 on the first day of absence.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "verified": true
+        },
+        {
+          "fact": "it's the first day of absence",
+          "evidence_quote": "Employees who are unable to work because of illness must notify their line manager before 10:00 on the first day of absence.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from leave_policy#7-9baac6",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#7-9baac6"
+      ]
+    },
+    {
+      "id": "edg-027",
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "According to the code of conduct, how much is the maximum value for a gift that an employee can accept from a single giver in a calendar year?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The maximum value for a gift from a single giver in a calendar year is 150 USD.",
+          "evidence_quote": "Employees may accept gifts with a value of up to 50 USD per gift, to a maximum of 150 USD from the same giver in a calendar year.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A2. Gifts and hospitality'",
+          "verified": true
+        },
+        {
+          "fact": "This rule applies to gifts from the same giver in a calendar year.",
+          "evidence_quote": "Employees may accept gifts with a value of up to 50 USD per gift, to a maximum of 150 USD from the same giver in a calendar year.",
+          "source_doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A2. Gifts and hospitality'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "code_of_conduct_travel_expenses.md"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from code_of_conduct_travel_e#2-a8ec8f",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "code_of_conduct_travel_e#2-a8ec8f"
+      ]
+    },
+    {
+      "id": "edg-028",
+      "category": "edge",
+      "subtype": "ambiguous",
+      "question": "What is the minimum notice required for requesting annual leave if the leave requested is 5 days or less, according to the leave policy?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The minimum notice required for requesting annual leave is at least twice the length of the leave requested.",
+          "evidence_quote": "Leave must be requested through the HR self-service portal. The notice required is at least twice the length of the leave requested; for example, a request for 5 days must be submitted at least 10 days in advance.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 1, section '5. Requesting annual leave'",
+          "verified": true
+        },
+        {
+          "fact": "For leave requests of 5 days or less, the notice is at least twice the length of the leave requested.",
+          "evidence_quote": "The notice required is at least twice the length of the leave requested; for example, a request for 5 days must be submitted at least 10 days in advance.",
+          "source_doc": "leave_policy.pdf",
+          "locator": "page 1, section '5. Requesting annual leave'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "leave_policy.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from leave_policy#5-1ff6f9",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "leave_policy#5-1ff6f9"
+      ]
+    }
+  ],
+  "stats": {
+    "total": 28,
+    "by_category": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 6
+    },
+    "by_subtype": {
+      "answerable/single_fact": 14,
+      "refuse/adversarial": 2,
+      "refuse/must_refuse": 2,
+      "refuse/out_of_domain": 1,
+      "refuse/absent": 3,
+      "edge/multi_doc": 1,
+      "edge/numeric": 2,
+      "edge/colloquial": 2,
+      "edge/ambiguous": 1
+    },
+    "by_split": {
+      "dev": 18,
+      "heldout": 10
+    },
+    "by_difficulty": {
+      "easy": 14,
+      "hard": 9,
+      "medium": 5
+    },
+    "targets": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 8
+    },
+    "minimums": {
+      "answerable": 10,
+      "refuse": 5,
+      "edge": 5
+    },
+    "balance_ok": true,
+    "mean_question_evidence_overlap": 0.675,
+    "share_trivial_overlap_gt_0.6": 0.7
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "purpose": "Build a procurement assistant for technical superintendents ordering ship spares.",
+  "scope": [
+    "procurement assistant",
+    "technical superintendents",
+    "ship spares"
+  ],
+  "audience": "technical superintendents ordering ship spares",
+  "tone": "Technical, informative",
+  "language": "en",
+  "must_answer_topics": [
+    "part number",
+    "description",
+    "category",
+    "vessel class",
+    "unit price",
+    "lead time",
+    "minimum order quantity",
+    "stock",
+    "supplier",
+    "order total",
+    "supplier volume discount",
+    "payment terms"
+  ],
+  "must_refuse_topics": [
+    "approve purchase orders",
+    "negotiate prices on anyone's behalf"
+  ],
+  "escalation_policy": "Not applicable",
+  "output_format_needs": [
+    "structured requirements document"
+  ],
+  "tool_needs": [
+    {
+      "capability": "structured_data",
+      "justification": "To find parts in the spares catalogue by part number, description, category or vessel class, and report unit price, lead time, minimum order quantity, stock and supplier.",
+      "requirement_ref": "T1"
+    },
+    {
+      "capability": "internet_api",
+      "justification": "To show live stock-market prices of our suppliers and calculate customs duty for imported parts.",
+      "requirement_ref": "T2"
+    },
+    {
+      "capability": "filter_rows",
+      "justification": "To filter the spares catalogue CSV file based on user inputs for part number, description, category, or vessel class.",
+      "requirement_ref": "T3"
+    },
+    {
+      "capability": "tabular_lookup",
+      "justification": "corpus contains tabular data (spares_catalogue.csv, 168 rows) that must be filtered/looked up exactly",
+      "requirement_ref": "data"
+    },
+    {
+      "capability": "arithmetic",
+      "justification": "brief asks for computations ('quantity') over numeric columns",
+      "requirement_ref": "brief"
+    }
+  ],
+  "assumptions": [
+    {
+      "field": "",
+      "assumption": "The technical superintendents are expected to have a basic understanding of procurement and ship spares."
+    },
+    {
+      "field": "q1",
+      "assumption": "'Who are the primary users of this procurement assistant and what are their technical backgrounds?' unanswered; a sensible default was used"
+    },
+    {
+      "field": "must_refuse_topics",
+      "assumption": "added 2 refusal topic(s) found deterministically in the brief that the model did not extract"
+    }
+  ],
+  "open_risks": [
+    "Inaccurate or incomplete data in the spares catalogue could lead to incorrect recommendations."
+  ],
+  "groundability_flags": [],
+  "removed_topics": [],
+  "brief": "Build a procurement assistant for technical superintendents ordering ship spares. It should find parts in the spares catalogue by part number, description, category or vessel class, and report unit price, lead time, minimum order quantity, stock and supplier. It must calculate order totals (quantity x unit price) and apply supplier volume discounts, and explain each supplier's payment terms, delivery terms and warranty conditions. It should also show live stock-market prices of our suppliers and calculate customs duty for imported parts. It must not approve purchase orders or negotiate prices on anyone's behalf.",
+  "intake": [
+    {
+      "question_id": "q1",
+      "question": "Who are the primary users of this procurement assistant and what are their technical backgrounds?",
+      "answer": "no preference",
+      "source": "simulated"
+    }
+  ]
+}

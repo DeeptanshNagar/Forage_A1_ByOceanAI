@@ -1,0 +1,93 @@
+{
+  "purpose": "Build an HR policy assistant for Harbourline's shore staff to answer their questions about various HR policies and procedures.",
+  "scope": [
+    "must answer topics",
+    "must refuse topics",
+    "tool needs",
+    "assumptions",
+    "open risks"
+  ],
+  "audience": "Harbourline's shore staff (office, port and technical staff)",
+  "tone": "formal",
+  "language": "en",
+  "must_answer_topics": [
+    "annual leave entitlements",
+    "sick leave",
+    "sick pay",
+    "parental leave",
+    "how to request leave",
+    "business travel rules",
+    "hotel and per diem allowances",
+    "expense claims",
+    "gifts and conflicts of interest",
+    "how grievances and disciplinary cases are handled",
+    "company pension scheme"
+  ],
+  "must_refuse_topics": [
+    "legal advice",
+    "comment on individual employees' cases"
+  ],
+  "escalation_policy": "Should point people to HR when the policies do not cover something.",
+  "output_format_needs": [
+    "cite the source document and section for every answer"
+  ],
+  "tool_needs": [],
+  "assumptions": [
+    {
+      "field": "",
+      "assumption": "The assistant's tone should be formal as per the brief."
+    },
+    {
+      "field": "q2",
+      "assumption": "'Should the assistant be able to handle inquiries in multiple languages besides English?' unanswered; a sensible default was used"
+    },
+    {
+      "field": "q3",
+      "assumption": "'Who is the primary audience for the HR policy assistant?' unanswered; a sensible default was used"
+    },
+    {
+      "field": "q4",
+      "assumption": "'Are there any topics that should not be covered by the assistant, even if they are mentioned in the documents?' unanswered; a sensible default was used"
+    },
+    {
+      "field": "must_refuse_topics",
+      "assumption": "added 2 refusal topic(s) found deterministically in the brief that the model did not extract"
+    },
+    {
+      "field": "tool_needs",
+      "assumption": "dropped model-proposed tool need 'structured_data': nothing in the brief requires it"
+    }
+  ],
+  "open_risks": [
+    "The assistant may not be able to provide legal advice or comment on individual cases, as per the brief."
+  ],
+  "groundability_flags": [],
+  "removed_topics": [],
+  "brief": "Build an HR policy assistant for Harbourline's shore staff (office, port and technical staff). Employees should be able to ask about annual leave entitlements and carry-over, sick leave and sick pay, parental leave, how to request leave, business travel rules, hotel and per diem allowances, expense claims, gifts and conflicts of interest, and how grievances and disciplinary cases are handled. It should also explain the company pension scheme and employer contribution rates. Answers must cite the policy document and section. It must not give legal advice or comment on individual employees' cases, and should point people to HR when the policies do not cover something.",
+  "intake": [
+    {
+      "question_id": "q1",
+      "question": "Should the assistant's tone be formal or conversational?",
+      "answer": "the assistant's tone should be formal",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q2",
+      "question": "Should the assistant be able to handle inquiries in multiple languages besides English?",
+      "answer": "no preference",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q3",
+      "question": "Who is the primary audience for the HR policy assistant?",
+      "answer": "no preference",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q4",
+      "question": "Are there any topics that should not be covered by the assistant, even if they are mentioned in the documents?",
+      "answer": "no preference",
+      "source": "simulated"
+    }
+  ]
+}

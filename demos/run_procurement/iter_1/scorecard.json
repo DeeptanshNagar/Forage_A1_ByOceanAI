@@ -1,0 +1,193 @@
+{
+  "iteration": 1,
+  "agent_version": 0,
+  "fingerprint": "f0e631cee7a5",
+  "overall": {
+    "n": 30,
+    "pass_rate": 0.5667,
+    "answerable_correct_rate": 0.5455,
+    "refuse_correct_rate": 0.625,
+    "fact_coverage": 0.6364,
+    "grounded_rate": 0.9545,
+    "hallucination_rate": 0.0455,
+    "refusal_precision": 0.625,
+    "refusal_recall": 0.625,
+    "refusal_f1": 0.625,
+    "wrong_refusals": 3,
+    "missed_refusals": 3,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.7727,
+    "contract_valid_rate": 0.8333,
+    "avg_latency_s": 6.089,
+    "judge_calls_cases": 22,
+    "judge_agreement_rate": 0.7273,
+    "judge_uncertain": 6,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 14,
+        "pass_rate": 0.4286
+      },
+      "edge": {
+        "n": 8,
+        "pass_rate": 0.75
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 0.625
+      }
+    },
+    "composite": 0.7074
+  },
+  "dev": {
+    "n": 19,
+    "pass_rate": 0.5789,
+    "answerable_correct_rate": 0.5,
+    "refuse_correct_rate": 0.8,
+    "fact_coverage": 0.6429,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 0.8,
+    "refusal_recall": 0.8,
+    "refusal_f1": 0.8,
+    "wrong_refusals": 1,
+    "missed_refusals": 1,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.7143,
+    "contract_valid_rate": 0.7895,
+    "avg_latency_s": 6.473,
+    "judge_calls_cases": 14,
+    "judge_agreement_rate": 0.7857,
+    "judge_uncertain": 3,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 9,
+        "pass_rate": 0.3333
+      },
+      "edge": {
+        "n": 5,
+        "pass_rate": 0.8
+      },
+      "refuse": {
+        "n": 5,
+        "pass_rate": 0.8
+      }
+    },
+    "composite": 0.7401
+  },
+  "heldout": {
+    "n": 11,
+    "pass_rate": 0.5455,
+    "answerable_correct_rate": 0.625,
+    "refuse_correct_rate": 0.3333,
+    "fact_coverage": 0.625,
+    "grounded_rate": 0.875,
+    "hallucination_rate": 0.125,
+    "refusal_precision": 0.3333,
+    "refusal_recall": 0.3333,
+    "refusal_f1": 0.3333,
+    "wrong_refusals": 2,
+    "missed_refusals": 2,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.875,
+    "contract_valid_rate": 0.9091,
+    "avg_latency_s": 5.425,
+    "judge_calls_cases": 8,
+    "judge_agreement_rate": 0.625,
+    "judge_uncertain": 3,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 5,
+        "pass_rate": 0.6
+      },
+      "edge": {
+        "n": 3,
+        "pass_rate": 0.6667
+      },
+      "refuse": {
+        "n": 3,
+        "pass_rate": 0.3333
+      }
+    },
+    "composite": 0.6515
+  },
+  "attempts": [
+    {
+      "iteration": 1,
+      "attempt": 1,
+      "failure_category": "contract_violation",
+      "affected_case_ids": [
+        "ans-005",
+        "ans-008",
+        "ans-012",
+        "ans-013"
+      ],
+      "fix_id": "cv_format",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/output_format/-",
+          "value": "Reply with exactly one JSON object with the keys answer, sources, confidence, refused, refusal_reason - no markdown, no text outside the JSON.",
+          "before": null
+        }
+      ],
+      "rationale": "contract violations: restate the JSON contract",
+      "score_before": {
+        "dev_composite": 0.7401,
+        "heldout_composite": 0.6515,
+        "dev_pass_rate": 0.5789,
+        "heldout_pass_rate": 0.5455
+      },
+      "score_after": {
+        "dev_composite": 0.6126,
+        "heldout_composite": 0.7909,
+        "dev_pass_rate": 0.4211,
+        "heldout_pass_rate": 0.7273
+      },
+      "accepted": false,
+      "decision_reason": "dev 0.7401->0.6126 (-0.1275); held-out 0.6515->0.7909 (+0.1394); ROLLED BACK: dev regressed"
+    },
+    {
+      "iteration": 1,
+      "attempt": 2,
+      "failure_category": "contract_violation",
+      "affected_case_ids": [
+        "ans-005",
+        "ans-008",
+        "ans-012",
+        "ans-013"
+      ],
+      "fix_id": "cv_fewshot",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/few_shots/-",
+          "value": {
+            "question": "Maximum purchase order amount for approval up to 5000 USD?",
+            "answer_json": "{\"answer\": \"Purchase orders up to 5,000 USD are approved by the technical superintendent.\", \"sources\": [{\"doc\": \"supplier_terms.pdf\", \"locator\": \"page 1, section '2. Purchase order approval limits'\", \"quote\": \"Purchase orders are approved according to their total value: up to 5,000 USD by the technical superintendent, from 5,000 USD to 25,000 USD by the fleet manager, and above 25,000 USD by the technical director.\"}], \"confidence\": 1.0, \"refused\": false, \"refusal_reason\": \"\"}",
+            "source": "dev case type answerable/single_fact"
+          },
+          "before": null
+        }
+      ],
+      "rationale": "add one format example derived from a passing dev case (paraphrased)",
+      "score_before": {
+        "dev_composite": 0.7401,
+        "heldout_composite": 0.6515,
+        "dev_pass_rate": 0.5789,
+        "heldout_pass_rate": 0.5455
+      },
+      "score_after": {
+        "dev_composite": 0.8483,
+        "heldout_composite": 0.7987,
+        "dev_pass_rate": 0.7368,
+        "heldout_pass_rate": 0.7273
+      },
+      "accepted": true,
+      "decision_reason": "dev 0.7401->0.8483 (+0.1082); held-out 0.6515->0.7987 (+0.1472); ACCEPTED"
+    }
+  ],
+  "stop": ""
+}

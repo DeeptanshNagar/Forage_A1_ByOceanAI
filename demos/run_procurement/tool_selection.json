@@ -1,0 +1,29 @@
+{
+  "registry_size": 8,
+  "shortlist": [
+    "csv_lookup",
+    "calculator",
+    "file_writer_stub",
+    "web_search_stub",
+    "current_date",
+    "http_api",
+    "unit_converter",
+    "email_sender_stub"
+  ],
+  "proposed": [
+    {
+      "name": "csv_lookup",
+      "justification": "To filter and look up spares catalogue data based on user inputs and to answer various questions about the data.",
+      "requirement_ref": "T3, A1-A9, A11-A12"
+    }
+  ],
+  "pruned": [],
+  "added_deterministically": [
+    "calculator"
+  ],
+  "final": [
+    "csv_lookup",
+    "calculator"
+  ],
+  "llm_ok": true
+}

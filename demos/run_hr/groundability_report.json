@@ -1,0 +1,472 @@
+{
+  "topics": [
+    {
+      "topic": "annual leave entitlements",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.849,
+      "retrieved": [
+        "leave_policy#3-050ed9",
+        "leave_policy#2-5c7b41",
+        "code_of_conduct_travel_e#11-e318b3",
+        "grievance_disciplinary#11-824eae",
+        "leave_policy#12-0e652b"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "leave_policy#3-050ed9",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '3. Annual leave entitlement'",
+          "quote": "3. Annual leave entitlement: Annual leave entitlement depends on continuous service at the start of the leave year:",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#3-050ed9",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '3. Annual leave entitlement'",
+          "quote": "Less than 3 years of service: 22 working days per year.",
+          "verified": false,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#3-050ed9",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '3. Annual leave entitlement'",
+          "quote": "6 to 10 years of service: 27 working days per year.",
+          "verified": false,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 1 quote(s) verified verbatim"
+    },
+    {
+      "topic": "sick leave",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.756,
+      "retrieved": [
+        "leave_policy#7-9baac6",
+        "leave_policy#12-0e652b",
+        "code_of_conduct_travel_e#11-e318b3",
+        "leave_policy#2-5c7b41",
+        "grievance_disciplinary#11-824eae"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "leave_policy#7-9baac6",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "quote": "[leave_policy#7-9baac6] 7. Sick leave: Employees who are unable to work because of illness must notify their line manager before 10:00 on the first day of absence. Absences of up to 3 consecutive calendar days may be self-certified through the portal. Absences longer than 3 consecutive calendar days require a medical certificate. Company sick pay is paid as follows in any rolling 12-month period:",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "leave_policy#12-0e652b",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '12. Unpaid leave'",
+          "quote": "[leave_policy#12-0e652b] 12. Unpaid leave: Unpaid leave of up to 20 working days per leave year may be granted at the discretion of the department head. Unpaid leave is not granted while the employee still has annual leave available, except in exceptional circumstances approved by HR.",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "leave_policy#2-5c7b41",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '2. Leave year'",
+          "quote": "[leave_policy#2-5c7b41] 2. Leave year: The leave year runs from 1 January to 31 December. Entitlements are calculated for each leave year and are pro-rated for employees who join or leave during the year, rounded up to the nearest half day.",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "leave_policy#7-9baac6",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "quote": "Sick leave: Employees who are unable to work because of illness must notify their line manager before 10:00\non the first day of absence.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "no specific details about sick leave entitlements, such as how many days of sick leave an employee is entitled to, and how sick leave is calculated in a leave year.",
+      "rationale": "model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['leave', 'sick'] (deterministic rescue)"
+    },
+    {
+      "topic": "sick pay",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.783,
+      "retrieved": [
+        "leave_policy#7-9baac6",
+        "grievance_disciplinary#8-b3a29b",
+        "leave_policy#8-322e75",
+        "leave_policy#9-845428",
+        "leave_policy#10-788c7f"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "leave_policy#7-9baac6",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "quote": "Employees who are unable to work because of illness must notify their line manager before 10:00 on the first day of absence.",
+          "verified": false,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#7-9baac6",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '7. Sick leave'",
+          "quote": "Company sick pay is paid as follows in any rolling 12-month period:\n\nFull basic pay for the first 15 working days of sickness absence.\n\nHalf basic pay for the next 30 working days of sickness absence.\n\nAfter that, no company sick pay is paid, although statutory sick pay may apply.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "how sick pay is calculated, the duration of sick pay, and the consequences for not self-certifying absences.",
+      "rationale": "model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['pay', 'sick'] (deterministic rescue)"
+    },
+    {
+      "topic": "parental leave",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.509,
+      "retrieved": [
+        "leave_policy#10-788c7f",
+        "leave_policy#9-845428",
+        "leave_policy#2-5c7b41",
+        "leave_policy#12-0e652b",
+        "leave_policy#4-ae81d4"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "leave_policy#10-788c7f",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '10. Adoption leave'",
+          "quote": "10. Adoption leave: Adoption leave mirrors maternity leave: 26 weeks, with full basic pay for the first 16 weeks for",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#9-845428",
+          "doc": "leave_policy.pdf",
+          "locator": "page 2, section '9. Paternity and partner leave'",
+          "quote": "9. Paternity and partner leave: Employees are entitled to 3 weeks of paternity or partner leave at full basic pay, to be taken within 8 weeks of the birth.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#4-ae81d4",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '4. Carry-over of unused leave'",
+          "quote": "4. Carry-over of unused leave: Employees may carry over a maximum of 5 unused days into the next leave year.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "No information about parental leave beyond adoption and paternity leave is provided.",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "how to request leave",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.807,
+      "retrieved": [
+        "leave_policy#5-1ff6f9",
+        "grievance_disciplinary#11-824eae",
+        "leave_policy#2-5c7b41",
+        "code_of_conduct_travel_e#11-e318b3",
+        "leave_policy#13-915b7b"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "leave_policy#5-1ff6f9",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '5. Requesting annual leave'",
+          "quote": "5. Requesting annual leave: Leave must be requested through the HR self-service portal. The notice required is at least twice the length of the leave requested; for example, a request for 5 days must be submitted at least 10 days in advance. Requests for more than 10 consecutive working days require the approval of the department head in addition to the line manager. Managers should respond to requests within 5 working days.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#2-5c7b41",
+          "doc": "leave_policy.pdf",
+          "locator": "page 1, section '2. Leave year'",
+          "quote": "2. Leave year: The leave year runs from 1 January to 31 December. Entitlements are calculated for each leave year and are pro-rated for employees who join or leave during the year, rounded up to the nearest half day.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "leave_policy#13-915b7b",
+          "doc": "leave_policy.pdf",
+          "locator": "page 3, section '13. Approval and records'",
+          "quote": "13. Approval and records: The line manager approves all leave except where this policy requires department-head or HR approval. All leave must be recorded in the HR self-service portal. Questions about this policy should be sent to hr@harbourline.example.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "business travel rules",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.662,
+      "retrieved": [
+        "code_of_conduct_travel_e#6-fe89be",
+        "code_of_conduct_travel_e#7-a95013",
+        "code_of_conduct_travel_e#11-e318b3",
+        "code_of_conduct_travel_e#0-7c795e",
+        "code_of_conduct_travel_e#10-4ed843"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "code_of_conduct_travel_e#6-fe89be",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B1. Booking travel'",
+          "quote": "B1. Booking travel: All business travel must be booked through the company travel desk at least 7 days before departure, except in emergencies such as urgent vessel attendance. Travel must be approved by the line manager before booking.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#7-a95013",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B2. Class of air travel'",
+          "quote": "B2. Class of air travel: Flights with a scheduled duration of up to 6 hours must be booked in economy class. Flights longer than 6 hours may be booked in premium economy. Business class requires approval from a director and is only permitted for flights longer than 10 hours.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#0-7c795e",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'Harbourline Shipping Ltd - Code of Conduct and Travel & Expenses Policy'",
+          "quote": "Harbourline Shipping Ltd - Code of Conduct and Travel & Expenses Policy: Document HR-POL-02, version 3.0, effective 1 March 2025. Applies to all shore-based employees.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "hotel and per diem allowances",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.673,
+      "retrieved": [
+        "code_of_conduct_travel_e#9-05d61a",
+        "code_of_conduct_travel_e#11-e318b3",
+        "code_of_conduct_travel_e#8-8373c2",
+        "code_of_conduct_travel_e#2-a8ec8f",
+        "code_of_conduct_travel_e#10-4ed843"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "code_of_conduct_travel_e#9-05d61a",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B4. Per diem allowances'",
+          "quote": "B4. Per diem allowances: A daily per diem covers meals and incidental expenses when travelling overnight: - Europe: 60 USD per day. - Asia: 45 USD per day. - Americas: 65 USD per day. - Middle East and Africa: 50 USD per day. On the day of departure and the day of return, half of the per diem is paid. Meals provided by a host or included in a conference fee reduce the per diem by 20 USD per meal.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#8-8373c2",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B3. Hotel limits'",
+          "quote": "B3. Hotel limits: Maximum nightly hotel rates, including taxes and excluding breakfast, are: - Europe: 180 USD per night. - Asia: 150 USD per night. - Americas: 200 USD per night. - Middle East and Africa: 160 USD per night. Higher rates require approval from the department head before booking.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#2-a8ec8f",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A2. Gifts and hospitality'",
+          "quote": "A2. Gifts and hospitality: Employees may accept gifts with a value of up to 50 USD per gift, to a maximum of 150 USD from the same giver in a calendar year. Gifts above 50 USD must be declined or handed to Compliance. Hospitality (meals, events) with a value above 100 USD per person must be approved in advance by the line manager and recorded in the gifts and hospitality register. Cash or cash equivalents, such as vouchers, must never be accepted regardless of value.",
+          "verified": false,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 2 quote(s) verified verbatim"
+    },
+    {
+      "topic": "expense claims",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.886,
+      "retrieved": [
+        "code_of_conduct_travel_e#12-c86853",
+        "grievance_disciplinary#6-03396c",
+        "code_of_conduct_travel_e#13-8da30b",
+        "code_of_conduct_travel_e#0-7c795e",
+        "code_of_conduct_travel_e#1-93b817"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "code_of_conduct_travel_e#12-c86853",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B7. Expense claims'",
+          "quote": "Expense claims must be submitted through the expenses system within 30 days of the end of the trip. Original receipts are required for every item above 25 USD. Claims are approved by the line manager; claims above 2,000 USD also require department-head approval. Approved claims are reimbursed with the next monthly payroll.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 1 quote(s) verified verbatim"
+    },
+    {
+      "topic": "gifts and conflicts of interest",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.63,
+      "retrieved": [
+        "code_of_conduct_travel_e#1-93b817",
+        "code_of_conduct_travel_e#2-a8ec8f",
+        "grievance_disciplinary#6-03396c",
+        "code_of_conduct_travel_e#14-10ff09",
+        "grievance_disciplinary#12-0f703d"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "code_of_conduct_travel_e#1-93b817",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A1. Conflicts of interest'",
+          "quote": "A1. Conflicts of interest: Employees must declare any personal, financial or family interest in a supplier, customer, charterer or competitor to their line manager and to Compliance within 10 working days of becoming aware of it.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#2-a8ec8f",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A2. Gifts and hospitality'",
+          "quote": "A2. Gifts and hospitality: Employees may accept gifts with a value of up to 50 USD per gift, to a maximum of 150 USD from the same giver in a calendar year.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "grievance_disciplinary#6-03396c",
+          "doc": "grievance_disciplinary.docx",
+          "locator": "section '6. Disciplinary rules'",
+          "quote": "6. Disciplinary rules: Misconduct includes, for example, repeated lateness, unauthorised absence, failure to follow reasonable instructions and minor breaches of the Code of Conduct.",
+          "verified": false,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 2 quote(s) verified verbatim"
+    },
+    {
+      "topic": "how grievances and disciplinary cases are handled",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.581,
+      "retrieved": [
+        "grievance_disciplinary#12-0f703d",
+        "grievance_disciplinary#1-a87c0a",
+        "code_of_conduct_travel_e#14-10ff09",
+        "grievance_disciplinary#7-f30a46",
+        "grievance_disciplinary#6-03396c"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "grievance_disciplinary#12-0f703d",
+          "doc": "grievance_disciplinary.docx",
+          "locator": "section '12. Records'",
+          "quote": "12. Records: Records of grievances and disciplinary cases are kept confidential by HR and retained for 6 years after employment ends.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "grievance_disciplinary#1-a87c0a",
+          "doc": "grievance_disciplinary.docx",
+          "locator": "section '1. Scope'",
+          "quote": "1. Scope: This procedure explains how employees can raise concerns about their work (grievances) and how the company handles misconduct (discipline). It does not apply during the probationary period of 6 months, during which a shortened process applies.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "code_of_conduct_travel_e#14-10ff09",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'B9. Breaches'",
+          "quote": "B9. Breaches: Breaches of this code may lead to disciplinary action under the Grievance and Disciplinary Procedure (HR-POL-03).",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "company pension scheme",
+      "kind": "must_answer",
+      "status": "UNSUPPORTED",
+      "retrieval_max_score": 0.277,
+      "retrieved": [
+        "code_of_conduct_travel_e#4-b19d95",
+        "grievance_disciplinary#1-a87c0a",
+        "code_of_conduct_travel_e#3-ae13ec",
+        "code_of_conduct_travel_e#11-e318b3",
+        "code_of_conduct_travel_e#1-93b817"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "code_of_conduct_travel_e#4-b19d95",
+          "doc": "code_of_conduct_travel_expenses.md",
+          "locator": "section 'A4. Use of company IT'",
+          "quote": "A4. Use of company IT: Company laptops and phones are for business use; limited personal use is allowed. Company data must only be stored on approved systems. Lost or stolen devices must be reported to the IT service desk within 24 hours.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "The passages do not provide specific information about the company pension scheme.",
+      "rationale": "key terms ['pension', 'scheme'] never appear in the documents (dense similarity 0.30); overrides model verdict 'partial'"
+    }
+  ],
+  "contradictions": [
+    {
+      "topic": "leave year",
+      "doc_a": "code_of_conduct_travel_expenses.md",
+      "doc_b": "leave_policy.pdf",
+      "quote_a": "Unused annual leave cannot be exchanged for travel allowances or extra per diems within the leave year (1 April to 31 March).",
+      "quote_b": "The leave year runs from 1 January to 31 December.",
+      "values_a": [
+        "date 1 april",
+        "date 31 march"
+      ],
+      "values_b": [
+        "date 1 january",
+        "date 31 december"
+      ],
+      "note": "both mention 'leave year' with different values"
+    }
+  ],
+  "actions": [
+    "SUPPORTED: annual leave entitlements -> kept",
+    "PARTIAL: sick leave -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: sick pay -> kept; agent must state which details the documents do not cover",
+    "SUPPORTED: parental leave -> kept",
+    "SUPPORTED: how to request leave -> kept",
+    "SUPPORTED: business travel rules -> kept",
+    "SUPPORTED: hotel and per diem allowances -> kept",
+    "SUPPORTED: expense claims -> kept",
+    "SUPPORTED: gifts and conflicts of interest -> kept",
+    "SUPPORTED: how grievances and disciplinary cases are handled -> kept",
+    "UNSUPPORTED: company pension scheme -> removed from must-answer, added to must-refuse: the agent must say it lacks this information",
+    "1 possible cross-document contradiction(s): agent instructed to surface both sources instead of picking one silently"
+  ],
+  "warnings": [
+    "PARTIAL support for 'sick leave': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['leave', 'sick'] (deterministic rescue)",
+    "PARTIAL support for 'sick pay': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['pay', 'sick'] (deterministic rescue)",
+    "UNSUPPORTED topic 'company pension scheme': key terms ['pension', 'scheme'] never appear in the documents (dense similarity 0.30); overrides model verdict 'partial'",
+    "possible contradiction between code_of_conduct_travel_expenses.md and leave_policy.pdf: ['date 1 april', 'date 31 march'] vs ['date 1 january', 'date 31 december']"
+  ]
+}

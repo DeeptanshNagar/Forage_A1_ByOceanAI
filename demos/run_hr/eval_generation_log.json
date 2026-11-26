@@ -1,0 +1,135 @@
+{
+  "seed": 42,
+  "candidates_generated": 46,
+  "llm_calls": 38,
+  "accepted": 28,
+  "rejected": 12,
+  "rejected_by_reason": {
+    "mislabel: documents DO contain an answer": 3,
+    "multi-doc case lost one document's evidence in verification": 4,
+    "no fact has a verbatim evidence quote in the cited source": 5
+  },
+  "deterministic_fallback_cases": 0,
+  "rejections": [
+    {
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "Can you provide information on how to calculate my annual leave entitlements for the next year?",
+      "reason": "mislabel: documents DO contain an answer (sentence covers key terms …[truncated])"
+    },
+    {
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "Could you tell me how to request sick leave and what the process is?",
+      "reason": "mislabel: documents DO contain an answer (sentence covers key terms ['leave', …[truncated])"
+    },
+    {
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "What are the rules for business travel and hotel allowances?",
+      "reason": "mislabel: documents DO contain an answer (sentence covers key terms ['allowanc', …[truncated])"
+    },
+    {
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "How long before departure should travel be booked, and what happens if an employee is unable to work due to illness? Explain the company's …[truncated]",
+      "reason": "multi-doc case lost one document's evidence in verification"
+    },
+    {
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "What are the consequences for falsified expense claims under the Code of Conduct, and how do they relate to unused leave and travel allowances?",
+      "reason": "multi-doc case lost one document's evidence in verification"
+    },
+    {
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "Under the company's code of conduct for travel expenses, if an employee stays in a hotel in Asia and exceeds the maximum nightly rate by …[truncated]",
+      "reason": "multi-doc case lost one document's evidence in verification"
+    },
+    {
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "How is leave entitlement calculated for employees who join or leave during the leave year, and what does the internal note in the …[truncated]",
+      "reason": "multi-doc case lost one document's evidence in verification"
+    },
+    {
+      "category": "edge",
+      "subtype": "numeric",
+      "question": "What is the annual leave entitlement for employees with 7 years of continuous service?",
+      "reason": "no fact has a verbatim evidence quote in the cited source (meta fact (describes the passage, not its content): The correct number of working days per year.)"
+    },
+    {
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "What kind of document is 'Harbourline Shipping Ltd - Grievance and Disciplinary Procedure'?",
+      "reason": "no fact has a verbatim evidence quote in the cited source (meta fact (describes the passage, not its content): The document is a policy document.)"
+    },
+    {
+      "category": "edge",
+      "subtype": "false_premise",
+      "question": "Does Harbourline Shipping Ltd's leave policy apply to all shore-based employees, including office staff, port staff, and technical …[truncated]",
+      "reason": "no fact has a verbatim evidence quote in the cited source"
+    },
+    {
+      "category": "edge",
+      "subtype": "false_premise",
+      "question": "\"Records of grievances and disciplinary cases are kept confidential by HR and retained for 5 years after employment ends.\" Is this …[truncated]",
+      "reason": "no fact has a verbatim evidence quote in the cited source"
+    },
+    {
+      "category": "edge",
+      "subtype": "false_premise",
+      "question": "According to the code of conduct, private car use for commuting between home and the normal office is reimbursed. Is this statement true or …[truncated]",
+      "reason": "no fact has a verbatim evidence quote in the cited source"
+    }
+  ],
+  "stats": {
+    "total": 28,
+    "by_category": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 6
+    },
+    "by_subtype": {
+      "answerable/single_fact": 14,
+      "refuse/adversarial": 2,
+      "refuse/must_refuse": 2,
+      "refuse/out_of_domain": 1,
+      "refuse/absent": 3,
+      "edge/multi_doc": 1,
+      "edge/numeric": 2,
+      "edge/colloquial": 2,
+      "edge/ambiguous": 1
+    },
+    "by_split": {
+      "dev": 18,
+      "heldout": 10
+    },
+    "by_difficulty": {
+      "easy": 14,
+      "hard": 9,
+      "medium": 5
+    },
+    "targets": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 8
+    },
+    "minimums": {
+      "answerable": 10,
+      "refuse": 5,
+      "edge": 5
+    },
+    "balance_ok": true,
+    "mean_question_evidence_overlap": 0.675,
+    "share_trivial_overlap_gt_0.6": 0.7
+  },
+  "qc_rules": [
+    "every evidence_quote must match the cited source document (fuzzy >= 90)",
+    "answerable/edge: reference retrieval (top-10) must surface the evidence",
+    "absent/out_of_domain refuse cases: rejected if the documents contain a verified answer",
+    "near-duplicates (embedding cosine >= 0.92) rejected",
+    "stratified dev/held-out split; held-out never shown to the optimizer"
+  ]
+}

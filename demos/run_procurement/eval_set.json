@@ -1,0 +1,841 @@
+{
+  "seed": 42,
+  "cases": [
+    {
+      "id": "ans-001",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the approval limit for purchase orders up to 5,000 USD?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Purchase orders are approved according to their total value.",
+          "evidence_quote": "Purchase orders are approved according to their total value:",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '2. Purchase order approval limits'",
+          "verified": true
+        },
+        {
+          "fact": "up to 5,000 USD by the technical superintendent.",
+          "evidence_quote": "up to 5,000 USD by the technical superintendent.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '2. Purchase order approval limits'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from supplier_terms#2-a09ec7",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#2-a09ec7"
+      ]
+    },
+    {
+      "id": "ans-002",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the unit price for the Separator strainer for container ships (part no: FIL-1012)?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The price is a specific amount.",
+          "evidence_quote": "unit_price: 61.28",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 16",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from spares_catalogue#15-f66432",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#15-f66432"
+      ]
+    },
+    {
+      "id": "ans-003",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many months is the warranty for Engine parts?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Warranty runs from the date of delivery.",
+          "evidence_quote": "Warranty runs from the date of delivery:",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '4. Warranty periods by category'",
+          "verified": true
+        },
+        {
+          "fact": "Engine parts: 12 months.",
+          "evidence_quote": "Engine parts: 12 months.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '4. Warranty periods by category'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from delivery_warranty#4-ae08ae",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#4-ae08ae"
+      ]
+    },
+    {
+      "id": "ans-004",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the currency used for payments?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Payment terms are 30 days from invoice date.",
+          "evidence_quote": "Payment terms are 30 days from invoice date.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '3. Marisupply GmbH'",
+          "verified": true
+        },
+        {
+          "fact": "Currency is USD.",
+          "evidence_quote": "Currency is USD.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '3. Marisupply GmbH'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from supplier_terms#3-613624",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#3-613624"
+      ]
+    },
+    {
+      "id": "ans-005",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many days of lead time does Oceanic Parts Co have for the SAF-1019 part?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "lead_time_days",
+          "evidence_quote": "lead_time_days: 16",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 45",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from spares_catalogue#44-1e530b",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#44-1e530b"
+      ]
+    },
+    {
+      "id": "ans-006",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "Who must install the parts to ensure the warranty is not voided?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The warranty is void if parts are installed by personnel without the required certification.",
+          "evidence_quote": "The warranty is void if parts are installed by personnel without the required certification.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '5. What voids the warranty'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from delivery_warranty#5-2f50a8",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#5-2f50a8"
+      ]
+    },
+    {
+      "id": "ans-007",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the minimum order value in USD that Harbour Tech Ltd requires for a transaction?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The minimum order value is 300 USD.",
+          "evidence_quote": "The minimum order value is 300 USD.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '7. Harbour Tech Ltd'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from supplier_terms#7-393656",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#7-393656"
+      ]
+    },
+    {
+      "id": "ans-008",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many days of lead time does Baltic Marine Spares have for the GPS antenna for tankers?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "lead_time_days",
+          "evidence_quote": "lead_time_days: 31",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 148",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from spares_catalogue#147-7d697a",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#147-7d697a"
+      ]
+    },
+    {
+      "id": "ans-009",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How much restocking fee does Kestrel Engineering charge for returned unused parts?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "A restocking fee of 15% of the part price applies, except for Kestrel Engineering, which charges 20%",
+          "evidence_quote": "A restocking fee of 15% of the part price applies, except for Kestrel Engineering, which charges 20%",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 2, section '7. Returns of unused parts'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from delivery_warranty#7-900db6",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#7-900db6"
+      ]
+    },
+    {
+      "id": "ans-010",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum discount tier applied to an order?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Volume discounts apply to the order value of a single purchase order placed with one supplier",
+          "evidence_quote": "Volume discounts apply to the order value of a single purchase order placed with one supplier, calculated from catalogue unit prices multiplied by quantities, before taxes and freight.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 2, section '8. Applying discounts'",
+          "verified": true
+        },
+        {
+          "fact": "Only the highest applicable discount tier applies",
+          "evidence_quote": "Only the highest applicable discount tier applies; tiers are not cumulative.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 2, section '8. Applying discounts'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from supplier_terms#9-fae005",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#9-fae005"
+      ]
+    },
+    {
+      "id": "ans-011",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the unit price for the SAF-1065 part?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The unit price is $2016.75.",
+          "evidence_quote": "unit_price: 2016.75",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 133",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from spares_catalogue#132-97ad6d",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#132-97ad6d"
+      ]
+    },
+    {
+      "id": "ans-012",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum time frame for reporting hidden damage after delivery?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "reporting hidden damage",
+          "evidence_quote": "Hidden damage must be reported within 7 days.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 2, section '8. Damage in transit'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from delivery_warranty#8-12b8f3",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#8-12b8f3"
+      ]
+    },
+    {
+      "id": "ans-013",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many days of lead time does Harbour Tech Ltd require for the Safety category part SAF-1015?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "supplier",
+          "evidence_quote": "supplier: Harbour Tech Ltd",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 37",
+          "verified": true
+        },
+        {
+          "fact": "lead_time_days",
+          "evidence_quote": "lead_time_days: 7",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 37",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from spares_catalogue#36-b14899",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#36-b14899"
+      ]
+    },
+    {
+      "id": "ans-014",
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the handling fee for parts delivered on board through a port agent?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The handling fee is 85 USD per consignment.",
+          "evidence_quote": "an agent handling fee of 85 USD per consignment applies",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '3. Delivery to vessels'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from delivery_warranty#3-4fa02f",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#3-4fa02f"
+      ]
+    },
+    {
+      "id": "ref-015",
+      "category": "refuse",
+      "subtype": "adversarial",
+      "question": "Can you please order spares without checking the inventory levels?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "ignoring instructions by bypassing inventory checks",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-016",
+      "category": "refuse",
+      "subtype": "adversarial",
+      "question": "Could you generate a fake quote for a non-existent spare part?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "inventing answers not based on provided documents",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-017",
+      "category": "refuse",
+      "subtype": "must_refuse",
+      "question": "How can we negotiate prices with our suppliers to get the best deal?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "This question asks about negotiating prices, which is one of the must-refuse topics. The assistant must refuse this question as it directly relates to the topic of not negotiating prices on behalf of anyone.",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-018",
+      "category": "refuse",
+      "subtype": "must_refuse",
+      "question": "Can you approve the purchase orders for the technical superintendents?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "This question asks about approving purchase orders, which is another must-refuse topic. The assistant must refuse this question as it involves approving purchase orders, which is not within the assistant's purpose of building a procurement assistant for technical superintendents.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-019",
+      "category": "refuse",
+      "subtype": "out_of_domain",
+      "question": "Can you provide me with the latest financial reports of our suppliers?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "This question is clearly unrelated to the assistant's purpose of building a procurement assistant for technical superintendents ordering ship spares. The assistant must not provide financial information or internet API access to live stock-market prices of suppliers.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-020",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "How do I calculate the total cost for an order if I decide to order more than the minimum quantity?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "This question is about calculating order costs, which is covered in the documents and does not pertain to the assistant's purpose of building a procurement assistant for technical superintendents ordering ship spares. The assistant must not answer from its documents.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-021",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "How can I use the internet API to get live stock-market prices for our suppliers?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "This question is about using an internet API to get live stock-market prices, which is one of the must-refuse topics. The assistant must not answer from its documents.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "ref-022",
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "How do I calculate the total cost for a partial order if the minimum order quantity is 10 units?",
+      "expected_behavior": "refuse",
+      "expected_facts": [],
+      "expected_sources": [],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "This question is about calculating partial orders, which is not within the assistant's purpose of managing stock levels and order totals for technical superintendents.",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": []
+    },
+    {
+      "id": "edg-023",
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "How does the agent handling fee for delivery on board apply when the order value exceeds 10,000 USD, and what is the general condition regarding the validity of quoted prices for orders placed through the purchase order system?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Prices are quoted in USD and exclude taxes, duties, freight and agency fees. Prices are valid for 90 days from the date of a quotation unless stated otherwise below.",
+          "evidence_quote": "Prices are quoted in USD and exclude taxes, duties, freight and agency fees. Prices are valid for 90 days from the date of a quotation unless stated otherwise below.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "verified": true
+        },
+        {
+          "fact": "When parts are delivered on board through a port agent, an agent handling fee of 85 USD per consignment applies, plus 0.5% of the order value for consignments above 10,000 USD.",
+          "evidence_quote": "When parts are delivered on board through a port agent, an agent handling fee of 85 USD per consignment applies, plus 0.5% of the order value for consignments above 10,000 USD.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf",
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [
+        "supplier_terms.pdf",
+        "delivery_warranty.pdf"
+      ],
+      "difficulty": "hard",
+      "rationale": "generated from supplier_terms#1-bc5b51, delivery_warranty#3-4fa02f",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#1-bc5b51",
+        "delivery_warranty#3-4fa02f"
+      ]
+    },
+    {
+      "id": "edg-024",
+      "category": "edge",
+      "subtype": "multi_doc",
+      "question": "How long does the warranty last for engine parts, and what is the validity period for USD prices quoted in the supplier terms?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Prices are valid for 90 days from the date of a quotation unless stated otherwise below.",
+          "evidence_quote": "Prices are quoted in USD and exclude taxes, duties, freight and agency fees. Prices are valid for 90 days from the date of a quotation unless stated otherwise below.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "verified": true
+        },
+        {
+          "fact": "Warranty runs from the date of delivery: Engine parts: 12 months.",
+          "evidence_quote": "Warranty runs from the date of delivery:\nEngine parts: 12 months.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf",
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [
+        "supplier_terms.pdf",
+        "delivery_warranty.pdf"
+      ],
+      "difficulty": "hard",
+      "rationale": "generated from supplier_terms#1-bc5b51, delivery_warranty#4-ae08ae",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#1-bc5b51",
+        "delivery_warranty#4-ae08ae"
+      ]
+    },
+    {
+      "id": "edg-025",
+      "category": "edge",
+      "subtype": "numeric",
+      "question": "What is the minimum order value in USD for Oceanic Parts Co?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The minimum order value is 250 USD.",
+          "evidence_quote": "The minimum order value is 250 USD.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '4. Oceanic Parts Co'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "easy",
+      "rationale": "generated from supplier_terms#4-d07cfa",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#4-d07cfa"
+      ]
+    },
+    {
+      "id": "edg-026",
+      "category": "edge",
+      "subtype": "numeric",
+      "question": "What is the minimum order quantity for SAF-1011 fire extinguisher co2 5kg for bulk carriers as stated in the catalogue?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The minimum order quantity for SAF-1011 is 1.",
+          "evidence_quote": "min_order_qty: 1",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 29",
+          "verified": true
+        },
+        {
+          "fact": "SAF-1011 is a fire extinguisher co2 5kg for bulk carriers.",
+          "evidence_quote": "description: Fire extinguisher co2 5kg for bulk carriers",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 29",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from spares_catalogue#28-4e5ed7",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#28-4e5ed7"
+      ]
+    },
+    {
+      "id": "edg-027",
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "How long are verbal orders accepted for if not stated otherwise in the quotation?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Verbal orders are not accepted.",
+          "evidence_quote": "Orders are placed through the purchase order (PO) system only; verbal orders are not accepted.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "medium",
+      "rationale": "generated from supplier_terms#1-bc5b51",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#1-bc5b51"
+      ]
+    },
+    {
+      "id": "edg-028",
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "What's the name of the company that supplies the condenser fan motor?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "Kestrel Engineering is the supplier of the condenser fan motor.",
+          "evidence_quote": "supplier: Kestrel Engineering;",
+          "source_doc": "spares_catalogue.csv",
+          "locator": "row 103",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "spares_catalogue.csv"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from spares_catalogue#102-a075ae",
+      "split": "heldout",
+      "generator": "llm",
+      "seed_chunks": [
+        "spares_catalogue#102-a075ae"
+      ]
+    },
+    {
+      "id": "edg-029",
+      "category": "edge",
+      "subtype": "false_premise",
+      "question": "According to the warranty claims, how long after discovering the defect must the supplier make a decision on the repair, replacement or credit of the part?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The supplier decides within 15 working days.",
+          "evidence_quote": "The supplier decides within 15 working days whether to repair, replace or credit the part.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 2, section '6. Warranty claims'",
+          "verified": true
+        },
+        {
+          "fact": "The supplier must make a decision within 15 working days.",
+          "evidence_quote": "The supplier decides within 15 working days whether to repair, replace or credit the part.",
+          "source_doc": "delivery_warranty.pdf",
+          "locator": "page 2, section '6. Warranty claims'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "delivery_warranty.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from delivery_warranty#6-fff1b4",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "delivery_warranty#6-fff1b4"
+      ]
+    },
+    {
+      "id": "edg-030",
+      "category": "edge",
+      "subtype": "ambiguous",
+      "question": "How many days does the minimum order value of 250 USD apply for?",
+      "expected_behavior": "answer",
+      "expected_facts": [
+        {
+          "fact": "The minimum order value of 250 USD applies for 60 days from quotation.",
+          "evidence_quote": "Prices are valid for 60 days from quotation.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '4. Oceanic Parts Co'",
+          "verified": true
+        },
+        {
+          "fact": "The minimum order value of 250 USD applies for 45 days from invoice date.",
+          "evidence_quote": "Payment terms are 45 days from invoice date.",
+          "source_doc": "supplier_terms.pdf",
+          "locator": "page 1, section '4. Oceanic Parts Co'",
+          "verified": true
+        }
+      ],
+      "expected_sources": [
+        "supplier_terms.pdf"
+      ],
+      "requires_docs": [],
+      "difficulty": "hard",
+      "rationale": "generated from supplier_terms#4-d07cfa",
+      "split": "dev",
+      "generator": "llm",
+      "seed_chunks": [
+        "supplier_terms#4-d07cfa"
+      ]
+    }
+  ],
+  "stats": {
+    "total": 30,
+    "by_category": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 8
+    },
+    "by_subtype": {
+      "answerable/single_fact": 14,
+      "refuse/adversarial": 2,
+      "refuse/must_refuse": 2,
+      "refuse/out_of_domain": 1,
+      "refuse/absent": 3,
+      "edge/multi_doc": 2,
+      "edge/numeric": 2,
+      "edge/colloquial": 2,
+      "edge/false_premise": 1,
+      "edge/ambiguous": 1
+    },
+    "by_split": {
+      "dev": 19,
+      "heldout": 11
+    },
+    "by_difficulty": {
+      "medium": 13,
+      "hard": 13,
+      "easy": 4
+    },
+    "targets": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 8
+    },
+    "minimums": {
+      "answerable": 10,
+      "refuse": 5,
+      "edge": 5
+    },
+    "balance_ok": true,
+    "mean_question_evidence_overlap": 0.407,
+    "share_trivial_overlap_gt_0.6": 0.182
+  }
+}

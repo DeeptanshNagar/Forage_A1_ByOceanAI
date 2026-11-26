@@ -1,0 +1,100 @@
+{
+  "registry_size": 8,
+  "shortlist": [
+    "email_sender_stub",
+    "current_date",
+    "web_search_stub",
+    "calculator",
+    "unit_converter",
+    "file_writer_stub",
+    "http_api"
+  ],
+  "proposed": [
+    {
+      "name": "email_sender_stub",
+      "justification": "Email sender is needed for notifications or escalations related to grievances and disciplinary cases handling.",
+      "requirement_ref": "A10: answer questions about how grievances and disciplinary cases are handled"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about annual leave entitlements.",
+      "requirement_ref": "A1: answer questions about annual leave entitlements"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about sick leave.",
+      "requirement_ref": "A2: answer questions about sick leave"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about parental leave.",
+      "requirement_ref": "A4: answer questions about parental leave"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about how to request leave.",
+      "requirement_ref": "A5: answer questions about how to request leave"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about business travel rules.",
+      "requirement_ref": "A6: answer questions about business travel rules"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about hotel and per diem allowances.",
+      "requirement_ref": "A7: answer questions about hotel and per diem allowances"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about expense claims.",
+      "requirement_ref": "A8: answer questions about expense claims"
+    },
+    {
+      "name": "web_search_stub",
+      "justification": "Web search is necessary for finding up-to-date information about gifts and conflicts of interest.",
+      "requirement_ref": "A9: answer questions about gifts and conflicts of interest"
+    }
+  ],
+  "pruned": [
+    {
+      "name": "email_sender_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    },
+    {
+      "name": "web_search_stub",
+      "reason": "stub tool cannot deliver its capability"
+    }
+  ],
+  "added_deterministically": [],
+  "final": [],
+  "llm_ok": true
+}

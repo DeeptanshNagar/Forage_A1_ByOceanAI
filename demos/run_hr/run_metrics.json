@@ -1,0 +1,133 @@
+{
+  "backend": "openai",
+  "models": {
+    "agent": "qwen2.5:3b-instruct",
+    "factory": "qwen2.5:3b-instruct",
+    "judge": "llama3.2:3b",
+    "judge2": "llama3.2:3b"
+  },
+  "calls": 286,
+  "cached_calls": 286,
+  "failed_calls": 0,
+  "prompt_tokens": 193779,
+  "completion_tokens": 28334,
+  "total_tokens": 222113,
+  "llm_latency_s": 0.0,
+  "cost_proxy": 0.1111,
+  "by_stage": {
+    "profile": {
+      "calls": 7,
+      "prompt_tokens": 3527,
+      "completion_tokens": 816,
+      "latency_s": 0.0,
+      "cached": 7,
+      "errors": 0
+    },
+    "intake": {
+      "calls": 3,
+      "prompt_tokens": 3057,
+      "completion_tokens": 603,
+      "latency_s": 0.0,
+      "cached": 3,
+      "errors": 0
+    },
+    "groundability": {
+      "calls": 11,
+      "prompt_tokens": 6028,
+      "completion_tokens": 2586,
+      "latency_s": 0.0,
+      "cached": 11,
+      "errors": 0
+    },
+    "generator": {
+      "calls": 2,
+      "prompt_tokens": 754,
+      "completion_tokens": 620,
+      "latency_s": 0.0,
+      "cached": 2,
+      "errors": 0
+    },
+    "evalgen": {
+      "calls": 38,
+      "prompt_tokens": 11837,
+      "completion_tokens": 6423,
+      "latency_s": 0.0,
+      "cached": 38,
+      "errors": 0
+    },
+    "judge:selftest": {
+      "calls": 52,
+      "prompt_tokens": 21204,
+      "completion_tokens": 3890,
+      "latency_s": 0.0,
+      "cached": 52,
+      "errors": 0
+    },
+    "agent:v0": {
+      "calls": 28,
+      "prompt_tokens": 33422,
+      "completion_tokens": 2352,
+      "latency_s": 0.0,
+      "cached": 28,
+      "errors": 0
+    },
+    "judge:v0": {
+      "calls": 38,
+      "prompt_tokens": 27494,
+      "completion_tokens": 3020,
+      "latency_s": 0.0,
+      "cached": 38,
+      "errors": 0
+    },
+    "critic": {
+      "calls": 10,
+      "prompt_tokens": 1697,
+      "completion_tokens": 928,
+      "latency_s": 0.0,
+      "cached": 10,
+      "errors": 0
+    },
+    "agent:iter1.1": {
+      "calls": 28,
+      "prompt_tokens": 33926,
+      "completion_tokens": 2479,
+      "latency_s": 0.0,
+      "cached": 28,
+      "errors": 0
+    },
+    "judge:iter1.1": {
+      "calls": 40,
+      "prompt_tokens": 29003,
+      "completion_tokens": 3107,
+      "latency_s": 0.0,
+      "cached": 40,
+      "errors": 0
+    },
+    "agent:negative_control": {
+      "calls": 28,
+      "prompt_tokens": 21372,
+      "completion_tokens": 1286,
+      "latency_s": 0.0,
+      "cached": 28,
+      "errors": 0
+    },
+    "reporter": {
+      "calls": 1,
+      "prompt_tokens": 458,
+      "completion_tokens": 224,
+      "latency_s": 0.0,
+      "cached": 1,
+      "errors": 0
+    }
+  },
+  "budget": {
+    "max_tokens": 0,
+    "max_seconds": 0.0,
+    "tokens_used": 0,
+    "elapsed_s": 14.0,
+    "exceeded": false,
+    "exceeded_reason": ""
+  },
+  "wall_time_s": 13.08,
+  "sessions": 12
+}

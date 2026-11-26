@@ -1,0 +1,70 @@
+[
+  {
+    "iteration": 2,
+    "attempt": 1,
+    "failure_category": "prompt_defect",
+    "affected_case_ids": [
+      "ans-003",
+      "ans-004",
+      "edg-030"
+    ],
+    "fix_id": "pd_exact_details",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/output_format/-",
+        "value": "Put the specific facts (numbers, dates, limits, names, conditions) from the context into the answer text itself, not only in the sources.",
+        "before": null
+      }
+    ],
+    "rationale": "answers omit key facts: require explicit details in the answer",
+    "score_before": {
+      "dev_composite": 0.8483,
+      "heldout_composite": 0.7987,
+      "dev_pass_rate": 0.7368,
+      "heldout_pass_rate": 0.7273
+    },
+    "score_after": {
+      "dev_composite": 0.8483,
+      "heldout_composite": 0.7346,
+      "dev_pass_rate": 0.7368,
+      "heldout_pass_rate": 0.6364
+    },
+    "accepted": false,
+    "decision_reason": "dev 0.8483->0.8483 (+0.0000); held-out 0.7987->0.7346 (-0.0641); ROLLED BACK: held-out dropped beyond tolerance"
+  },
+  {
+    "iteration": 2,
+    "attempt": 2,
+    "failure_category": "prompt_defect",
+    "affected_case_ids": [
+      "ans-003",
+      "ans-004",
+      "edg-030"
+    ],
+    "fix_id": "pd_llm_rule",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/extra_rules/-",
+        "value": "Ensure the assistant addresses all provided facts in the expected answer to avoid focusing on only a single fact.",
+        "before": null
+      }
+    ],
+    "rationale": "LLM-proposed general rule for extra_rules: Ensure the assistant addresses all provided facts in the expected answer to avoid focusing on only a single fact.",
+    "score_before": {
+      "dev_composite": 0.8483,
+      "heldout_composite": 0.7987,
+      "dev_pass_rate": 0.7368,
+      "heldout_pass_rate": 0.7273
+    },
+    "score_after": {
+      "dev_composite": 0.8483,
+      "heldout_composite": 0.661,
+      "dev_pass_rate": 0.7368,
+      "heldout_pass_rate": 0.5455
+    },
+    "accepted": false,
+    "decision_reason": "dev 0.8483->0.8483 (+0.0000); held-out 0.7987->0.6610 (-0.1377); ROLLED BACK: held-out dropped beyond tolerance"
+  }
+]

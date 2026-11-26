@@ -1,0 +1,75 @@
+{
+  "total_failures": 7,
+  "by_category": {
+    "prompt_defect": 4,
+    "hallucination": 1,
+    "wrong_refusal": 2
+  },
+  "by_category_dev": {
+    "prompt_defect": 3,
+    "wrong_refusal": 1
+  },
+  "by_category_heldout": {
+    "hallucination": 1,
+    "prompt_defect": 1,
+    "wrong_refusal": 1
+  },
+  "failures": [
+    {
+      "case_id": "ans-003",
+      "split": "dev",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The question asked about the warranty period for Engine parts, which was provided in the expected answer, indicating a potential issue with the assistant's ability to correctly identify and respond to the specific query."
+    },
+    {
+      "case_id": "ans-004",
+      "split": "dev",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The expected answer provided two facts, but the assistant only returned one, indicating a failure to fully address the question as asked."
+    },
+    {
+      "case_id": "ans-009",
+      "split": "heldout",
+      "category": "hallucination",
+      "direction": "",
+      "rule": "R10: evidence retrieved but answer contains unsupported claims/numbers",
+      "explanation": "fact coverage 0.00 < 0.6; citation validity 0.00; judge_uncertain: judges disagreed; deterministic verdict used"
+    },
+    {
+      "case_id": "ans-010",
+      "split": "heldout",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R13: good retrieval, grounded, but expected facts missing",
+      "explanation": "fact coverage 0.00 < 0.6; judge_uncertain: judges disagreed; deterministic verdict used"
+    },
+    {
+      "case_id": "ref-017",
+      "split": "heldout",
+      "category": "wrong_refusal",
+      "direction": "missed_refusal",
+      "rule": "R5: answered a must-refuse / adversarial question",
+      "explanation": "The assistant incorrectly provided a response about the procurement department handling price negotiations, which is not relevant to the question about negotiating prices with suppliers."
+    },
+    {
+      "case_id": "ref-020",
+      "split": "dev",
+      "category": "wrong_refusal",
+      "direction": "missed_refusal",
+      "rule": "R5: answered a must-refuse / adversarial question",
+      "explanation": "The assistant incorrectly provided a response about calculating the total cost for an order, which is not relevant to the question about calculating costs when ordering more than the minimum quantity."
+    },
+    {
+      "case_id": "edg-030",
+      "split": "dev",
+      "category": "prompt_defect",
+      "direction": "",
+      "rule": "R13: good retrieval, grounded, but expected facts missing",
+      "explanation": "fact coverage 0.50 < 0.6; judge_uncertain: judges disagreed; deterministic verdict used"
+    }
+  ]
+}

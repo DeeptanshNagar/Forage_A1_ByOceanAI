@@ -1,0 +1,187 @@
+{
+  "iteration": 2,
+  "agent_version": 1,
+  "fingerprint": "979cbbbad647",
+  "overall": {
+    "n": 30,
+    "pass_rate": 0.7333,
+    "answerable_correct_rate": 0.7727,
+    "refuse_correct_rate": 0.625,
+    "fact_coverage": 0.8409,
+    "grounded_rate": 0.96,
+    "hallucination_rate": 0.04,
+    "refusal_precision": 1.0,
+    "refusal_recall": 0.625,
+    "refusal_f1": 0.7692,
+    "wrong_refusals": 0,
+    "missed_refusals": 3,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.96,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 5.667,
+    "judge_calls_cases": 25,
+    "judge_agreement_rate": 0.64,
+    "judge_uncertain": 9,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 14,
+        "pass_rate": 0.7143
+      },
+      "edge": {
+        "n": 8,
+        "pass_rate": 0.875
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 0.625
+      }
+    },
+    "composite": 0.8304
+  },
+  "dev": {
+    "n": 19,
+    "pass_rate": 0.7368,
+    "answerable_correct_rate": 0.7857,
+    "refuse_correct_rate": 0.6,
+    "fact_coverage": 0.8929,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 0.6,
+    "refusal_f1": 0.75,
+    "wrong_refusals": 0,
+    "missed_refusals": 2,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 5.738,
+    "judge_calls_cases": 16,
+    "judge_agreement_rate": 0.75,
+    "judge_uncertain": 4,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 9,
+        "pass_rate": 0.7778
+      },
+      "edge": {
+        "n": 5,
+        "pass_rate": 0.8
+      },
+      "refuse": {
+        "n": 5,
+        "pass_rate": 0.6
+      }
+    },
+    "composite": 0.8483
+  },
+  "heldout": {
+    "n": 11,
+    "pass_rate": 0.7273,
+    "answerable_correct_rate": 0.75,
+    "refuse_correct_rate": 0.6667,
+    "fact_coverage": 0.75,
+    "grounded_rate": 0.8889,
+    "hallucination_rate": 0.1111,
+    "refusal_precision": 1.0,
+    "refusal_recall": 0.6667,
+    "refusal_f1": 0.8,
+    "wrong_refusals": 0,
+    "missed_refusals": 1,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.8889,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 5.544,
+    "judge_calls_cases": 9,
+    "judge_agreement_rate": 0.4444,
+    "judge_uncertain": 5,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 5,
+        "pass_rate": 0.6
+      },
+      "edge": {
+        "n": 3,
+        "pass_rate": 1.0
+      },
+      "refuse": {
+        "n": 3,
+        "pass_rate": 0.6667
+      }
+    },
+    "composite": 0.7987
+  },
+  "attempts": [
+    {
+      "iteration": 2,
+      "attempt": 1,
+      "failure_category": "prompt_defect",
+      "affected_case_ids": [
+        "ans-003",
+        "ans-004",
+        "edg-030"
+      ],
+      "fix_id": "pd_exact_details",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/output_format/-",
+          "value": "Put the specific facts (numbers, dates, limits, names, conditions) from the context into the answer text itself, not only in the sources.",
+          "before": null
+        }
+      ],
+      "rationale": "answers omit key facts: require explicit details in the answer",
+      "score_before": {
+        "dev_composite": 0.8483,
+        "heldout_composite": 0.7987,
+        "dev_pass_rate": 0.7368,
+        "heldout_pass_rate": 0.7273
+      },
+      "score_after": {
+        "dev_composite": 0.8483,
+        "heldout_composite": 0.7346,
+        "dev_pass_rate": 0.7368,
+        "heldout_pass_rate": 0.6364
+      },
+      "accepted": false,
+      "decision_reason": "dev 0.8483->0.8483 (+0.0000); held-out 0.7987->0.7346 (-0.0641); ROLLED BACK: held-out dropped beyond tolerance"
+    },
+    {
+      "iteration": 2,
+      "attempt": 2,
+      "failure_category": "prompt_defect",
+      "affected_case_ids": [
+        "ans-003",
+        "ans-004",
+        "edg-030"
+      ],
+      "fix_id": "pd_llm_rule",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/extra_rules/-",
+          "value": "Ensure the assistant addresses all provided facts in the expected answer to avoid focusing on only a single fact.",
+          "before": null
+        }
+      ],
+      "rationale": "LLM-proposed general rule for extra_rules: Ensure the assistant addresses all provided facts in the expected answer to avoid focusing on only a single fact.",
+      "score_before": {
+        "dev_composite": 0.8483,
+        "heldout_composite": 0.7987,
+        "dev_pass_rate": 0.7368,
+        "heldout_pass_rate": 0.7273
+      },
+      "score_after": {
+        "dev_composite": 0.8483,
+        "heldout_composite": 0.661,
+        "dev_pass_rate": 0.7368,
+        "heldout_pass_rate": 0.5455
+      },
+      "accepted": false,
+      "decision_reason": "dev 0.8483->0.8483 (+0.0000); held-out 0.7987->0.6610 (-0.1377); ROLLED BACK: held-out dropped beyond tolerance"
+    }
+  ],
+  "stop": ""
+}

@@ -1,0 +1,20 @@
+{
+  "mode": "non_interactive",
+  "questions_proposed": 5,
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Who are the primary users of this procurement assistant and what are their technical backgrounds?",
+      "field": "audience",
+      "why": "The brief does not specify the technical expertise level of the primary users."
+    }
+  ],
+  "answers": [
+    {
+      "question_id": "q1",
+      "question": "Who are the primary users of this procurement assistant and what are their technical backgrounds?",
+      "answer": "no preference",
+      "source": "simulated"
+    }
+  ]
+}

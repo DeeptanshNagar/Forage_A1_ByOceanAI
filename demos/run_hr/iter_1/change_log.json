@@ -1,0 +1,34 @@
+[
+  {
+    "iteration": 1,
+    "attempt": 1,
+    "failure_category": "wrong_refusal:over_refusal",
+    "affected_case_ids": [
+      "ans-005"
+    ],
+    "fix_id": "wr_relax",
+    "patch": [
+      {
+        "op": "replace",
+        "path": "/system_prompt/insufficient_context",
+        "value": "Refuse only when no passage in the context is relevant to the question. If a passage answers the question fully or partly, answer with what it says (even if the user's wording is informal) and mention what is missing. When HRAssistant cannot provide an answer, it directs users to the HR department for further assistance.",
+        "before": "If the context does not clearly contain the answer, do NOT guess: set refused=true, leave answer empty, and write in refusal_reason that the documents do not contain this information. Should point people to HR when the policies do not cover something."
+      }
+    ],
+    "rationale": "over-refusal although evidence was retrieved: relax refusal threshold",
+    "score_before": {
+      "dev_composite": 0.9234,
+      "heldout_composite": 0.8438,
+      "dev_pass_rate": 0.8889,
+      "heldout_pass_rate": 0.8
+    },
+    "score_after": {
+      "dev_composite": 0.9701,
+      "heldout_composite": 0.8438,
+      "dev_pass_rate": 0.9444,
+      "heldout_pass_rate": 0.8
+    },
+    "accepted": true,
+    "decision_reason": "dev 0.9234->0.9701 (+0.0467); held-out 0.8438->0.8438 (+0.0000); ACCEPTED"
+  }
+]

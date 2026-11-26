@@ -1,0 +1,326 @@
+{
+  "n_items": 26,
+  "judge_v1_accuracy": 0.8077,
+  "judge_v2_accuracy": 0.6538,
+  "llm_judge_accuracy_when_agreeing": 0.8333,
+  "deterministic_accuracy": 0.7692,
+  "hybrid_accuracy": 0.8077,
+  "agreement_rate": 0.6923,
+  "threshold": 0.7,
+  "by_variant": {
+    "good": {
+      "n": 6,
+      "llm_correct": 3,
+      "hybrid_correct": 4
+    },
+    "verbose_padding": {
+      "n": 6,
+      "llm_correct": 2,
+      "hybrid_correct": 4
+    },
+    "false_number": {
+      "n": 6,
+      "llm_correct": 4,
+      "hybrid_correct": 6
+    },
+    "unsupported_claim": {
+      "n": 6,
+      "llm_correct": 4,
+      "hybrid_correct": 5
+    },
+    "wrongly_answered_refusal": {
+      "n": 2,
+      "llm_correct": 2,
+      "hybrid_correct": 2
+    }
+  },
+  "items": [
+    {
+      "case_id": "ans-013",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": false,
+      "judge_v2_pass": true,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-013",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": false,
+      "judge_v2_pass": true,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-013",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": true,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ans-013",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": true,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "edg-029",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "edg-029",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "edg-029",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-029",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ans-012",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-012",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": false,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-012",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ans-012",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": true,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ans-008",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-008",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": true,
+      "agree": true,
+      "llm_pred": true,
+      "deterministic_pred": true,
+      "hybrid_pred": true
+    },
+    {
+      "case_id": "ans-008",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": true,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ans-008",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-030",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-030",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": false,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-030",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-030",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-026",
+      "variant": "good",
+      "expected_pass": true,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-026",
+      "variant": "verbose_padding",
+      "expected_pass": true,
+      "judge_v1_pass": true,
+      "judge_v2_pass": false,
+      "agree": false,
+      "llm_pred": null,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-026",
+      "variant": "false_number",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "edg-026",
+      "variant": "unsupported_claim",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ref-018",
+      "variant": "wrongly_answered_refusal",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    },
+    {
+      "case_id": "ref-019",
+      "variant": "wrongly_answered_refusal",
+      "expected_pass": false,
+      "judge_v1_pass": false,
+      "judge_v2_pass": false,
+      "agree": true,
+      "llm_pred": false,
+      "deterministic_pred": false,
+      "hybrid_pred": false
+    }
+  ],
+  "below_threshold": false
+}

@@ -1,0 +1,289 @@
+{
+  "folder": "C:\\Users\\HP\\OneDrive\\Desktop\\ForgeAI\\demos\\sources\\procurement",
+  "files": [
+    {
+      "name": "delivery_warranty.pdf",
+      "type": "pdf",
+      "size_bytes": 4197,
+      "n_chars": 2371,
+      "n_pages": 2,
+      "n_sections": 9,
+      "language": "en",
+      "headings": [
+        "1. Delivery terms",
+        "2. Lead times and expedited delivery",
+        "3. Delivery to vessels",
+        "4. Warranty periods by category",
+        "5. What voids the warranty",
+        "6. Warranty claims",
+        "7. Returns of unused parts",
+        "8. Damage in transit"
+      ],
+      "key_terms": [
+        "months",
+        "warranty",
+        "delivery",
+        "parts",
+        "port agent",
+        "within",
+        "equipment",
+        "delivers",
+        "working days",
+        "standard lead",
+        "original packaging",
+        "expedited dispatch"
+      ],
+      "summary": "The document outlines delivery, returns, and warranty conditions for various suppliers. It covers lead times, delivery terms, agent handling fees, warranty periods, what voids the warranty, warranty claims, returns of unused parts, and damage in transit. The document specifies different delivery terms for different suppliers, including FCA, DAP, and EXW, and details the warranty periods and conditions for different parts categories.",
+      "warnings": [],
+      "csv": null
+    },
+    {
+      "name": "spares_catalogue.csv",
+      "type": "csv",
+      "size_bytes": 17830,
+      "n_chars": 36715,
+      "n_pages": null,
+      "n_sections": 168,
+      "language": "en",
+      "headings": [],
+      "key_terms": [
+        "vessel class",
+        "unit price",
+        "time days",
+        "qty stock",
+        "price lead",
+        "order qty",
+        "min order",
+        "days min",
+        "stock part",
+        "offshore supply",
+        "description",
+        "category"
+      ],
+      "summary": "part_no: ENG-1003; description: Fuel injector for offshore supply vessels; category: Engine; vessel_class: Offshore Supply Vessel; supplier: Marisupply GmbH; unit_price: 799.45; lead_time_days: 48; min_order_qty: 1; stock: 4 part_no: PMP-1005; description: Mechanical seal kit for bulk carriers; category: Pumps; vessel_class: Bulk Carrier; supplier: Marisupply GmbH; unit_price: 3292.16; lead_time_days: 14; min_order_qty: 1; stock: 0 part_no: ELE-1004; description: Circuit …[truncated]",
+      "warnings": [],
+      "csv": {
+        "columns": [
+          {
+            "name": "part_no",
+            "dtype": "text",
+            "examples": [
+              "ENG-1003",
+              "PMP-1005",
+              "ELE-1004",
+              "NAV-1001"
+            ],
+            "n_unique": 168,
+            "min": null,
+            "max": null
+          },
+          {
+            "name": "description",
+            "dtype": "text",
+            "examples": [
+              "Fuel injector for offshore supply vessel",
+              "Mechanical seal kit for bulk carriers",
+              "Circuit breaker 63a for bulk carriers",
+              "Gps antenna for bulk carriers"
+            ],
+            "n_unique": 125,
+            "min": null,
+            "max": null
+          },
+          {
+            "name": "category",
+            "dtype": "text",
+            "examples": [
+              "Engine",
+              "Pumps",
+              "Electrical",
+              "Navigation"
+            ],
+            "n_unique": 8,
+            "min": null,
+            "max": null
+          },
+          {
+            "name": "vessel_class",
+            "dtype": "text",
+            "examples": [
+              "Offshore Supply Vessel",
+              "Bulk Carrier",
+              "Tanker",
+              "Container Ship"
+            ],
+            "n_unique": 4,
+            "min": null,
+            "max": null
+          },
+          {
+            "name": "supplier",
+            "dtype": "text",
+            "examples": [
+              "Marisupply GmbH",
+              "Oceanic Parts Co",
+              "Harbour Tech Ltd",
+              "Kestrel Engineering"
+            ],
+            "n_unique": 5,
+            "min": null,
+            "max": null
+          },
+          {
+            "name": "unit_price",
+            "dtype": "number",
+            "examples": [
+              "799.45",
+              "3292.16",
+              "2405.61",
+              "12933.64"
+            ],
+            "n_unique": 168,
+            "min": 25.89,
+            "max": 14950.51
+          },
+          {
+            "name": "lead_time_days",
+            "dtype": "number",
+            "examples": [
+              "48",
+              "14",
+              "23",
+              "38"
+            ],
+            "n_unique": 64,
+            "min": 2.0,
+            "max": 85.0
+          },
+          {
+            "name": "min_order_qty",
+            "dtype": "number",
+            "examples": [
+              "1",
+              "2",
+              "10",
+              "4"
+            ],
+            "n_unique": 6,
+            "min": 1.0,
+            "max": 20.0
+          },
+          {
+            "name": "stock",
+            "dtype": "number",
+            "examples": [
+              "4",
+              "0",
+              "26",
+              "41"
+            ],
+            "n_unique": 58,
+            "min": 0.0,
+            "max": 60.0
+          }
+        ],
+        "row_count": 168,
+        "sample_rows": [
+          {
+            "part_no": "ENG-1003",
+            "description": "Fuel injector for offshore supply vessels",
+            "category": "Engine",
+            "vessel_class": "Offshore Supply Vessel",
+            "supplier": "Marisupply GmbH",
+            "unit_price": "799.45",
+            "lead_time_days": "48",
+            "min_order_qty": "1",
+            "stock": "4"
+          },
+          {
+            "part_no": "PMP-1005",
+            "description": "Mechanical seal kit for bulk carriers",
+            "category": "Pumps",
+            "vessel_class": "Bulk Carrier",
+            "supplier": "Marisupply GmbH",
+            "unit_price": "3292.16",
+            "lead_time_days": "14",
+            "min_order_qty": "1",
+            "stock": "0"
+          },
+          {
+            "part_no": "ELE-1004",
+            "description": "Circuit breaker 63a for bulk carriers",
+            "category": "Electrical",
+            "vessel_class": "Bulk Carrier",
+            "supplier": "Oceanic Parts Co",
+            "unit_price": "2405.61",
+            "lead_time_days": "23",
+            "min_order_qty": "1",
+            "stock": "26"
+          }
+        ]
+      }
+    },
+    {
+      "name": "supplier_terms.pdf",
+      "type": "pdf",
+      "size_bytes": 3844,
+      "n_chars": 2483,
+      "n_pages": 2,
+      "n_sections": 11,
+      "language": "en",
+      "headings": [
+        "1. General conditions",
+        "2. Purchase order approval limits",
+        "3. Marisupply GmbH",
+        "4. Oceanic Parts Co",
+        "5. Baltic Marine Spares",
+        "6. Kestrel Engineering",
+        "7. Harbour Tech Ltd",
+        "8. Applying discounts",
+        "9. Price disputes"
+      ],
+      "key_terms": [
+        "orders above",
+        "invoice date",
+        "days invoice",
+        "usd",
+        "volume discount",
+        "terms days",
+        "payment terms",
+        "minimum order",
+        "order value",
+        "after",
+        "discount orders",
+        "date currency"
+      ],
+      "summary": "The document outlines payment terms, approval limits, and volume discounts for various suppliers. It covers general conditions, supplier-specific payment terms, and discount policies.",
+      "warnings": [],
+      "csv": null
+    }
+  ],
+  "total_chars": 41569,
+  "languages": {
+    "en": 41569
+  },
+  "primary_language": "en",
+  "topics": [
+    "Delivery terms",
+    "Lead times and expedited delivery",
+    "Delivery to vessels",
+    "Warranty periods by category",
+    "What voids the warranty",
+    "Warranty claims",
+    "Returns of unused parts",
+    "Damage in transit",
+    "vessel class",
+    "unit price",
+    "time days",
+    "qty stock",
+    "price lead",
+    "order qty",
+    "Supplier Terms",
+    "Payment Terms",
+    "Approval Limits",
+    "Volume Discounts",
+    "General Conditions",
+    "Supplier-Specific Policies"
+  ],
+  "warnings": []
+}

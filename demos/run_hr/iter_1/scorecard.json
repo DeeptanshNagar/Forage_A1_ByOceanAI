@@ -1,0 +1,151 @@
+{
+  "iteration": 1,
+  "agent_version": 0,
+  "fingerprint": "8215515f1f03",
+  "overall": {
+    "n": 28,
+    "pass_rate": 0.8571,
+    "answerable_correct_rate": 0.8,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.8416,
+    "grounded_rate": 0.9474,
+    "hallucination_rate": 0.0526,
+    "refusal_precision": 0.8889,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.9412,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 0.016,
+    "judge_calls_cases": 19,
+    "judge_agreement_rate": 0.8947,
+    "judge_uncertain": 2,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 14,
+        "pass_rate": 0.8571
+      },
+      "edge": {
+        "n": 6,
+        "pass_rate": 0.6667
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.8948
+  },
+  "dev": {
+    "n": 18,
+    "pass_rate": 0.8889,
+    "answerable_correct_rate": 0.8462,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.8846,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 0.8333,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.9091,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 0.016,
+    "judge_calls_cases": 12,
+    "judge_agreement_rate": 0.9167,
+    "judge_uncertain": 1,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 9,
+        "pass_rate": 0.8889
+      },
+      "edge": {
+        "n": 4,
+        "pass_rate": 0.75
+      },
+      "refuse": {
+        "n": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.9234
+  },
+  "heldout": {
+    "n": 10,
+    "pass_rate": 0.8,
+    "answerable_correct_rate": 0.7143,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.7619,
+    "grounded_rate": 0.8571,
+    "hallucination_rate": 0.1429,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "refusal_f1": 1.0,
+    "wrong_refusals": 0,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 0.016,
+    "judge_calls_cases": 7,
+    "judge_agreement_rate": 0.8571,
+    "judge_uncertain": 1,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 5,
+        "pass_rate": 0.8
+      },
+      "edge": {
+        "n": 2,
+        "pass_rate": 0.5
+      },
+      "refuse": {
+        "n": 3,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.8438
+  },
+  "attempts": [
+    {
+      "iteration": 1,
+      "attempt": 1,
+      "failure_category": "wrong_refusal:over_refusal",
+      "affected_case_ids": [
+        "ans-005"
+      ],
+      "fix_id": "wr_relax",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/system_prompt/insufficient_context",
+          "value": "Refuse only when no passage in the context is relevant to the question. If a passage answers the question fully or partly, answer with what it says (even if the user's wording is informal) and mention what is missing. When HRAssistant cannot provide an answer, it directs users to the HR department for further assistance.",
+          "before": "If the context does not clearly contain the answer, do NOT guess: set refused=true, leave answer empty, and write in refusal_reason that the documents do not contain this information. Should point people to HR when the policies do not cover something."
+        }
+      ],
+      "rationale": "over-refusal although evidence was retrieved: relax refusal threshold",
+      "score_before": {
+        "dev_composite": 0.9234,
+        "heldout_composite": 0.8438,
+        "dev_pass_rate": 0.8889,
+        "heldout_pass_rate": 0.8
+      },
+      "score_after": {
+        "dev_composite": 0.9701,
+        "heldout_composite": 0.8438,
+        "dev_pass_rate": 0.9444,
+        "heldout_pass_rate": 0.8
+      },
+      "accepted": true,
+      "decision_reason": "dev 0.9234->0.9701 (+0.0467); held-out 0.8438->0.8438 (+0.0000); ACCEPTED"
+    }
+  ],
+  "stop": ""
+}

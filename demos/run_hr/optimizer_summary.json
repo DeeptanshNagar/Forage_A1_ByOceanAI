@@ -1,0 +1,13 @@
+{
+  "stop_reason": "targets met at iteration 2 (dev pass rate 0.9444)",
+  "final_version": 1,
+  "final_scores": {
+    "dev_composite": 0.9701,
+    "heldout_composite": 0.8438,
+    "dev_pass_rate": 0.9444,
+    "heldout_pass_rate": 0.8
+  },
+  "tried_fixes": [
+    "wr_relax"
+  ]
+}

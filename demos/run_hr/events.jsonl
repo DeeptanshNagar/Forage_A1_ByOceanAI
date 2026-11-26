@@ -1,0 +1,4 @@
+{"t": 1795695077.188, "kind": "warning", "message": "PARTIAL support for 'sick leave': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['leave', 'sick'] (deterministic rescue)"}
+{"t": 1795695077.189, "kind": "warning", "message": "PARTIAL support for 'sick pay': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['pay', 'sick'] (deterministic rescue)"}
+{"t": 1795695077.19, "kind": "warning", "message": "UNSUPPORTED topic 'company pension scheme': key terms ['pension', 'scheme'] never appear in the documents (dense similarity 0.30); overrides model verdict 'partial'"}
+{"t": 1795695077.191, "kind": "warning", "message": "possible contradiction between code_of_conduct_travel_expenses.md and leave_policy.pdf: ['date 1 april', 'date 31 march'] vs ['date 1 january', 'date 31 december']"}

@@ -1,0 +1,600 @@
+{
+  "topics": [
+    {
+      "topic": "part number",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.517,
+      "retrieved": [
+        "spares_catalogue#40-ebbe93",
+        "spares_catalogue#45-10bb87",
+        "spares_catalogue#88-2b66bd",
+        "spares_catalogue#135-afa21a",
+        "spares_catalogue#152-6b323e"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "part_no: ENG-1029;",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "",
+      "rationale": "model says yes and 1 quote(s) verified verbatim"
+    },
+    {
+      "topic": "description",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.662,
+      "retrieved": [
+        "spares_catalogue#40-ebbe93",
+        "spares_catalogue#22-2d8240",
+        "spares_catalogue#60-23617d",
+        "spares_catalogue#51-96e743",
+        "spares_catalogue#147-7d697a"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "[spares_catalogue#40-ebbe93] part_no: ENG-1029; description: Exhaust valve for tankers; category: Engine; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 4886.50; lead_time_days: 44; min_order_qty: 2; stock: 45",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "[spares_catalogue#22-2d8240] part_no: HVA-1015; description: Expansion valve for tankers; category: HVAC; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 4486.09; lead_time_days: 17; min_order_qty: 4; stock: 0",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#60-23617d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 61",
+          "quote": "[spares_catalogue#60-23617d] part_no: SAF-1028; description: Immersion suit for tankers; category: Safety; vessel_class: Tanker; supplier: Oceanic Parts Co; unit_price: 32.75; lead_time_days: 15; min_order_qty: 1; stock: 33",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "none of the evidence explicitly mentions the topic 'description' but all the evidence provided is relevant to the topic of tankers and their spare parts, which is a broader context for understanding the 'description' of the parts.",
+      "rationale": "model says yes but none of its quotes could be found in the passages (unverified claim)"
+    },
+    {
+      "topic": "category",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.635,
+      "retrieved": [
+        "spares_catalogue#40-ebbe93",
+        "spares_catalogue#16-097742",
+        "spares_catalogue#132-97ad6d",
+        "spares_catalogue#64-ad74b6",
+        "spares_catalogue#60-23617d"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "[spares_catalogue#40-ebbe93] part_no: ENG-1029; description: Exhaust valve for tankers; category: Engine; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 4886.50; lead_time_days: 44; min_order_qty: 2; stock: 45",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "[spares_catalogue#16-097742] part_no: ENG-1012; description: Fuel injector for tankers; category: Engine; vessel_class: Tanker; supplier: Baltic Marine Spares; unit_price: 158.40; lead_time_days: 40; min_order_qty: 2; stock: 37",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "[spares_catalogue#132-97ad6d] part_no: SAF-1065; description: Eebd set for tankers; category: Safety; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 2016.75; lead_time_days: 7; min_order_qty: 1; stock: 0",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes but none of its quotes could be found in the passages (unverified claim)"
+    },
+    {
+      "topic": "vessel class",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.778,
+      "retrieved": [
+        "spares_catalogue#76-bd3ac5",
+        "spares_catalogue#0-54ba07",
+        "spares_catalogue#104-7892cc",
+        "spares_catalogue#128-d7dcb0",
+        "spares_catalogue#92-4a9911"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#76-bd3ac5",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 77",
+          "quote": "[spares_catalogue#76-bd3ac5] part_no: SAF-1036; description: Immersion suit for offshore supply vessels; category: Safety; vessel_class: Offshore Supply Vessel; supplier: Kestrel Engineering; unit_price: 1042.79; lead_time_days: 8; min_order_qty: 1; stock: 44",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#76-bd3ac5",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 77",
+          "quote": "[spares_catalogue#0-54ba07] part_no: ENG-1003; description: Fuel injector for offshore supply vessels; category: Engine; vessel_class: Offshore Supply Vessel; supplier: Marisupply GmbH; unit_price: 799.45; lead_time_days: 48; min_order_qty: 1; stock: 4",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#76-bd3ac5",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 77",
+          "quote": "[spares_catalogue#104-7892cc] part_no: ENG-1069; description: Fuel injector for offshore supply vessels; category: Engine; vessel_class: Offshore Supply Vessel; supplier: Kestrel Engineering; unit_price: 8544.81; lead_time_days: 34; min_order_qty: 2; stock: 0",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "no",
+      "rationale": "model says yes but none of its quotes could be found in the passages (unverified claim)"
+    },
+    {
+      "topic": "unit price",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.679,
+      "retrieved": [
+        "spares_catalogue#27-68aa83",
+        "spares_catalogue#163-f3b5d1",
+        "spares_catalogue#131-656075",
+        "spares_catalogue#110-381bb2",
+        "spares_catalogue#150-80696e"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#27-68aa83",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 28",
+          "quote": "[spares_catalogue#27-68aa83] part_no: NAV-1010; description: Ecdis display unit for tankers; category: Navigation; vessel_class: Tanker; supplier: Oceanic Parts Co; unit_price: 10510.82; lead_time_days: 42; min_order_qty: 1; stock: 47",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#27-68aa83",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 28",
+          "quote": "[spares_catalogue#163-f3b5d1] part_no: NAV-1091; description: Ecdis display unit for container ships; category: Navigation; vessel_class: Container Ship; supplier: Oceanic Parts Co; unit_price: 14950.51; lead_time_days: 36; min_order_qty: 1; stock: 8",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#163-f3b5d1",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 164",
+          "quote": "[spares_catalogue#131-656075] part_no: NAV-1068; description: Ecdis display unit for container ships; category: Navigation; vessel_class: Container Ship; supplier: Marisupply GmbH; unit_price: 6738.80; lead_time_days: 30; min_order_qty: 1; stock: 0",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#27-68aa83",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 28",
+          "quote": "part_no: NAV-1010; description: Ecdis display unit for tankers; category: Navigation; vessel_class: Tanker; supplier: Oceanic Parts Co; unit_price: 10510.82; lead_time_days: 42; min_order_qty: 1; stock: 47",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "The passage does not contain information about unit price for HVA-1066 and HVA-1082, nor does it mention Ecdis display unit for bulk carriers or Air handling unit belt for tankers.",
+      "rationale": "model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['price', 'unit'] (deterministic rescue)"
+    },
+    {
+      "topic": "lead time",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.788,
+      "retrieved": [
+        "delivery_warranty#2-d8d965",
+        "spares_catalogue#40-ebbe93",
+        "spares_catalogue#22-2d8240",
+        "spares_catalogue#4-28667a",
+        "spares_catalogue#132-97ad6d"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "delivery_warranty#2-d8d965",
+          "doc": "delivery_warranty.pdf",
+          "locator": "page 1, section '2. Lead times and expedited delivery'",
+          "quote": "2. Lead times and expedited delivery: The lead time shown in the spares catalogue is the standard lead time in calendar days from order confirmation to dispatch.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "spares_catalogue#40-ebbe93",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 41",
+          "quote": "part_no: ENG-1029; description: Exhaust valve for tankers; category: Engine; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 4886.50; lead_time_days: 44; min_order_qty: 2; stock: 45",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "spares_catalogue#22-2d8240",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 23",
+          "quote": "part_no: HVA-1015; description: Expansion valve for tankers; category: HVAC; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 4486.09; lead_time_days: 17; min_order_qty: 4; stock: 0",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "minimum order quantity",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.551,
+      "retrieved": [
+        "supplier_terms#3-613624",
+        "supplier_terms#6-e2d96e",
+        "supplier_terms#5-3def25",
+        "supplier_terms#7-393656",
+        "supplier_terms#4-d07cfa"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "supplier_terms#3-613624",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '3. Marisupply GmbH'",
+          "quote": "3. Marisupply GmbH: Payment terms are 30 days from invoice date. Currency is USD. The minimum order value is 500\nUSD.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "supplier_terms#6-e2d96e",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '6. Kestrel Engineering'",
+          "quote": "6. Kestrel Engineering: Payment terms are 60 days from invoice date. Currency is USD. There is no minimum order value.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "supplier_terms#5-3def25",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '5. Baltic Marine Spares'",
+          "quote": "5. Baltic Marine Spares: Payment terms are 30 days from invoice date. Currency is USD. The minimum order value is 1,000\nUSD.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "stock",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.705,
+      "retrieved": [
+        "spares_catalogue#132-97ad6d",
+        "spares_catalogue#19-cff8e8",
+        "spares_catalogue#29-3a7804",
+        "spares_catalogue#148-0fbb91",
+        "spares_catalogue#51-96e743"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#132-97ad6d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 133",
+          "quote": "[spares_catalogue#132-97ad6d] part_no: SAF-1065; description: Eebd set for tankers; category: Safety; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 2016.75; lead_time_days: 7; min_order_qty: 1; stock: 0",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#19-cff8e8",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 20",
+          "quote": "[spares_catalogue#19-cff8e8] part_no: NAV-1007; description: Radar magnetron for bulk carriers; category: Navigation; vessel_class: Bulk Carrier; supplier: Marisupply GmbH; unit_price: 8675.04; lead_time_days: 54; min_order_qty: 1; stock: 40",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#29-3a7804",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 30",
+          "quote": "[spares_catalogue#29-3a7804] part_no: DEK-1015; description: Capstan motor for bulk carriers; category: Deck Machinery; vessel_class: Bulk Carrier; supplier: Kestrel Engineering; unit_price: 10928.55; lead_time_days: 65; min_order_qty: 1; stock: 8",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes but none of its quotes could be found in the passages (unverified claim)"
+    },
+    {
+      "topic": "supplier",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.713,
+      "retrieved": [
+        "supplier_terms#0-beaa10",
+        "spares_catalogue#60-23617d",
+        "spares_catalogue#148-0fbb91",
+        "spares_catalogue#57-45553e",
+        "spares_catalogue#164-8577ad"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "spares_catalogue#60-23617d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 61",
+          "quote": "[spares_catalogue#60-23617d] part_no: SAF-1028; description: Immersion suit for tankers; category: Safety; vessel_class: Tanker; supplier: Oceanic Parts Co; unit_price: 32.75; lead_time_days: 15; min_order_qty: 1; stock: 33",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#60-23617d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 61",
+          "quote": "[spares_catalogue#148-0fbb91] part_no: SAF-1073; description: Lifebuoy light for tankers; category: Safety; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 463.67; lead_time_days: 11; min_order_qty: 1; stock: 4",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#148-0fbb91",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 149",
+          "quote": "[spares_catalogue#57-45553e] part_no: PMP-1026; description: Pump casing wear ring for tankers; category: Pumps; vessel_class: Tanker; supplier: Kestrel Engineering; unit_price: 1426.40; lead_time_days: 15; min_order_qty: 2; stock: 56",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes but none of its quotes could be found in the passages (unverified claim)"
+    },
+    {
+      "topic": "order total",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.695,
+      "retrieved": [
+        "supplier_terms#2-a09ec7",
+        "supplier_terms#3-613624",
+        "supplier_terms#6-e2d96e",
+        "supplier_terms#8-a426f9",
+        "supplier_terms#4-d07cfa"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "supplier_terms#2-a09ec7",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '2. Purchase order approval limits'",
+          "quote": "Purchase orders are approved according to their total value: up to 5,000 USD by the technical superintendent, from 5,000 USD to 25,000 USD by the fleet manager, and above 25,000 USD by the technical director.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "details about order total discounts and cancellation fees",
+      "rationale": "model says partial; 1 quote(s) verified"
+    },
+    {
+      "topic": "supplier volume discount",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.896,
+      "retrieved": [
+        "supplier_terms#9-fae005",
+        "supplier_terms#3-613624",
+        "supplier_terms#4-d07cfa",
+        "supplier_terms#6-e2d96e",
+        "supplier_terms#7-393656"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "supplier_terms#9-fae005",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 2, section '8. Applying discounts'",
+          "quote": "8. Applying discounts: Volume discounts apply to the order value of a single purchase order placed with one supplier, calculated from catalogue unit prices multiplied by quantities, before taxes and freight.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "supplier_terms#3-613624",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '3. Marisupply GmbH'",
+          "quote": "3. Marisupply GmbH: Volume discount: 3% on orders above 10,000 USD and 6% on orders above 25,000 USD.",
+          "verified": false,
+          "match_score": 87.1
+        },
+        {
+          "chunk_id": "supplier_terms#6-e2d96e",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '6. Kestrel Engineering'",
+          "quote": "6. Kestrel Engineering: Volume discount: 2% on orders above 5,000 USD and 5% on orders above 30,000 USD.",
+          "verified": false,
+          "match_score": 83.3
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 1 quote(s) verified verbatim"
+    },
+    {
+      "topic": "payment terms",
+      "kind": "must_answer",
+      "status": "SUPPORTED",
+      "retrieval_max_score": 0.684,
+      "retrieved": [
+        "supplier_terms#7-393656",
+        "supplier_terms#6-e2d96e",
+        "supplier_terms#5-3def25",
+        "supplier_terms#3-613624",
+        "supplier_terms#4-d07cfa"
+      ],
+      "llm_verdict": "yes",
+      "evidence": [
+        {
+          "chunk_id": "supplier_terms#7-393656",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '7. Harbour Tech Ltd'",
+          "quote": "Payment terms are 14 days from invoice date with a 1.5% early payment discount if paid within 7 days. Currency is USD. The minimum order value is 300 USD. No volume discount is offered.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "supplier_terms#6-e2d96e",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '6. Kestrel Engineering'",
+          "quote": "Payment terms are 60 days from invoice date. Currency is USD. There is no minimum order value. Volume discount: 2% on orders above 5,000 USD and 5% on orders above 30,000 USD. Cancellation after order confirmation incurs a fee of 12% of the order value.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "supplier_terms#5-3def25",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '5. Baltic Marine Spares'",
+          "quote": "Payment terms are 30 days from invoice date. Currency is USD. The minimum order value is 1,000 USD. Volume discount: 4% on orders above 20,000 USD. Cancellation after dispatch is not possible; before dispatch a fee of 5% applies.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "none",
+      "rationale": "model says yes and 3 quote(s) verified verbatim"
+    },
+    {
+      "topic": "structured_data",
+      "kind": "capability",
+      "status": "TOOL_BACKED",
+      "retrieval_max_score": 0.0,
+      "retrieved": [],
+      "llm_verdict": "n/a",
+      "evidence": [],
+      "missing": "",
+      "rationale": "functional tool 'csv_lookup' provides this capability"
+    },
+    {
+      "topic": "internet_api",
+      "kind": "capability",
+      "status": "UNSUPPORTED",
+      "retrieval_max_score": 0.282,
+      "retrieved": [
+        "supplier_terms#1-bc5b51",
+        "spares_catalogue#60-23617d",
+        "spares_catalogue#52-54d414",
+        "spares_catalogue#132-97ad6d",
+        "spares_catalogue#160-5dddfd"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "supplier_terms#1-bc5b51",
+          "doc": "supplier_terms.pdf",
+          "locator": "page 1, section '1. General conditions'",
+          "quote": "[supplier_terms#1-bc5b51] 1. General conditions: All catalogue prices are quoted in USD and exclude taxes, duties, freight and agency fees. Prices",
+          "verified": true,
+          "match_score": 91.3
+        },
+        {
+          "chunk_id": "spares_catalogue#60-23617d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 61",
+          "quote": "[spares_catalogue#60-23617d] part_no: SAF-1028; description: Immersion suit for tankers; category: Safety; vessel_class: Tanker; supplier: Oceanic Parts Co; unit_price: 32.75; lead_time_days: 15; min_order_qty: 1; stock: 33",
+          "verified": false,
+          "match_score": 80.0
+        },
+        {
+          "chunk_id": "spares_catalogue#60-23617d",
+          "doc": "spares_catalogue.csv",
+          "locator": "row 61",
+          "quote": "[spares_catalogue#52-54d414] part_no: SAF-1025; description: Immersion suit for bulk carriers; category: Safety; vessel_class: Bulk Carrier; supplier: Oceanic Parts Co; unit_price: 703.07; lead_time_days: 8; min_order_qty: 1; stock: 41",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "The passages do not contain information about showing live stock-market prices of suppliers or calculating customs duty for imported parts.",
+      "rationale": "no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"
+    },
+    {
+      "topic": "filter_rows",
+      "kind": "capability",
+      "status": "TOOL_BACKED",
+      "retrieval_max_score": 0.0,
+      "retrieved": [],
+      "llm_verdict": "n/a",
+      "evidence": [],
+      "missing": "",
+      "rationale": "functional tool 'csv_lookup' provides this capability"
+    },
+    {
+      "topic": "tabular_lookup",
+      "kind": "capability",
+      "status": "TOOL_BACKED",
+      "retrieval_max_score": 0.0,
+      "retrieved": [],
+      "llm_verdict": "n/a",
+      "evidence": [],
+      "missing": "",
+      "rationale": "functional tool 'csv_lookup' provides this capability"
+    },
+    {
+      "topic": "arithmetic",
+      "kind": "capability",
+      "status": "TOOL_BACKED",
+      "retrieval_max_score": 0.0,
+      "retrieved": [],
+      "llm_verdict": "n/a",
+      "evidence": [],
+      "missing": "",
+      "rationale": "functional tool 'calculator' provides this capability"
+    }
+  ],
+  "contradictions": [],
+  "actions": [
+    "SUPPORTED: part number -> kept",
+    "PARTIAL: description -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: category -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: vessel class -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: unit price -> kept; agent must state which details the documents do not cover",
+    "SUPPORTED: lead time -> kept",
+    "SUPPORTED: minimum order quantity -> kept",
+    "PARTIAL: stock -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: supplier -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: order total -> kept; agent must state which details the documents do not cover",
+    "SUPPORTED: supplier volume discount -> kept",
+    "SUPPORTED: payment terms -> kept",
+    "TOOL_BACKED: structured_data -> kept",
+    "UNSUPPORTED: internet_api -> capability unavailable: removed from tool needs, added to must-refuse",
+    "TOOL_BACKED: filter_rows -> kept",
+    "TOOL_BACKED: tabular_lookup -> kept",
+    "TOOL_BACKED: arithmetic -> kept"
+  ],
+  "warnings": [
+    "PARTIAL support for 'description': model says yes but none of its quotes could be found in the passages (unverified claim)",
+    "PARTIAL support for 'category': model says yes but none of its quotes could be found in the passages (unverified claim)",
+    "PARTIAL support for 'vessel class': model says yes but none of its quotes could be found in the passages (unverified claim)",
+    "PARTIAL support for 'unit price': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['price', 'unit'] (deterministic rescue)",
+    "PARTIAL support for 'stock': model says yes but none of its quotes could be found in the passages (unverified claim)",
+    "PARTIAL support for 'supplier': model says yes but none of its quotes could be found in the passages (unverified claim)",
+    "PARTIAL support for 'order total': model says partial; 1 quote(s) verified",
+    "UNSUPPORTED capability 'internet_api': no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"
+  ]
+}

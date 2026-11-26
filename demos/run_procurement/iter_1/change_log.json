@@ -1,0 +1,76 @@
+[
+  {
+    "iteration": 1,
+    "attempt": 1,
+    "failure_category": "contract_violation",
+    "affected_case_ids": [
+      "ans-005",
+      "ans-008",
+      "ans-012",
+      "ans-013"
+    ],
+    "fix_id": "cv_format",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/output_format/-",
+        "value": "Reply with exactly one JSON object with the keys answer, sources, confidence, refused, refusal_reason - no markdown, no text outside the JSON.",
+        "before": null
+      }
+    ],
+    "rationale": "contract violations: restate the JSON contract",
+    "score_before": {
+      "dev_composite": 0.7401,
+      "heldout_composite": 0.6515,
+      "dev_pass_rate": 0.5789,
+      "heldout_pass_rate": 0.5455
+    },
+    "score_after": {
+      "dev_composite": 0.6126,
+      "heldout_composite": 0.7909,
+      "dev_pass_rate": 0.4211,
+      "heldout_pass_rate": 0.7273
+    },
+    "accepted": false,
+    "decision_reason": "dev 0.7401->0.6126 (-0.1275); held-out 0.6515->0.7909 (+0.1394); ROLLED BACK: dev regressed"
+  },
+  {
+    "iteration": 1,
+    "attempt": 2,
+    "failure_category": "contract_violation",
+    "affected_case_ids": [
+      "ans-005",
+      "ans-008",
+      "ans-012",
+      "ans-013"
+    ],
+    "fix_id": "cv_fewshot",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/few_shots/-",
+        "value": {
+          "question": "Maximum purchase order amount for approval up to 5000 USD?",
+          "answer_json": "{\"answer\": \"Purchase orders up to 5,000 USD are approved by the technical superintendent.\", \"sources\": [{\"doc\": \"supplier_terms.pdf\", \"locator\": \"page 1, section '2. Purchase order approval limits'\", \"quote\": \"Purchase orders are approved according to their total value: up to 5,000 USD by the technical superintendent, from 5,000 USD to 25,000 USD by the fleet manager, and above 25,000 USD by the technical director.\"}], \"confidence\": 1.0, \"refused\": false, \"refusal_reason\": \"\"}",
+          "source": "dev case type answerable/single_fact"
+        },
+        "before": null
+      }
+    ],
+    "rationale": "add one format example derived from a passing dev case (paraphrased)",
+    "score_before": {
+      "dev_composite": 0.7401,
+      "heldout_composite": 0.6515,
+      "dev_pass_rate": 0.5789,
+      "heldout_pass_rate": 0.5455
+    },
+    "score_after": {
+      "dev_composite": 0.8483,
+      "heldout_composite": 0.7987,
+      "dev_pass_rate": 0.7368,
+      "heldout_pass_rate": 0.7273
+    },
+    "accepted": true,
+    "decision_reason": "dev 0.7401->0.8483 (+0.1082); held-out 0.6515->0.7987 (+0.1472); ACCEPTED"
+  }
+]

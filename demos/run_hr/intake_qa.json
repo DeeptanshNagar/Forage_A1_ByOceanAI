@@ -1,0 +1,56 @@
+{
+  "mode": "non_interactive",
+  "questions_proposed": 5,
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Should the assistant's tone be formal or conversational?",
+      "field": "tone",
+      "why": "The brief does not specify the tone of the assistant's responses."
+    },
+    {
+      "id": "q2",
+      "question": "Should the assistant be able to handle inquiries in multiple languages besides English?",
+      "field": "language",
+      "why": "The documents are provided in English, but the brief does not specify the language capabilities of the assistant."
+    },
+    {
+      "id": "q3",
+      "question": "Who is the primary audience for the HR policy assistant?",
+      "field": "audience",
+      "why": "The brief does not specify the primary audience for the assistant."
+    },
+    {
+      "id": "q4",
+      "question": "Are there any topics that should not be covered by the assistant, even if they are mentioned in the documents?",
+      "field": "must_refuse_topics",
+      "why": "The brief does not specify any topics that should not be covered by the assistant."
+    }
+  ],
+  "answers": [
+    {
+      "question_id": "q1",
+      "question": "Should the assistant's tone be formal or conversational?",
+      "answer": "the assistant's tone should be formal",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q2",
+      "question": "Should the assistant be able to handle inquiries in multiple languages besides English?",
+      "answer": "no preference",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q3",
+      "question": "Who is the primary audience for the HR policy assistant?",
+      "answer": "no preference",
+      "source": "simulated"
+    },
+    {
+      "question_id": "q4",
+      "question": "Are there any topics that should not be covered by the assistant, even if they are mentioned in the documents?",
+      "answer": "no preference",
+      "source": "simulated"
+    }
+  ]
+}
