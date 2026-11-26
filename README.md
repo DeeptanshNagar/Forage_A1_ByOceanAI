@@ -1,83 +1,148 @@
-# ForgeAI — the agent that builds agents
+<div align="center">
 
-**Live:**
-- **[agentsmithbyoceanai.streamlit.app](https://agentsmithbyoceanai.streamlit.app/)**: the full app, the same UI as `python -m forge ui`. You can **build a new agent** from your own brief and documents, inspect results, and chat. Models: `qwen/qwen3.8-27b` on Groq's free tier, so a build takes a while because of rate limits.
-- **[forgeai-six-sigma.vercel.app](https://forgeai-six-sigma.vercel.app)**: a fast results site plus live chat with the three demo agents.
+# 🛠️ Agent Smith · ForgeAI
 
-On both sites, the scores of the committed demos were measured locally with the 3B models (`qwen2.5:3b-instruct` + `llama3.2:3b`), and live answers come from the hosted model. See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+### The agent that builds agents, and then tries to prove itself wrong.
 
-**Input:** a one-paragraph brief and a folder of documents (PDF, TXT, MD, DOCX, CSV).
-**Output, produced unattended:**
-- a working, tested document-grounded agent (system prompt, retrieval config, justified tool selection, output contract),
-- an auto-generated and quality-controlled eval set,
-- a critic-optimizer loop (max 3 iterations) with a per-iteration scorecard,
-- an honest `REPORT.md` whose numbers are computed from logs by code,
-- a generic runtime / chat CLI that loads any produced agent.
+**Write one paragraph. Drop in a folder of documents. Walk away.**<br>
+ForgeAI interviews the brief, builds a RAG agent, writes its exam, grades it, fixes it,<br>
+and hands back a working agent with a report card that **admits what it still gets wrong**.
 
-Every stage runs on a small, imperfect open model (Ollama by default). The pipeline treats every model output as
-untrusted: schema validation, JSON repair, retries with error feedback, and deterministic cross-checks that can
-override the model. It also distrusts itself: eval QC, a judge self-test, a negative-control baseline, a number
-validator on the report, and warnings when scores look too good.
+[![Live app](https://img.shields.io/badge/▶%20Try%20the%20full%20app-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://agentsmithbyoceanai.streamlit.app/)
+[![Results site](https://img.shields.io/badge/Results%20%2B%20live%20chat-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://forgeai-six-sigma.vercel.app)
 
-> **What was produced with which backend.** Both committed demos (`demos/run_hr`, `demos/run_procurement`) were
-> produced end to end by **real local models via Ollama**: `qwen2.5:3b-instruct` (agent + factory) and `llama3.2:3b`
-> (judge), on a 4 GB GTX 1650 (see [`configs/ollama_small.toml`](configs/ollama_small.toml)). The test suite and
-> `make mock-demo` use the deterministic **mock** backend; every mock report carries a banner saying it is not model
-> evidence. The default [`forge.toml`](forge.toml) names `qwen2.5:7b-instruct` / `llama3.1:8b` for machines that fit them.
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-85%20passing-2ea44f)
+![Models](https://img.shields.io/badge/runs%20on-3B%20models%20·%204%20GB%20GPU-6f42c1)
+![Ollama](https://img.shields.io/badge/Ollama-local-black)
+![Prompts](https://img.shields.io/badge/prompts-22%20versioned-orange)
 
-## See it working
+<img src="docs/screenshots/01_build_agent.png" alt="ForgeAI building an agent from a brief it has never seen" width="92%">
 
-Screenshots of the web UI (`python -m forge ui`) running on the local real models (`qwen2.5:3b-instruct` agent and factory, `llama3.2:3b` judge, 4 GB GPU).
+<sub>A brief it had never seen (cooking FAQ) → 10 stages, no human input → a tested agent in ~17 minutes on a laptop GPU.</sub>
 
-### 1. Hand it a brief it has never seen and it builds a tested agent unattended
+</div>
 
-![Build an agent from an unseen brief](docs/screenshots/01_build_agent.png)
+---
 
-The cooking-FAQ brief and documents were never used while ForgeAI was developed. One click on **Build agent** runs all ten stages with no human input: read documents → requirements → groundability guard → generate agent → generate evals → judge self-test → critic-optimizer loop → final evaluation → negative control → report. This run took about 17 minutes, almost all of it on the local GPU. Its artifacts are committed in [`demos/run_cooking_unseen/`](demos/run_cooking_unseen/).
+## ⚡ The 30-second version
 
-### 2. Every agent ships with evidence
+| You give it | It gives you back, unattended |
+|---|---|
+| 📝 A one-paragraph brief<br>*"I need an assistant that answers HR policy questions for shore staff…"* | 🤖 **A working agent**: system prompt, retrieval config, only the tools it needs, a strict JSON output contract |
+| 📂 A folder of PDFs, DOCX, Markdown, CSV | 🧪 **Its own exam**: 20–40 eval cases generated *from the documents*, every quote verified |
+| | 🔁 **A self-improvement loop**: failures diagnosed, targeted patches applied, rolled back if they don't help |
+| | 📊 **An honest report**: every number computed by code, plus a section called **WHAT STILL FAILS AND WHY** |
 
-![Results dashboard](docs/screenshots/02_results_dashboard.png)
+All of it runs on **small, imperfect 3B open models** on a 4 GB laptop GPU. That's the hard part.
 
-The HR demo: the brief, then headline numbers computed by code from the eval logs. The **no-retrieval control** (0.198) is the same agent with its documents switched off. The gap to the real score shows the generated tests actually depend on the documents. The "replayed from cache" tag appears because this committed run reused recorded real-model outputs (see [Demo results](#demo-results-filled-from-the-committed-artifacts)).
+---
 
-### 3. The critic-optimizer loop: targeted patches, kept only if they help
+## 🧠 Why this is hard
 
-![Optimizer change log](docs/screenshots/03_optimizer_change_log.png)
+Building one chatbot is easy. Building **the machine that builds chatbots**, for briefs you have never seen, on models that hallucinate, mislabel and ignore instructions, is not:
 
-The procurement demo. Each failure is classified as a retrieval miss, prompt defect, hallucination or wrong refusal, and the optimizer tries one targeted patch at a time. A patch is **kept only if the dev score does not drop and the held-out score (never shown to the optimizer) stays within tolerance**. Here 2 patches were accepted and 4 rolled back. For example, `cv_format` raised held-out but cut dev from 0.740 to 0.613, so it was rolled back. Dev went from 0.740 to 0.883 and held-out from 0.651 to 0.799.
+- **The models lie.** A 3B model will happily claim a topic is covered, invent a tool need, or mark its own wrong answer correct.
+- **The evals can lie.** Auto-generated tests can be mislabeled, unanswerable, or so easy that everything passes.
+- **The optimizer can lie.** A patch that raises the score on the tests it saw can quietly overfit and make things worse.
 
-### 4. The groundability guard won't let the agent make things up
+So ForgeAI treats **every model output as untrusted** and is built around one idea:
 
-![Groundability guard](docs/screenshots/04_groundability_guard.png)
+> ### 🕵️ It distrusts itself.
+> A factory that claims 100% is suspicious. A factory that explains its 78% is worth hiring.
 
-Before building, every requested topic is checked against the documents with verified quotes. The HR brief asked for the *company pension scheme*, which no document covers, so it became a **must-refuse** topic instead of something the agent would invent. The guard also caught two documents giving **different leave years** (1 Apr–31 Mar vs 1 Jan–31 Dec) and tells the agent to flag the conflict.
+| Safeguard | What it catches |
+|---|---|
+| 🛡️ **Groundability guard** | The brief asks for something the documents can't support → it becomes a *refusal*, not a hallucination |
+| ✂️ **Verified quotes everywhere** | Eval facts, citations and guard evidence must match the source text, *number-strict* |
+| ⚖️ **Hybrid judge + self-test** | Two LLM judge prompts must agree, deterministic checks can veto any pass, and the judge is tested on planted errors to measure its own accuracy |
+| 🧊 **Held-out set** | The optimizer never sees it; a patch that helps dev but hurts held-out is **rolled back** |
+| 🚫 **Negative control** | The same agent with retrieval switched off must score low, which proves the tests really depend on the documents |
+| 🔢 **Number validator** | The report's LLM-written narrative can't cite any number that isn't in the logs |
+| ⚠️ **"Too good" alarms** | >95% pass or a weak judge triggers loud warnings in the report |
 
-### 5. Answers are grounded and cite the exact source
+---
 
-![Grounded answer with citation](docs/screenshots/05_chat_grounded_answer.png)
+## 🎯 Three traps it caught on its own
 
-A live answer from the generated HR agent: the answer, the verbatim quote, the document and section, and a confidence score. The suggested questions come from the agent's own generated test set.
+<table>
+<tr>
+<td width="33%" valign="top">
 
-### 6. Refuses what it should: out-of-policy requests and manipulation
+**💸 The pension that didn't exist**
 
-![Refusals](docs/screenshots/06_chat_refusals.png)
+The HR brief asked the agent to *"explain the company pension scheme."* No document mentions one.
 
-Legal advice is a must-refuse topic from the brief. Fabricating a policy is a manipulation attempt, which the agent declines.
+The guard flagged it **UNSUPPORTED** and moved it to must-refuse. The agent now says it doesn't know instead of inventing contribution rates.
 
-### 7. Catalogue answers come from the exact CSV row, and failures stay visible
+</td>
+<td width="33%" valign="top">
 
-![Procurement chat](docs/screenshots/07_chat_procurement.png)
+**📅 Two documents, two calendars**
 
-The procurement agent was given exactly two tools, `csv_lookup` and `calculator`, because the brief needs them. A weather or HTTP tool would be a factory defect. It answers the unit price for FIL-1012 citing `spares_catalogue.csv`, row 16. It also shows a **real weakness**: asked for an order total (12 × 61.28 = 735.36), the 3B model declined instead of calling the calculator. This is the kind of failure the report lists under *What still fails*, rather than hiding it.
+The leave policy says the leave year runs **1 Jan–31 Dec**. The travel code says **1 Apr–31 Mar**.
 
-### 8. The agent built from the unseen brief, in use
+ForgeAI detected the cross-document contradiction and instructed the agent to flag it and cite both.
 
-![Agent built from the unseen brief](docs/screenshots/08_chat_unseen_agent.png)
+</td>
+<td width="33%" valign="top">
 
-**ChefQ** was generated in step 1. It answers from `cooking_faq.md` with the exact sentence, attaches no tools, and refuses *wine pairing*: the brief asked for it, but no document supports it, so the guard moved it to must-refuse. Its report is honest that this run is weaker than the demos: 69.2% pass, and a judge self-test of 65.4%, below the 70% threshold, which the report flags with a warning.
+**🌦️ The weather tool that snuck in**
 
-## Architecture
+On the first real run, a vague *"internet API"* need almost attached a **weather API to a ship-spares agent**.
+
+That bug got a semantic tool-fit check and a regression test. Now HR gets **zero tools** and procurement gets exactly **CSV lookup + calculator**.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🖼️ See it working
+
+<table>
+<tr>
+<td width="50%" valign="top">
+<img src="docs/screenshots/02_results_dashboard.png" alt="Results dashboard"><br>
+<b>Evidence, not vibes.</b> Scores computed from eval logs. The no-retrieval control (0.198) shows the tests really need the documents.
+</td>
+<td width="50%" valign="top">
+<img src="docs/screenshots/03_optimizer_change_log.png" alt="Optimizer change log"><br>
+<b>Self-improvement with a veto.</b> Procurement: 6 targeted patches, <b>2 kept, 4 rolled back</b>. Dev 0.740 → 0.883, held-out 0.651 → 0.799.
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<img src="docs/screenshots/04_groundability_guard.png" alt="Groundability guard"><br>
+<b>Refuses to invent.</b> Every requested topic checked against the documents with verified quotes; the pension gap and the leave-year conflict caught before the agent exists.
+</td>
+<td width="50%" valign="top">
+<img src="docs/screenshots/05_chat_grounded_answer.png" alt="Grounded answer"><br>
+<b>Answers you can check.</b> Every answer carries the verbatim quote, document and section.
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+<img src="docs/screenshots/06_chat_refusals.png" alt="Refusals"><br>
+<b>Knows when to say no.</b> Legal advice (forbidden by the brief) and a request to fabricate a policy are both declined.
+</td>
+<td width="50%" valign="top">
+<img src="docs/screenshots/07_chat_procurement.png" alt="Procurement chat"><br>
+<b>Failures stay visible.</b> The price is cited to CSV row 16, but the 3B model declined an order total instead of using its calculator. It's listed in the report, not hidden. (The hosted model gets it right: <b>735.36 USD</b>.)
+</td>
+</tr>
+<tr>
+<td colspan="2" valign="top" align="center">
+<img src="docs/screenshots/08_chat_unseen_agent.png" alt="Agent built from an unseen brief" width="70%"><br>
+<b>ChefQ</b>, the agent built from the unseen brief: answers from the FAQ with the exact sentence, and refuses <i>wine pairing</i>, which the brief wanted but no document supports.
+</td>
+</tr>
+</table>
+
+---
+
+## 🏗️ Architecture
 
 ```mermaid
 flowchart LR
@@ -103,143 +168,72 @@ flowchart LR
   RT -. same runtime .-> J
 ```
 
-All stages share one LLM client ([`forge/llm.py`](forge/llm.py)) and one runtime ([`forge/runner/agent_runtime.py`](forge/runner/agent_runtime.py)).
-Evals execute the shipped runtime, so scores describe the product. Every stage writes its artifact before the next
-starts, and completed stages are recorded in `run_meta.json`, so `forge run --resume <run_id>` continues after a crash.
+- **One LLM client** ([`forge/llm.py`](forge/llm.py)) with timeouts, retries, JSON repair, validation-with-feedback, a disk cache and a token budget.
+- **One runtime** ([`forge/runner/agent_runtime.py`](forge/runner/agent_runtime.py)), used by both the evals and the chat, so the scores describe the shipped product.
+- **Crash-safe**: every stage writes its artifact before the next starts; `forge run --resume <run_id>` picks up where it stopped.
+- **Zero domain knowledge in `forge/`**, enforced by a test that greps the code for demo-domain terms.
 
-## Quickstart
+---
+
+## 🚀 Quickstart
 
 ```bash
-# 1. install (Python 3.11+)
-pip install -e ".[dev,synth]"            # add ".[ui]" for the Streamlit app, ".[dense]" for local embeddings
+pip install -e ".[dev,ui]"
 
-# 2. offline, no model needed (deterministic mock backend)
-make test                                # or: python -m pytest tests -q
-make mock-demo                           # full pipeline on the unseen cooking-FAQ fixture in a few seconds
+# offline: no model needed (deterministic mock backend)
+python -m pytest tests -q                      # 85 tests
+python -m forge run --mock --brief-file tests/fixtures/cooking_faq/brief.txt \
+       --docs tests/fixtures/cooking_faq/docs --non-interactive
 
-# 3. real local models
-#    install Ollama (https://ollama.com), then:
-ollama pull qwen2.5:3b-instruct && ollama pull llama3.2:3b      # 4 GB GPU profile used for the demos
-#    (or for bigger GPUs: ollama pull qwen2.5:7b-instruct && ollama pull llama3.1:8b, and use forge.toml)
-make synth                               # (re)render the demo documents
-make demo-hr                             # ~1.5-2 h on a GTX 1650
-make demo-procurement
-
-# 4. chat with any produced agent
+# real local models (fits a 4 GB GPU)
+ollama pull qwen2.5:3b-instruct && ollama pull llama3.2:3b
+python -m forge ui                             # build · results · chat, in the browser
 python -m forge chat --agent demos/run_hr/final_agent.json --config configs/ollama_small.toml --debug
-
-# 5. UI (factory + chat)
-python -m forge ui
+python scripts/acceptance_check.py             # runs the acceptance checklist, prints PASS/FAIL
 ```
 
-Without `make` (Windows), run the commands in the [`Makefile`](Makefile) directly.
-
-## Running on an unseen brief
+<details>
+<summary><b>Running on an unseen brief (what the review does)</b></summary>
 
 ```bash
-python -m forge run --brief-file my_brief.txt --docs ./my_folder --non-interactive \
+python -m forge run --brief-file my_brief.txt --docs ./my_folder --non-interactive --config configs/ollama_small.toml \
     [--answers answers.json] [--max-iters 3] [--budget-tokens 400000] [--approve-requirements] [--tournament 2]
 ```
 
 - `--non-interactive`: intake answers come from `--answers` (keys = question id or field), otherwise from a
   *simulated requester* prompt that may only use the brief and documents and says "no preference" otherwise.
   Defaults are then recorded as **assumptions**.
-- No domain knowledge lives in `forge/`; a test greps for demo-domain terms. The integration test runs the whole
-  pipeline on a third, unseen domain (a cooking FAQ) and checks that the brief's undeliverable request (wine pairings)
-  is caught by the groundability guard.
+- A third, unseen domain (cooking FAQ) runs in the test suite and was built for real from the UI
+  ([`demos/run_cooking_unseen/`](demos/run_cooking_unseen/)); the guard catches the brief's undeliverable wine-pairing request.
 - Messy inputs are handled explicitly:
   - empty folder → clear error, exit code 1;
   - scanned / image-only PDFs → warning, file skipped;
   - huge files → truncated with a warning;
-  - mixed types → supported;
   - non-English documents → language detected, agent told to answer in it;
-  - contradictory documents → flagged in the groundability report, and the agent is told to cite both sides.
-- LLM server down → `forge run` exits with code 2 and a clear message. Partial artifacts stay in `runs/<id>/`; continue with `--resume`.
-- Every LLM call has a timeout, network retries with backoff, JSON repair, validation retries with error feedback,
-  a deterministic fallback, a prompt-size cap and token/latency accounting. `--budget-tokens` / `--budget-seconds`
-  set hard caps; when one is hit the optimizer stops early and the report says so.
+  - contradictory documents → flagged, agent told to cite both sides.
+- LLM server down → exit code 2 with a clear message; partial artifacts stay in `runs/<id>/`; continue with `--resume`.
+- `--budget-tokens` / `--budget-seconds` set hard caps; when one is hit the optimizer stops early and the report says so.
 
-## CLI
+Without `make` (Windows), run the commands in the [`Makefile`](Makefile) directly.
+</details>
+
+<details>
+<summary><b>CLI reference</b></summary>
 
 | command | purpose |
 |---|---|
-| `forge run …` | full factory (above); `--resume <run_id>`; `--copy-to demos/x` |
+| `forge run …` | full factory; `--resume <run_id>`; `--copy-to demos/x` |
 | `forge intake / groundability / generate / evalgen / judge / optimize / report --run-id X` | each stage alone, from that run's artifacts |
 | `forge chat --agent path.json [--debug] [-q "question"]` | chat runner for any AgentDefinition |
-| `forge regress --agent-run runs/<id> --new-docs ./folder2` | regression mode: rebuild index, regenerate agent, re-run the OLD eval set, report broken / fixed / **stale** cases |
-| `forge baseline --run-id X --agent hand.json` | factory agent vs hand-written agent on the same evals, with a table of where each wins |
+| `forge regress --agent-run runs/<id> --new-docs ./folder2` | regression mode: documents changed → re-run the OLD eval set, report broken / fixed / **stale** cases |
+| `forge baseline --run-id X --agent hand.json` | factory agent vs hand-written agent on the same evals |
 | `forge ui` | Streamlit factory + chat UI ([deployment guide](docs/DEPLOYMENT.md)) |
-| `python scripts/acceptance_check.py` | runs the acceptance checklist and prints a pass/fail table |
+| `python scripts/acceptance_check.py` | acceptance checklist with a pass/fail table |
+</details>
 
-## Requirements traceability
+---
 
-| # | core requirement | code | artifacts (per run, e.g. `demos/run_hr/`) | tests |
-|---|---|---|---|---|
-| 0 | ingestion + profiling with provenance | [`forge/ingest/`](forge/ingest) (`loaders`, `chunker`, `index`, `profile`, `embeddings`) | `doc_profile.json` | `test_runtime_ingest.py` |
-| 1 | intake interviewer, ≤5 questions **enforced in code**, interactive / answers file / simulated requester, approval checkpoint | [`stages/intake.py`](forge/stages/intake.py) | `intake_qa.json`, `requirements.json`, `requirements.md` | `test_intake_groundability.py` |
-| 2 | groundability guard: probe + LLM + verbatim-quote check, SUPPORTED/PARTIAL/UNSUPPORTED, gaps moved to must-refuse, contradictions | [`stages/groundability.py`](forge/stages/groundability.py) | `groundability_report.json`, flags in `requirements.md`, REPORT §3 | `test_groundability_*`, `test_contradiction_detection` |
-| 3 | declarative AgentDefinition; tool selection shortlist → LLM → deterministic prune; retrieval heuristics | [`stages/generator.py`](forge/stages/generator.py), [`tools/registry.py`](forge/tools/registry.py), [`schemas.py`](forge/schemas.py) | `agent_v0.json`, `tool_selection.json`, `final_agent.json` | `test_tools.py` (no weather tool for HR, 320 dummy tools) |
-| 4 | eval generator from documents + QC (verbatim quotes, retrievability, absence check, dedup, balance, seeded split) | [`stages/evalgen.py`](forge/stages/evalgen.py), `prompts/evalgen_*.md` | `eval_set.json`, `eval_generation_log.json` | `test_evalgen_judge.py` |
-| 5 | hybrid judge + bias defenses + self-test | [`stages/judge.py`](forge/stages/judge.py), `prompts/judge_v1.md`, `judge_v2.md` | `iter_*/judgments.jsonl`, `judge_selftest.json` | `test_evalgen_judge.py` |
-| 6 | critic (deterministic rules first) + optimizer (JSON patches, dev/held-out, rollback, ≤3 iters, early stop, budget) | [`stages/critic.py`](forge/stages/critic.py), [`stages/optimizer.py`](forge/stages/optimizer.py), [`budget.py`](forge/budget.py) | `iter_{1,2,3}/…`, `change_log.json`, `optimizer_summary.json` | `test_critic_optimizer_report.py` |
-| 7 | honest report, numbers by code, narrative validator, negative control, suspicious-score warnings | [`stages/reporter.py`](forge/stages/reporter.py) | `REPORT.md`, `scorecard_summary.{json,md}`, `negative_control.json`, `report_validation.json`, `run_metrics.json` | `test_report_number_validator` |
-| 8 | runtime + chat for any definition, tools via JSON protocol, contract enforcement | [`runner/agent_runtime.py`](forge/runner/agent_runtime.py), [`runner/chat_cli.py`](forge/runner/chat_cli.py), [`runner/app_ui.py`](forge/runner/app_ui.py) | — | `test_runtime_*`, `test_chat_cli_loads_any_definition` |
-| 9 | two demos in different domains | [`scripts/synthesize_docs.py`](scripts/synthesize_docs.py), [`demos/synthesis_prompts/`](demos/synthesis_prompts) | [`demos/run_hr/`](demos/run_hr), [`demos/run_procurement/`](demos/run_procurement) | `scripts/acceptance_check.py` |
-
-## How each stage works (short)
-
-- **Stage 0, ingest.**
-  - PDF pages, markdown/DOCX headings and CSV rows become sections with provenance (`page`, `section '…'`, `row N`).
-  - Chunking strategies: `fixed` / `sentence` / `heading` / `row` (CSV is always row-wise).
-  - Hybrid index: BM25 + dense embeddings, fused by weighted reciprocal rank fusion (`hybrid_alpha`), an absolute relevance score for `min_score`, and an optional overlap rerank. It persists under `.forge_index/`.
-  - The profile is bounded in size: hierarchical map-reduce summaries, headings, TF-IDF key terms, CSV schema and samples.
-- **Stage 1, intake.**
-  - The model proposes questions; code dedups them, keeps one per field, and caps them at 5.
-  - Answers come from the user, an answers file, or the simulated requester.
-  - Requirements are drafted by the LLM and then merged by code: language from the documents, deterministic must-refuse and escalation extraction, tool needs validated against the brief, implied needs (CSV → `tabular_lookup`; arithmetic cues → `arithmetic`), and explicit assumptions.
-- **Stage 2, groundability guard** (see S3–S5 in [DECISIONS](docs/DECISIONS.md)).
-  - Unsupported topics and capabilities are removed from must-answer and added to must-refuse, with a console warning, flags in `requirements.md`, and a report section.
-  - The generated prompt tells the agent to say it lacks the information.
-- **Stage 3, generator.**
-  - Code writes the grounding, citation, refusal, insufficient-context, contradiction and tool rules. The LLM writes the role, scope, tone and escalation.
-  - The output contract is `{answer, sources[{doc, locator, quote}], confidence, refused, refusal_reason}`. The runtime enforces four rules (sources required when answering; quotes must appear in the context; a refusal has an empty answer and no sources; a refusal reason is required).
-- **Stage 4, evals.** Per-category committed prompts:
-  - answerable (≥10);
-  - refuse (≥5): adversarial / must-refuse / absent / out-of-domain;
-  - edge (≥5): multi-doc with `requires_docs`, numeric, colloquial, false-premise, ambiguous.
-
-  QC and the dev/held-out split are described in [DECISIONS S8](docs/DECISIONS.md).
-- **Stage 5, judge.** Deterministic metrics, each reported separately:
-  - refusal (flag + phrase classifier);
-  - citation validity (in the retrieved context AND in the source doc);
-  - key-fact coverage (number-strict + lexical + fuzzy + embedding fallback);
-  - retrieval hit@k;
-  - contract compliance;
-  - numeric consistency.
-
-  On top of these, two LLM judges (pointwise rubric, temperature 0) score groundedness, correctness and refusal appropriateness. The composite is a weighted sum defined in config.
-- **Stage 6, critic and optimizer.**
-  - Every failure is classified into exactly one of the assignment's four categories, `retrieval_miss / prompt_defect / hallucination / wrong_refusal`, by rules R1–R15. Finer rule labels (`contract_violation`, `eval_defect`, `judge_uncertain`) are kept as a `subcategory` and choose the fix menu; they are reported under `prompt_defect` (or, for a suspected eval defect, under the other rule candidate).
-  - Targeted patches per category, for example:
-    - `top_k`, query expansion, `hybrid_alpha`, chunking;
-    - quote-before-answer and number rules;
-    - refusal relax / sharpen and injection rules;
-    - an LLM-written general rule;
-    - a paraphrased few-shot from a passing dev case.
-  - Everything is logged in `change_log.json` with before/after values and scores.
-- **Stage 7, report.** Sections: brief, requirements and assumptions, groundability, agent summary and tool justification, eval QC, per-iteration scorecard (dev vs held-out, per category, per metric), change log, negative control, **WHAT STILL FAILS AND WHY** (grouped by failure category with hypotheses), judge reliability, limitations, cost/latency.
-
-## Judge-bias defenses
-
-| failure mode | defense (implemented) | where |
-|---|---|---|
-| **Position bias** | Only pointwise scoring in evals. The pairwise judge is used only by the prompt tournament, is run in **both orders**, counts only when both orders agree, and only breaks exact ties. | `judge.py`, `optimizer.py::run_tournament` |
-| **Self-preference** | Judge model is a different family from the agent (Llama vs Qwen); optional second judge model (`judge_model_2`); **deterministic checks veto** any LLM pass. | `config`, `judge.py::judge_case` |
-| **Verbosity bias** | Rubric says length is ignored; length-normalised coverage (`coverage_per_100_words`); a `verbosity_flag` when a long answer is rated correct by the LLM but has low fact coverage; the self-test includes a padded-answer perturbation. | `judge.py`, `prompts/judge_v*.md` |
-| **Small-model judge unreliability** | Two independently worded judge prompts must agree, otherwise the case is `judge_uncertain` and the deterministic verdict stands. Agreement rate is reported. A **self-test** builds known-good / padded / false-number / unsupported-claim / wrongly-answered-refusal answers from dev cases and reports judge accuracy; below the threshold (0.7) the report warns loudly. | `judge.py::run_selftest` |
-| **Our own pipeline lying** | Eval quote verification; retrievability and mislabel checks; negative control; "suspicious: verify eval difficulty" warning above 95 % pass; report number validator; mock-backend banner. | `evalgen.py`, `reporter.py` |
-
-## Demo results (filled from the committed artifacts)
+## 📊 Demo results (filled from the committed artifacts)
 
 _Generated by `python scripts/demo_summary.py` from `demos/run_*/`. Real local models, see banner at the top._
 
@@ -270,27 +264,82 @@ _Generated by `python scripts/demo_summary.py` from `demos/run_*/`. Real local m
 | Ship-spares procurement assistant | 30 | 0.740 / 0.651 | 0.883 / 0.799 | 0.186 | 76.7% | 4.2% | 80.8% | 2 / 4 |
 | Cooking FAQ assistant (unseen doc set, built from the UI) | 26 | 0.743 / 0.712 | 0.841 / 0.712 | 0.213 | 69.2% | 5.9% | 65.4% | 2 / 1 |
 
-**Reading these results honestly**
-- Different domains surfaced different failure categories:
-  - HR's patch fixed an **over-refusal** (`wrong_refusal`).
-  - Procurement's accepted patches fixed **contract violations** (a format few-shot) and **missed refusals** (a manipulation-refusal rule).
-- **Rollbacks are real.** In procurement, 4 of 6 patches were rolled back: twice because dev regressed, and twice because dev was flat while held-out dropped beyond tolerance (the overfitting guard working).
-- **Traps caught:**
-  - HR: the pension scheme is absent from the documents and was removed and refused; the planted leave-year contradiction (1 Jan vs 1 Apr) was flagged.
-  - Procurement: "live stock-market prices / customs duty" has no tool or document behind it and is refused.
-  - HR gets no tools; procurement gets exactly `csv_lookup` + `calculator`.
-- **The judge is imperfect.** `llama3.2:3b` scored 80.8 % on the perturbation self-test and is weakest at spotting injected unsupported claims; see each report's judge-reliability section. Deterministic checks keep veto power.
-- **Still failing:** see "WHAT STILL FAILS AND WHY" in each report.
-- **Factory vs hand-written baseline** ([`demos/run_hr/BASELINE_COMPARISON.md`](demos/run_hr/BASELINE_COMPARISON.md), real models, same 28 evals):
-  - composite 0.925 vs 0.791, pass 89.3 % vs 64.3 %;
-  - the factory agent wins 7 cases, the hand-written agent wins 0, both fail 3;
-  - the hand-written agent hallucinated less (0 % vs 5 %, a single case), so the factory's gain comes from fewer wrong refusals and better fact coverage, not from more grounding.
-- **Timing and cache replay:** both committed demo runs were regenerated after the failure categories were aligned to the assignment's four (only labels changed; no prompt changed). Every LLM call (HR 286, procurement 726) was served from the disk cache of the earlier real-model runs, so `run_metrics.json` shows seconds of wall time and near-zero latencies. The outputs are real-model outputs for the exact same prompts. The original live procurement run took 2258.66 s for 726 calls (311 cached); see `run_metrics.json` in commit `acd3a41`. The HR baseline comparison files keep their original live latencies.
+### 🔍 Reading these results honestly
 
-## Design decisions and limitations
+- **🏆 Beats a hand-written agent.** On the same 28 HR evals, the factory's agent scored **0.925 vs 0.791** composite (pass rate **89.3% vs 64.3%**), winning 7 cases and losing none ([comparison](demos/run_hr/BASELINE_COMPARISON.md)). The hand-written agent hallucinated slightly less (0% vs 5%, a single case); the factory wins on fewer wrong refusals and better fact coverage.
+- **↩️ Rollbacks are real.** In procurement, 4 of 6 patches were rolled back: twice because dev regressed, and twice because held-out dropped beyond tolerance. That's the overfitting guard doing its job.
+- **🧩 Different domains, different failures.** HR's accepted patch fixed an over-refusal; procurement's fixed contract violations (a format few-shot) and missed refusals (a manipulation-refusal rule).
+- **⚖️ The judge is imperfect, and measured.** `llama3.2:3b` caught 80.8% of planted errors and is weakest on injected unsupported claims, so deterministic checks keep veto power. On the unseen run it scored 65.4%, below the 70% bar, and that report **warns loudly** instead of hiding it.
+- **🔁 Cache replay, disclosed.** The committed HR and procurement runs were regenerated after the failure categories were aligned to the assignment's four (labels only, no prompt changes), so every call was served from the disk cache of the earlier real-model runs. The original live procurement run took 2258.66 s for 726 calls (311 cached; `run_metrics.json` in commit `acd3a41`). The cooking run is a fresh live build.
+- **📋 Still failing:** each report ends with *WHAT STILL FAILS AND WHY*, per category, with hypotheses and next steps.
 
-See [`docs/DECISIONS.md`](docs/DECISIONS.md) for the full list and [`docs/PROMPTS.md`](docs/PROMPTS.md) for the prompt index.
-The main limitations, which every `REPORT.md` repeats:
+---
+
+## 🌐 Live deployments
+
+| | What you get | Models |
+|---|---|---|
+| **[agentsmithbyoceanai.streamlit.app](https://agentsmithbyoceanai.streamlit.app/)** | The full app, identical to `python -m forge ui`: **build a new agent** from your own brief and documents, inspect results, chat | `qwen/qwen3.8-27b` on Groq's free tier; builds are slower because of rate limits |
+| **[forgeai-six-sigma.vercel.app](https://forgeai-six-sigma.vercel.app)** | Fast results site + live chat with the three demo agents (serverless Python API) | `qwen/qwen3.8-27b` on Groq |
+
+The demo scores were measured locally with the 3B models (`qwen2.5:3b-instruct` + `llama3.2:3b` on a GTX 1650). Live answers come from the hosted model. Details: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md).
+
+> **What was produced with which backend.** The committed demos were produced end to end by **real local models via
+> Ollama** ([`configs/ollama_small.toml`](configs/ollama_small.toml)). The test suite and mock demo use the
+> deterministic **mock** backend, and every mock report carries a banner saying it is not model evidence.
+
+---
+
+## 🔬 Under the hood
+
+<details>
+<summary><b>How each stage works</b></summary>
+
+- **Stage 0, ingest.** PDF pages, markdown/DOCX headings and CSV rows become sections with provenance (`page`, `section '…'`, `row N`). Chunking strategies: `fixed` / `sentence` / `heading` / `row`. Hybrid index: BM25 + dense embeddings fused by weighted reciprocal rank fusion, an absolute relevance score for `min_score`, optional rerank. A bounded profile: map-reduce summaries, headings, key terms, CSV schema.
+- **Stage 1, intake.** The model proposes questions; code dedups them and caps them at **5**. Answers come from the user, an answers file, or a simulated requester. Code merges the draft: must-refuse and escalation extraction, tool needs validated against the brief, implied needs (CSV → `tabular_lookup`), explicit assumptions.
+- **Stage 2, groundability guard.** Retrieval probe + LLM verdict + verbatim-quote check → SUPPORTED / PARTIAL / UNSUPPORTED. Deterministic absence override and presence rescue correct the small model. Unsupported topics move to must-refuse; cross-document contradictions are flagged.
+- **Stage 3, generator.** Code writes the grounding, citation, refusal and tool rules; the LLM writes role, scope, tone. Tools: BM25 shortlist from the registry (scales to 300+ tools) → LLM pick → deterministic prune with a semantic fit check. Output contract: `{answer, sources[{doc, locator, quote}], confidence, refused, refusal_reason}`, enforced at runtime.
+- **Stage 4, evals.** Answerable (≥10), refuse (≥5: adversarial / must-refuse / absent / out-of-domain), edge (≥5: multi-doc, numeric, colloquial, false-premise, ambiguous). QC: verbatim quotes, retrievability, mislabel and meta-fact filters, dedup, stratified dev/held-out split.
+- **Stage 5, judge.** Deterministic metrics (refusal, citation validity, number-strict fact coverage, retrieval hit@k, contract, numeric consistency) + two LLM judge prompts at temperature 0. Composite = weighted sum from config.
+- **Stage 6, critic and optimizer.** Every failure gets exactly one of the assignment's four categories (`retrieval_miss / prompt_defect / hallucination / wrong_refusal`) by rules R1–R15; finer labels (`contract_violation`, `eval_defect`, `judge_uncertain`) are kept as a `subcategory` and pick the fix. Targeted JSON patches (`top_k`, query expansion, fusion weight, chunking, quote-first and number rules, refusal relax/sharpen, injection rules, LLM-written rules, few-shots), max 3 iterations, accept or roll back on dev + held-out.
+- **Stage 7, report.** Brief, requirements, groundability, agent and tool justification, eval QC, per-iteration scorecards, change log, negative control, **WHAT STILL FAILS AND WHY**, judge reliability, limitations, cost/latency.
+</details>
+
+<details>
+<summary><b>Judge-bias defenses</b></summary>
+
+| failure mode | defense (implemented) | where |
+|---|---|---|
+| **Position bias** | Only pointwise scoring in evals. The pairwise judge is used only by the prompt tournament, is run in **both orders**, and counts only when both orders agree. | `judge.py`, `optimizer.py::run_tournament` |
+| **Self-preference** | Judge is a different model family from the agent (Llama vs Qwen); optional second judge model; **deterministic checks veto** any LLM pass. | `config`, `judge.py::judge_case` |
+| **Verbosity bias** | Rubric ignores length; length-normalised coverage; a `verbosity_flag` when a long answer is rated correct but has low fact coverage; the self-test includes a padded-answer perturbation. | `judge.py`, `prompts/judge_v*.md` |
+| **Small-model judge unreliability** | Two independently worded judge prompts must agree, otherwise `judge_uncertain` and the deterministic verdict stands. A **self-test** on known-good / padded / false-number / unsupported-claim / wrongly-answered-refusal answers reports judge accuracy; below 0.7 the report warns. | `judge.py::run_selftest` |
+| **Our own pipeline lying** | Eval quote verification; retrievability and mislabel checks; negative control; >95% pass warning; report number validator; mock-backend banner. | `evalgen.py`, `reporter.py` |
+</details>
+
+<details>
+<summary><b>Requirements traceability</b></summary>
+
+| # | core requirement | code | artifacts (per run, e.g. `demos/run_hr/`) | tests |
+|---|---|---|---|---|
+| 0 | ingestion + profiling with provenance | [`forge/ingest/`](forge/ingest) | `doc_profile.json` | `test_runtime_ingest.py` |
+| 1 | intake interviewer, ≤5 questions **enforced in code**, approval checkpoint | [`stages/intake.py`](forge/stages/intake.py) | `intake_qa.json`, `requirements.json`, `requirements.md` | `test_intake_groundability.py` |
+| 2 | groundability guard, gaps moved to must-refuse, contradictions | [`stages/groundability.py`](forge/stages/groundability.py) | `groundability_report.json`, REPORT §3 | `test_groundability_*`, `test_contradiction_detection` |
+| 3 | declarative AgentDefinition; justified tools only | [`stages/generator.py`](forge/stages/generator.py), [`tools/registry.py`](forge/tools/registry.py), [`schemas.py`](forge/schemas.py) | `agent_v0.json`, `tool_selection.json`, `final_agent.json` | `test_tools.py` (no weather tool for HR, 320 dummy tools) |
+| 4 | eval generator from documents + QC | [`stages/evalgen.py`](forge/stages/evalgen.py), `prompts/evalgen_*.md` | `eval_set.json`, `eval_generation_log.json` | `test_evalgen_judge.py` |
+| 5 | hybrid judge + bias defenses + self-test | [`stages/judge.py`](forge/stages/judge.py), `prompts/judge_v1.md`, `judge_v2.md` | `iter_*/judgments.jsonl`, `judge_selftest.json` | `test_evalgen_judge.py` |
+| 6 | critic → targeted patch → re-run, ≤3 iters, rollback, change log | [`stages/critic.py`](forge/stages/critic.py), [`stages/optimizer.py`](forge/stages/optimizer.py) | `iter_{1,2,3}/…`, `change_log.json` | `test_critic_optimizer_report.py` |
+| 7 | honest report, numbers by code, negative control | [`stages/reporter.py`](forge/stages/reporter.py) | `REPORT.md`, `scorecard_summary.{json,md}`, `negative_control.json` | `test_report_number_validator` |
+| 8 | runtime + chat for any definition | [`runner/agent_runtime.py`](forge/runner/agent_runtime.py), [`runner/chat_cli.py`](forge/runner/chat_cli.py), [`runner/app_ui.py`](forge/runner/app_ui.py) | — | `test_runtime_*`, `test_chat_cli_loads_any_definition` |
+| 9 | two demos in different domains (+ a third, unseen) | [`scripts/synthesize_docs.py`](scripts/synthesize_docs.py), [`demos/synthesis_prompts/`](demos/synthesis_prompts) | [`run_hr/`](demos/run_hr), [`run_procurement/`](demos/run_procurement), [`run_cooking_unseen/`](demos/run_cooking_unseen) | `scripts/acceptance_check.py` |
+
+**Stretch goals, all built:** prompt tournament (`--tournament 2`), token/time budget with early stop, human approval checkpoint, factory-vs-hand-written baseline, regression mode, Streamlit UI + two live deployments.
+</details>
+
+<details>
+<summary><b>Design decisions and limitations</b></summary>
+
+Every decision is recorded in [`docs/DECISIONS.md`](docs/DECISIONS.md) (including an incident log), and every prompt is indexed in [`docs/PROMPTS.md`](docs/PROMPTS.md). The limitations every `REPORT.md` repeats:
 - 3B models: weak instruction following, many refusals or omissions; the deterministic checks compensate but cannot add knowledge.
 - Synthetic evals are generated from the same documents (eval/doc coupling) and probe faithfulness, not real traffic.
 - Factory and judge share blind spots.
@@ -299,19 +348,33 @@ The main limitations, which every `REPORT.md` repeats:
 - English-centric stemming and refusal phrases.
 - No OCR.
 - Native function calling is not used (JSON tool protocol instead).
+</details>
 
-## Repo layout
+<details>
+<summary><b>Repo layout</b></summary>
 
 ```
-forge/        llm.py config.py schemas.py budget.py logging_utils.py textutils.py context.py mock_backend.py pipeline.py cli.py
+forge/        llm.py config.py schemas.py budget.py textutils.py context.py mock_backend.py pipeline.py cli.py
   ingest/     loaders.py chunker.py index.py embeddings.py profile.py
-  tools/      registry.py csv_lookup.py calculator.py http_api.py current_date.py distractors.py (unit_converter + 3 stubs)
+  tools/      registry.py csv_lookup.py calculator.py http_api.py current_date.py distractors.py
   stages/     intake.py groundability.py generator.py evalgen.py judge.py critic.py optimizer.py reporter.py regression.py baseline.py
   runner/     agent_runtime.py chat_cli.py app_ui.py
 prompts/      22 versioned prompt templates (docs/PROMPTS.md)
-demos/        brief_*.txt, sources/, synthesis_prompts/, hand_written/, run_hr/, run_procurement/
-configs/      ollama_small.toml (4 GB GPU profile used for the demos)
-scripts/      synthesize_docs.py, acceptance_check.py
-tests/        pytest suite (mock backend, offline) + fixtures/cooking_faq (third, unseen domain)
-docs/         DECISIONS.md PROMPTS.md DEPLOYMENT.md
+demos/        briefs, sources/, synthesis_prompts/, hand_written/, run_hr/, run_procurement/, run_cooking_unseen/
+configs/      ollama_small.toml (4 GB GPU profile used for the demos), cloud_groq.toml (hosted app)
+api/ public/  Vercel results site + serverless chat
+deploy/       Streamlit Community Cloud entry point
+scripts/      synthesize_docs.py, acceptance_check.py, demo_summary.py, build_site.py
+tests/        85 tests (mock backend, offline) + fixtures/cooking_faq (third, unseen domain)
+docs/         DECISIONS.md PROMPTS.md DEPLOYMENT.md screenshots/
 ```
+</details>
+
+---
+
+<div align="center">
+
+**Built for the OceanAI Jr. GenAI Engineer assignment: *"The Agent That Builds Agents."***<br>
+<sub>Small models, honest numbers, and a pipeline that checks its own work.</sub>
+
+</div>
