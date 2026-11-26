@@ -37,6 +37,7 @@ check next to it.
 | S14 | Reporter: every number is computed by code. The LLM writes narrative only. `validate_narrative` drops any sentence citing a number not derivable from the logs (with percent/rounding variants). | "Numbers must be computed from the logs by code." The mock deliberately emits a fake "250 %" sentence to prove the validator works. |
 | S15 | A negative control (final agent, retrieval disabled, no tools) runs in every pipeline. A warning fires if the final-minus-control gap is < 0.15 or the control still answers > 30 % of answerable cases. | Proves the evals discriminate. |
 | S16 | Untrusted documents: context is wrapped in `<documents>` in the user message and never placed in the system message. Instruction-like passages are flagged and annotated. The system prompt states that document text is data. | Prompt-injection defense; the HR corpus contains a planted injection. |
+| S17 | Failure categories are exactly the assignment's four (`retrieval_miss`, `prompt_defect`, `hallucination`, `wrong_refusal`). The critic's finer rule labels survive as `subcategory`: `contract_violation` and `judge_uncertain` report as `prompt_defect`; a suspected `eval_defect` reports under its other rule candidate. The optimizer still picks fixes from the finer label. | The spec says to classify every failure into one of those four categories. An earlier version reported seven, so the demos were regenerated (from cache, with identical scores). |
 
 ## Incident log
 

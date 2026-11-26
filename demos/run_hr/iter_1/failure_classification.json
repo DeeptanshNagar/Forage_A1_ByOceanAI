@@ -13,11 +13,13 @@
     "prompt_defect": 1,
     "hallucination": 1
   },
+  "by_subcategory": {},
   "failures": [
     {
       "case_id": "ans-005",
       "split": "dev",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "over_refusal",
       "rule": "R6: refused although the evidence was retrieved",
       "explanation": "refused an answerable question"
@@ -26,6 +28,7 @@
       "case_id": "ans-011",
       "split": "heldout",
       "category": "prompt_defect",
+      "subcategory": "",
       "direction": "",
       "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
       "explanation": "The prompt provided expected a factual answer about the minimum booking days, but the expected response format required a 'refused' status of False and a specific numerical answer for the minimum days, which deviated from the expected structure."
@@ -34,6 +37,7 @@
       "case_id": "edg-023",
       "split": "dev",
       "category": "prompt_defect",
+      "subcategory": "",
       "direction": "",
       "rule": "R13: good retrieval, grounded, but expected facts missing",
       "explanation": "The answer provided does not directly address the specific question about the number of working days for filing a disciplinary appeal, which is a key fact missing from the response."
@@ -42,6 +46,7 @@
       "case_id": "edg-024",
       "split": "heldout",
       "category": "hallucination",
+      "subcategory": "",
       "direction": "",
       "rule": "R10: evidence retrieved but answer contains unsupported claims/numbers",
       "explanation": "fact coverage 0.00 < 0.6; numbers not in context: ['130']; judge_uncertain: judges disagreed; deterministic verdict used"

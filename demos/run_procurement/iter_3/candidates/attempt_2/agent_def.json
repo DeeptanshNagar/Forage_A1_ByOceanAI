@@ -191,7 +191,7 @@
       "tool_select": "1.0"
     },
     "requirements_hash": "7086c5b0950d9dac",
-    "created_at": "2026-11-26T12:11:54.312671+00:00",
+    "created_at": "2026-11-26T15:22:42.922330+00:00",
     "variant": "balanced: clear and complete",
     "llm_draft_ok": true,
     "retrieval_rationale": "2/2 prose docs have >=3 headings -> heading-aware chunking; short sections (~40 words) -> 140-word chunks; 1 CSV file(s) -> row-wise chunks, top_k 6, more lexical weight for codes/ids",

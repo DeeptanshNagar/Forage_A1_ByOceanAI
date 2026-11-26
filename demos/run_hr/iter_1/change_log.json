@@ -2,7 +2,8 @@
   {
     "iteration": 1,
     "attempt": 1,
-    "failure_category": "wrong_refusal:over_refusal",
+    "failure_category": "wrong_refusal",
+    "failure_subcategory": "wrong_refusal:over_refusal",
     "affected_case_ids": [
       "ans-005"
     ],

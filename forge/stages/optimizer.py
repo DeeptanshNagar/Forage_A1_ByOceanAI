@@ -14,7 +14,7 @@ from ..logging_utils import info, stage_banner, success, write_jsonl
 from ..schemas import (AgentDefinition, ChangeLogEntry, EvalCase, EvalSet, FailureClassification, FewShot,
                        PairwisePreference, PatchOp, Rewrite, RuleProposal)
 from ..textutils import content_words, truncate
-from .critic import classify_failures, summarize_classification
+from .critic import CATEGORIES, classify_failures, summarize_classification, to_category
 from .judge import EvalRun, run_eval
 
 # --------------------------------------------------------------------------- JSON patch
@@ -148,7 +148,8 @@ def propose_fixes(ctx: RunContext, defn: AgentDefinition, fcs: list[FailureClass
     jmap = {j.case_id: j for j in run.judgments}
     groups: dict[str, list[FailureClassification]] = {}
     for f in dev:
-        key = f.category if f.category != "wrong_refusal" else f"wrong_refusal:{f.direction or 'over_refusal'}"
+        label = f.subcategory if f.subcategory in ("contract_violation", "eval_defect", "judge_uncertain") else f.category
+        key = label if label != "wrong_refusal" else f"wrong_refusal:{f.direction or 'over_refusal'}"
         groups.setdefault(key, []).append(f)
     r = defn.retrieval
     sp = defn.system_prompt
@@ -314,7 +315,9 @@ def run_optimizer(ctx: RunContext, v0: AgentDefinition, es: EvalSet, max_iters: 
                       f"{before['heldout_composite']:.4f}->{after['heldout_composite']:.4f} ({d_held:+.4f}); "
                       + ("ACCEPTED" if accept else "ROLLED BACK: " + ("dev regressed" if not ok_dev else
                          "held-out dropped beyond tolerance" if not ok_held else "no improvement")))
-            entries.append(ChangeLogEntry(iteration=it, attempt=attempt, failure_category=fx.category,
+            base = fx.category.split(":")[0]
+            entries.append(ChangeLogEntry(iteration=it, attempt=attempt, failure_category=to_category(base),
+                                          failure_subcategory="" if fx.category in CATEGORIES else fx.category,
                                           affected_case_ids=fx.affected, fix_id=fx.id, patch=applied, rationale=fx.rationale,
                                           score_before=before, score_after=after, accepted=accept, decision_reason=reason))
             save_eval_artifacts(ctx, f"{prefix}/candidates/attempt_{attempt}", cand, cand_run)

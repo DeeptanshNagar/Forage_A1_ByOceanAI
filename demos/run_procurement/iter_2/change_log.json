@@ -3,6 +3,7 @@
     "iteration": 2,
     "attempt": 1,
     "failure_category": "prompt_defect",
+    "failure_subcategory": "",
     "affected_case_ids": [
       "ans-003",
       "ans-004",
@@ -37,6 +38,7 @@
     "iteration": 2,
     "attempt": 2,
     "failure_category": "prompt_defect",
+    "failure_subcategory": "",
     "affected_case_ids": [
       "ans-003",
       "ans-004",

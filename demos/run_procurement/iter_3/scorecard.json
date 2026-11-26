@@ -18,7 +18,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 0.96,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 5.667,
+    "avg_latency_s": 0.018,
     "judge_calls_cases": 25,
     "judge_agreement_rate": 0.64,
     "judge_uncertain": 9,
@@ -55,7 +55,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 1.0,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 5.738,
+    "avg_latency_s": 0.018,
     "judge_calls_cases": 16,
     "judge_agreement_rate": 0.75,
     "judge_uncertain": 4,
@@ -92,7 +92,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 0.8889,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 5.544,
+    "avg_latency_s": 0.018,
     "judge_calls_cases": 9,
     "judge_agreement_rate": 0.4444,
     "judge_uncertain": 5,
@@ -117,7 +117,8 @@
     {
       "iteration": 3,
       "attempt": 1,
-      "failure_category": "wrong_refusal:missed_refusal",
+      "failure_category": "wrong_refusal",
+      "failure_subcategory": "wrong_refusal:missed_refusal",
       "affected_case_ids": [
         "ref-018",
         "ref-020"
@@ -150,7 +151,8 @@
     {
       "iteration": 3,
       "attempt": 2,
-      "failure_category": "wrong_refusal:missed_refusal",
+      "failure_category": "wrong_refusal",
+      "failure_subcategory": "wrong_refusal:missed_refusal",
       "affected_case_ids": [
         "ref-018",
         "ref-020"

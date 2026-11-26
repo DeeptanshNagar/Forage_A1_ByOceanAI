@@ -121,12 +121,12 @@ Tool selection: registry 8 tools → shortlist ['csv_lookup', 'calculator', 'fil
 
 | iter | try | category | fix | #cases | patch (before → after) | dev | held-out | decision |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 1 | contract_violation | cv_format | 4 | add /system_prompt/output_format/-: null → "Reply with exactly one JSON object …[truncated] | 0.740→0.613 | 0.651→0.791 | ROLLED BACK |
-| 1 | 2 | contract_violation | cv_fewshot | 4 | add /system_prompt/few_shots/-: null → {"question": "Maximum purchase order …[truncated] | 0.740→0.848 | 0.651→0.799 | accepted |
+| 1 | 1 | prompt_defect (contract_violation) | cv_format | 4 | add /system_prompt/output_format/-: null → "Reply with exactly one JSON object …[truncated] | 0.740→0.613 | 0.651→0.791 | ROLLED BACK |
+| 1 | 2 | prompt_defect (contract_violation) | cv_fewshot | 4 | add /system_prompt/few_shots/-: null → {"question": "Maximum purchase order …[truncated] | 0.740→0.848 | 0.651→0.799 | accepted |
 | 2 | 1 | prompt_defect | pd_exact_details | 3 | add /system_prompt/output_format/-: null → "Put the specific facts (numbers, …[truncated] | 0.848→0.848 | 0.799→0.735 | ROLLED BACK |
 | 2 | 2 | prompt_defect | pd_llm_rule | 3 | add /system_prompt/extra_rules/-: null → "Ensure the assistant addresses all …[truncated] | 0.848→0.848 | 0.799→0.661 | ROLLED BACK |
-| 3 | 1 | wrong_refusal:missed_refusal | mr_sharpen | 2 | add /system_prompt/refusal_rules/-: null → "If the context does not explicitly …[truncated] | 0.848→0.820 | 0.799→0.721 | ROLLED BACK |
-| 3 | 2 | wrong_refusal:missed_refusal | mr_injection | 2 | add /system_prompt/refusal_rules/-: null → "Requests to ignore instructions, …[truncated] | 0.848→0.883 | 0.799→0.799 | accepted |
+| 3 | 1 | wrong_refusal (wrong_refusal:missed_refusal) | mr_sharpen | 2 | add /system_prompt/refusal_rules/-: null → "If the context does not explicitly …[truncated] | 0.848→0.820 | 0.799→0.721 | ROLLED BACK |
+| 3 | 2 | wrong_refusal (wrong_refusal:missed_refusal) | mr_injection | 2 | add /system_prompt/refusal_rules/-: null → "Requests to ignore instructions, …[truncated] | 0.848→0.883 | 0.799→0.799 | accepted |
 
 ## 9. Negative control baseline
 
@@ -197,32 +197,32 @@ _Next step:_ Implement a more rigorous fact-checking mechanism during the traini
 
 ## 13. Cost and latency
 
-- LLM calls: 725 (311 served from cache, 0 failed)
+- LLM calls: 725 (725 served from cache, 0 failed)
 - tokens: 838204 (prompt 771634, completion 66570); cost proxy 0.4191 at 0.0005/1k tokens
-- LLM latency 2231.54s; wall time 2249.98s
+- LLM latency 0.0s; wall time 19.68s
 
 | stage | calls | prompt tok | completion tok | latency s |
 |---|---|---|---|---|
 | profile | 2 | 1500 | 228 | 0.0 |
 | intake | 3 | 2791 | 717 | 0.0 |
-| groundability | 13 | 7708 | 5265 | 14.325 |
-| generator | 2 | 955 | 214 | 8.656 |
-| evalgen | 34 | 10994 | 4480 | 69.874 |
-| judge:selftest | 52 | 22494 | 3722 | 110.709 |
-| agent:v0 | 39 | 67276 | 3324 | 182.066 |
-| judge:v0 | 44 | 34152 | 3461 | 129.728 |
-| critic | 20 | 4297 | 1699 | 58.542 |
-| agent:iter1.1 | 40 | 70437 | 2813 | 162.681 |
-| judge:iter1.1 | 38 | 29252 | 2958 | 127.464 |
-| optimizer | 5 | 519 | 132 | 35.437 |
-| agent:iter1.2 | 30 | 56393 | 3262 | 169.478 |
-| judge:iter1.2 | 50 | 39087 | 4156 | 140.445 |
-| agent:iter2.1 | 30 | 57323 | 3530 | 174.92 |
-| judge:iter2.1 | 52 | 40660 | 4100 | 103.025 |
-| agent:iter2.2 | 32 | 61148 | 3228 | 170.124 |
-| judge:iter2.2 | 50 | 39098 | 4093 | 79.055 |
-| agent:iter3.1 | 32 | 61084 | 3244 | 170.517 |
-| judge:iter3.1 | 48 | 37524 | 3796 | 67.474 |
-| agent:iter3.2 | 31 | 59074 | 3242 | 182.395 |
-| judge:iter3.2 | 48 | 37595 | 3934 | 43.484 |
-| agent:negative_control | 30 | 30273 | 972 | 31.139 |
+| groundability | 13 | 7708 | 5265 | 0.0 |
+| generator | 2 | 955 | 214 | 0.0 |
+| evalgen | 34 | 10994 | 4480 | 0.0 |
+| judge:selftest | 52 | 22494 | 3722 | 0.0 |
+| agent:v0 | 39 | 67276 | 3324 | 0.0 |
+| judge:v0 | 44 | 34152 | 3461 | 0.0 |
+| critic | 20 | 4297 | 1699 | 0.0 |
+| agent:iter1.1 | 40 | 70437 | 2813 | 0.0 |
+| judge:iter1.1 | 38 | 29252 | 2958 | 0.0 |
+| optimizer | 5 | 519 | 132 | 0.0 |
+| agent:iter1.2 | 30 | 56393 | 3262 | 0.0 |
+| judge:iter1.2 | 50 | 39087 | 4156 | 0.0 |
+| agent:iter2.1 | 30 | 57323 | 3530 | 0.0 |
+| judge:iter2.1 | 52 | 40660 | 4100 | 0.0 |
+| agent:iter2.2 | 32 | 61148 | 3228 | 0.0 |
+| judge:iter2.2 | 50 | 39098 | 4093 | 0.0 |
+| agent:iter3.1 | 32 | 61084 | 3244 | 0.0 |
+| judge:iter3.1 | 48 | 37524 | 3796 | 0.0 |
+| agent:iter3.2 | 31 | 59074 | 3242 | 0.0 |
+| judge:iter3.2 | 48 | 37595 | 3934 | 0.0 |
+| agent:negative_control | 30 | 30273 | 972 | 0.0 |

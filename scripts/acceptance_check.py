@@ -127,6 +127,11 @@ def c6():
         entries = [e for it in iters for e in j(r / it / "change_log.json")]
         assert all({"score_before", "score_after", "accepted", "patch", "failure_category"} <= set(e) for e in entries)
         fc = j(r / iters[0] / "failure_classification.json")
+        four = {"retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal"}
+        for it in iters:
+            cats = {f["category"] for f in j(r / it / "failure_classification.json")["failures"]}
+            cats |= {e["failure_category"] for e in j(r / it / "change_log.json")}
+            assert cats <= four, f"{it}: failure categories outside the four required ones: {cats - four}"
         es = j(r / "eval_set.json")
         assert {"dev", "heldout"} <= {c["split"] for c in es["cases"]}
         d.append(f"{k}: {len(iters)} iter(s), {len(entries)} patch attempt(s) "

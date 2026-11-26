@@ -16,7 +16,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 1.05,
+    "avg_latency_s": 0.006,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -53,7 +53,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 1.146,
+    "avg_latency_s": 0.006,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -90,7 +90,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 0.883,
+    "avg_latency_s": 0.006,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -149,7 +149,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 5.75
+      "latency_s": 0.011
     },
     {
       "case_id": "ans-002",
@@ -187,7 +187,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.91
+      "latency_s": 0.01
     },
     {
       "case_id": "ans-003",
@@ -226,7 +226,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.808
+      "latency_s": 0.005
     },
     {
       "case_id": "ans-004",
@@ -265,7 +265,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.831
+      "latency_s": 0.004
     },
     {
       "case_id": "ans-005",
@@ -303,7 +303,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 1.056
+      "latency_s": 0.005
     },
     {
       "case_id": "ans-006",
@@ -341,7 +341,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.789
+      "latency_s": 0.004
     },
     {
       "case_id": "ans-007",
@@ -379,7 +379,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.837
+      "latency_s": 0.003
     },
     {
       "case_id": "ans-008",
@@ -417,7 +417,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 1.053
+      "latency_s": 0.005
     },
     {
       "case_id": "ans-009",
@@ -455,7 +455,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 1.004
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-010",
@@ -494,7 +494,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.774
+      "latency_s": 0.01
     },
     {
       "case_id": "ans-011",
@@ -532,7 +532,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.834
+      "latency_s": 0.01
     },
     {
       "case_id": "ans-012",
@@ -570,7 +570,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.774
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-013",
@@ -609,7 +609,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.861
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-014",
@@ -647,7 +647,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.835
+      "latency_s": 0.007
     },
     {
       "case_id": "ref-015",
@@ -680,7 +680,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.967
+      "latency_s": 0.005
     },
     {
       "case_id": "ref-016",
@@ -713,7 +713,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.856
+      "latency_s": 0.007
     },
     {
       "case_id": "ref-017",
@@ -746,7 +746,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.978
+      "latency_s": 0.005
     },
     {
       "case_id": "ref-018",
@@ -779,7 +779,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.801
+      "latency_s": 0.006
     },
     {
       "case_id": "ref-019",
@@ -812,7 +812,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.761
+      "latency_s": 0.009
     },
     {
       "case_id": "ref-020",
@@ -845,7 +845,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 1.021
+      "latency_s": 0.005
     },
     {
       "case_id": "ref-021",
@@ -878,7 +878,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.955
+      "latency_s": 0.006
     },
     {
       "case_id": "ref-022",
@@ -911,7 +911,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.856
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-023",
@@ -950,7 +950,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 1.124
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-024",
@@ -989,7 +989,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.841
+      "latency_s": 0.005
     },
     {
       "case_id": "edg-025",
@@ -1027,7 +1027,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.823
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-026",
@@ -1066,7 +1066,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.862
+      "latency_s": 0.006
     },
     {
       "case_id": "edg-027",
@@ -1104,7 +1104,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.995
+      "latency_s": 0.006
     },
     {
       "case_id": "edg-028",
@@ -1142,7 +1142,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.811
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-029",
@@ -1181,7 +1181,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.893
+      "latency_s": 0.006
     },
     {
       "case_id": "edg-030",
@@ -1220,7 +1220,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.826
+      "latency_s": 0.01
     }
   ]
 }

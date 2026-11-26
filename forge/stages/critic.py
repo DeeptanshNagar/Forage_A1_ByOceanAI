@@ -9,8 +9,21 @@ from ..context import RunContext
 from ..schemas import EvalCase, Explanations, FailureClassification, Judgment, TieBreak
 from ..textutils import truncate
 
-CATEGORIES = ["retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal", "contract_violation", "eval_defect",
-              "judge_uncertain"]
+CATEGORIES = ["retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal"]  # the assignment's four
+# finer rule labels and the category each one is reported under
+SUBCATEGORY_PARENT = {"contract_violation": "prompt_defect", "judge_uncertain": "prompt_defect", "eval_defect": "prompt_defect"}
+
+
+def to_category(label: str, candidates: list[str] | None = None) -> str:
+    """Map a rule label onto one of the four categories. eval_defect takes the other rule candidate (R4 -> wrong_refusal,
+    R12 -> prompt_defect) because the agent-side symptom is what the category names."""
+    if label in CATEGORIES:
+        return label
+    if label == "eval_defect":
+        other = next((c for c in candidates or [] if c in CATEGORIES), None)
+        if other:
+            return other
+    return SUBCATEGORY_PARENT.get(label, "prompt_defect")
 
 
 def rule_classify(j: Judgment, fact_thr: float = 0.6) -> tuple[list[str], str, str]:
@@ -80,7 +93,8 @@ def classify_failures(ctx: RunContext, judgments: list[Judgment], cases: list[Ev
             cat = chosen if chosen in cands else cands[0]
             expl = tb.explanation
             rule += f" | tie-break {cands} -> {cat}"
-        out.append(FailureClassification(case_id=j.case_id, split=j.split, category=cat, direction=direction, rule=rule,
+        out.append(FailureClassification(case_id=j.case_id, split=j.split, category=to_category(cat, cands),
+                                         subcategory="" if cat in CATEGORIES else cat, direction=direction, rule=rule,
                                          explanation=expl))
     if explain:
         _explain(ctx, out, judgments)
@@ -92,7 +106,7 @@ def _explain(ctx: RunContext, fcs: list[FailureClassification], judgments: list[
     by_cat: dict[str, list[FailureClassification]] = {}
     for f in fcs:
         if not f.explanation:
-            by_cat.setdefault(f.category, []).append(f)
+            by_cat.setdefault(f.subcategory or f.category, []).append(f)
     for cat, items in by_cat.items():
         for i in range(0, len(items), 8):
             batch = items[i: i + 8]
@@ -112,4 +126,5 @@ def summarize_classification(fcs: list[FailureClassification]) -> dict[str, Any]
             "by_category": dict(Counter(f.category for f in fcs)),
             "by_category_dev": dict(Counter(f.category for f in fcs if f.split == "dev")),
             "by_category_heldout": dict(Counter(f.category for f in fcs if f.split == "heldout")),
+            "by_subcategory": dict(Counter(f.subcategory for f in fcs if f.subcategory)),
             "failures": [f.model_dump() for f in fcs]}

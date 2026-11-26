@@ -223,7 +223,8 @@ def generate_report(ctx: RunContext) -> str:
         j = jmap.get(f["case_id"], {})
         by_cat.setdefault(f["category"], []).append({"id": f["case_id"], "split": f["split"], "question": truncate(j.get("question", ""), 140),
                                                      "answer": truncate(j.get("answer", ""), 140), "signals": "; ".join(j.get("reasons", []))[:220],
-                                                     "rule": f.get("rule", ""), "explanation": f.get("explanation", "")})
+                                                     "rule": (f"[{f['subcategory']}] " if f.get("subcategory") else "") + f.get("rule", ""),
+                                                     "explanation": f.get("explanation", "")})
 
     # ---- LLM narrative (validated)
     headline = {
@@ -338,7 +339,8 @@ def generate_report(ctx: RunContext) -> str:
     ch_rows = []
     for sc in facts.get("iterations", []):
         for a in sc.get("attempts", []):
-            ch_rows.append([a["iteration"], a["attempt"], a["failure_category"], a["fix_id"], len(a["affected_case_ids"]),
+            cat = a["failure_category"] + (f" ({a['failure_subcategory']})" if a.get("failure_subcategory") else "")
+            ch_rows.append([a["iteration"], a["attempt"], cat, a["fix_id"], len(a["affected_case_ids"]),
                             "; ".join(f"{p['op']} {p['path']}: {truncate(json.dumps(p.get('before')), 40)} → {truncate(json.dumps(p.get('value')), 60)}" for p in a["patch"]),
                             f"{_f(a['score_before']['dev_composite'])}→{_f(a['score_after']['dev_composite'])}",
                             f"{_f(a['score_before']['heldout_composite'])}→{_f(a['score_after']['heldout_composite'])}",

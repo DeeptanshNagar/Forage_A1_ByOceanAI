@@ -117,7 +117,7 @@ Tool selection: registry 8 tools → shortlist ['email_sender_stub', 'current_da
 
 | iter | try | category | fix | #cases | patch (before → after) | dev | held-out | decision |
 |---|---|---|---|---|---|---|---|---|
-| 1 | 1 | wrong_refusal:over_refusal | wr_relax | 1 | replace /system_prompt/insufficient_context: "If the context …[truncated] → "Refuse only when no passage in the …[truncated] | 0.923→0.970 | 0.844→0.844 | accepted |
+| 1 | 1 | wrong_refusal (wrong_refusal:over_refusal) | wr_relax | 1 | replace /system_prompt/insufficient_context: "If the context …[truncated] → "Refuse only when no passage in the …[truncated] | 0.923→0.970 | 0.844→0.844 | accepted |
 
 ## 9. Negative control baseline
 
@@ -178,7 +178,7 @@ _Next step:_ Expand the model's training data to include a broader range of cont
 
 - LLM calls: 285 (285 served from cache, 0 failed)
 - tokens: 221431 (prompt 193321, completion 28110); cost proxy 0.1107 at 0.0005/1k tokens
-- LLM latency 0.0s; wall time 13.04s
+- LLM latency 0.0s; wall time 13.92s
 
 | stage | calls | prompt tok | completion tok | latency s |
 |---|---|---|---|---|

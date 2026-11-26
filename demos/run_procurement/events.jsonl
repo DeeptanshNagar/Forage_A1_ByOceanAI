@@ -1,8 +1,8 @@
-{"t": 1795695105.634, "kind": "warning", "message": "PARTIAL support for 'description': model says yes but none of its quotes could be found in the passages (unverified claim)"}
-{"t": 1795695105.635, "kind": "warning", "message": "PARTIAL support for 'category': model says yes but none of its quotes could be found in the passages (unverified claim)"}
-{"t": 1795695105.636, "kind": "warning", "message": "PARTIAL support for 'vessel class': model says yes but none of its quotes could be found in the passages (unverified claim)"}
-{"t": 1795695105.636, "kind": "warning", "message": "PARTIAL support for 'unit price': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['price', 'unit'] (deterministic rescue)"}
-{"t": 1795695105.636, "kind": "warning", "message": "PARTIAL support for 'stock': model says yes but none of its quotes could be found in the passages (unverified claim)"}
-{"t": 1795695105.637, "kind": "warning", "message": "PARTIAL support for 'supplier': model says yes but none of its quotes could be found in the passages (unverified claim)"}
-{"t": 1795695105.637, "kind": "warning", "message": "PARTIAL support for 'order total': model says partial; 1 quote(s) verified"}
-{"t": 1795695105.637, "kind": "warning", "message": "UNSUPPORTED capability 'internet_api': no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"}
+{"t": 1795706562.881, "kind": "warning", "message": "PARTIAL support for 'description': model says yes but none of its quotes could be found in the passages (unverified claim)"}
+{"t": 1795706562.881, "kind": "warning", "message": "PARTIAL support for 'category': model says yes but none of its quotes could be found in the passages (unverified claim)"}
+{"t": 1795706562.882, "kind": "warning", "message": "PARTIAL support for 'vessel class': model says yes but none of its quotes could be found in the passages (unverified claim)"}
+{"t": 1795706562.882, "kind": "warning", "message": "PARTIAL support for 'unit price': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['price', 'unit'] (deterministic rescue)"}
+{"t": 1795706562.884, "kind": "warning", "message": "PARTIAL support for 'stock': model says yes but none of its quotes could be found in the passages (unverified claim)"}
+{"t": 1795706562.885, "kind": "warning", "message": "PARTIAL support for 'supplier': model says yes but none of its quotes could be found in the passages (unverified claim)"}
+{"t": 1795706562.887, "kind": "warning", "message": "PARTIAL support for 'order total': model says partial; 1 quote(s) verified"}
+{"t": 1795706562.887, "kind": "warning", "message": "UNSUPPORTED capability 'internet_api': no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"}

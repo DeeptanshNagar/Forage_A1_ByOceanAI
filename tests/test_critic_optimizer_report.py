@@ -30,6 +30,18 @@ def test_failure_classifier_rules(j, cat):
     assert cands[0] == cat and rule.startswith("R")
 
 
+def test_every_failure_maps_to_one_of_the_four_required_categories():
+    from forge.stages.critic import CATEGORIES, to_category
+
+    assert CATEGORIES == ["retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal"]
+    assert to_category("contract_violation") == "prompt_defect"
+    assert to_category("judge_uncertain") == "prompt_defect"
+    assert to_category("eval_defect", ["wrong_refusal", "eval_defect"]) == "wrong_refusal"
+    assert to_category("eval_defect", ["prompt_defect", "eval_defect"]) == "prompt_defect"
+    for c in CATEGORIES:
+        assert to_category(c) == c
+
+
 def test_missed_vs_over_refusal_direction():
     assert rule_classify(J(refused=True))[1] == "over_refusal"
     assert rule_classify(J(exp="refuse", subtype="must_refuse"))[1] == "missed_refusal"

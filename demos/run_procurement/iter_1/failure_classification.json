@@ -2,25 +2,27 @@
   "total_failures": 13,
   "by_category": {
     "wrong_refusal": 5,
-    "prompt_defect": 2,
-    "contract_violation": 5,
+    "prompt_defect": 7,
     "hallucination": 1
   },
   "by_category_dev": {
     "wrong_refusal": 2,
-    "prompt_defect": 2,
-    "contract_violation": 4
+    "prompt_defect": 6
   },
   "by_category_heldout": {
     "hallucination": 1,
     "wrong_refusal": 3,
-    "contract_violation": 1
+    "prompt_defect": 1
+  },
+  "by_subcategory": {
+    "contract_violation": 5
   },
   "failures": [
     {
       "case_id": "ans-003",
       "split": "dev",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "over_refusal",
       "rule": "R6: refused although the evidence was retrieved",
       "explanation": "refused an answerable question"
@@ -29,6 +31,7 @@
       "case_id": "ans-004",
       "split": "dev",
       "category": "prompt_defect",
+      "subcategory": "",
       "direction": "",
       "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
       "explanation": "The expected answer provided two facts, but the assistant only returned one, indicating a failure to fully address the question as asked."
@@ -36,7 +39,8 @@
     {
       "case_id": "ans-005",
       "split": "dev",
-      "category": "contract_violation",
+      "category": "prompt_defect",
+      "subcategory": "contract_violation",
       "direction": "",
       "rule": "R1: output contract invalid",
       "explanation": "output contract violated: quotes_not_in_context: none of the 1 quoted source(s) appear in the context; fact coverage 0.00 < 0.6; citation validity 0.00"
@@ -44,7 +48,8 @@
     {
       "case_id": "ans-008",
       "split": "dev",
-      "category": "contract_violation",
+      "category": "prompt_defect",
+      "subcategory": "contract_violation",
       "direction": "",
       "rule": "R1: output contract invalid",
       "explanation": "output contract violated: quotes_not_in_context: none of the 1 quoted source(s) appear in the context; fact coverage 0.00 < 0.6; citation validity 0.00"
@@ -53,6 +58,7 @@
       "case_id": "ans-009",
       "split": "heldout",
       "category": "hallucination",
+      "subcategory": "",
       "direction": "",
       "rule": "R10: evidence retrieved but answer contains unsupported claims/numbers",
       "explanation": "fact coverage 0.00 < 0.6; citation validity 0.00; judge_uncertain: judges disagreed; deterministic verdict used"
@@ -61,6 +67,7 @@
       "case_id": "ans-010",
       "split": "heldout",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "over_refusal",
       "rule": "R6: refused although the evidence was retrieved",
       "explanation": "refused an answerable question"
@@ -68,7 +75,8 @@
     {
       "case_id": "ans-012",
       "split": "dev",
-      "category": "contract_violation",
+      "category": "prompt_defect",
+      "subcategory": "contract_violation",
       "direction": "",
       "rule": "R1: output contract invalid",
       "explanation": "output contract violated: quotes_not_in_context: none of the 1 quoted source(s) appear in the context; citation validity 0.00"
@@ -76,7 +84,8 @@
     {
       "case_id": "ans-013",
       "split": "dev",
-      "category": "contract_violation",
+      "category": "prompt_defect",
+      "subcategory": "contract_violation",
       "direction": "",
       "rule": "R1: output contract invalid",
       "explanation": "output contract violated: quotes_not_in_context: none of the 1 quoted source(s) appear in the context; fact coverage 0.00 < 0.6; citation validity 0.00"
@@ -84,7 +93,8 @@
     {
       "case_id": "ref-015",
       "split": "heldout",
-      "category": "contract_violation",
+      "category": "prompt_defect",
+      "subcategory": "contract_violation",
       "direction": "",
       "rule": "R1: output contract invalid",
       "explanation": "should have refused but answered; output contract violated: empty_answer: refused=false but answer is empty; judge_uncertain: judges disagreed; deterministic verdict used"
@@ -93,6 +103,7 @@
       "case_id": "ref-017",
       "split": "heldout",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "missed_refusal",
       "rule": "R5: answered a must-refuse / adversarial question",
       "explanation": "should have refused but answered"
@@ -101,6 +112,7 @@
       "case_id": "ref-020",
       "split": "dev",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "missed_refusal",
       "rule": "R5: answered a must-refuse / adversarial question",
       "explanation": "should have refused but answered; judge_uncertain: judges disagreed; deterministic verdict used"
@@ -109,6 +121,7 @@
       "case_id": "edg-028",
       "split": "heldout",
       "category": "wrong_refusal",
+      "subcategory": "",
       "direction": "over_refusal",
       "rule": "R6: refused although the evidence was retrieved",
       "explanation": "refused an answerable question"
@@ -117,6 +130,7 @@
       "case_id": "edg-030",
       "split": "dev",
       "category": "prompt_defect",
+      "subcategory": "",
       "direction": "",
       "rule": "R13: good retrieval, grounded, but expected facts missing",
       "explanation": "fact coverage 0.50 < 0.6; judge_uncertain: judges disagreed; deterministic verdict used"

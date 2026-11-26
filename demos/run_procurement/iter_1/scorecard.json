@@ -18,7 +18,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 0.7727,
     "contract_valid_rate": 0.8333,
-    "avg_latency_s": 6.089,
+    "avg_latency_s": 0.017,
     "judge_calls_cases": 22,
     "judge_agreement_rate": 0.7273,
     "judge_uncertain": 6,
@@ -55,7 +55,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 0.7143,
     "contract_valid_rate": 0.7895,
-    "avg_latency_s": 6.473,
+    "avg_latency_s": 0.017,
     "judge_calls_cases": 14,
     "judge_agreement_rate": 0.7857,
     "judge_uncertain": 3,
@@ -92,7 +92,7 @@
     "retrieval_hit": 1.0,
     "citation_validity": 0.875,
     "contract_valid_rate": 0.9091,
-    "avg_latency_s": 5.425,
+    "avg_latency_s": 0.016,
     "judge_calls_cases": 8,
     "judge_agreement_rate": 0.625,
     "judge_uncertain": 3,
@@ -117,7 +117,8 @@
     {
       "iteration": 1,
       "attempt": 1,
-      "failure_category": "contract_violation",
+      "failure_category": "prompt_defect",
+      "failure_subcategory": "contract_violation",
       "affected_case_ids": [
         "ans-005",
         "ans-008",
@@ -152,7 +153,8 @@
     {
       "iteration": 1,
       "attempt": 2,
-      "failure_category": "contract_violation",
+      "failure_category": "prompt_defect",
+      "failure_subcategory": "contract_violation",
       "affected_case_ids": [
         "ans-005",
         "ans-008",

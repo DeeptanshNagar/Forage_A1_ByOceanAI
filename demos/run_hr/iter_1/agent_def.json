@@ -161,7 +161,7 @@
       "tool_select": "1.0"
     },
     "requirements_hash": "a39afd254316f3b9",
-    "created_at": "2026-11-26T12:11:17.220198+00:00",
+    "created_at": "2026-11-26T15:22:25.564035+00:00",
     "variant": "balanced: clear and complete",
     "llm_draft_ok": true,
     "retrieval_rationale": "3/3 prose docs have >=3 headings -> heading-aware chunking; short sections (~41 words) -> 140-word chunks",

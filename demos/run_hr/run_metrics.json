@@ -124,10 +124,10 @@
     "max_tokens": 0,
     "max_seconds": 0.0,
     "tokens_used": 0,
-    "elapsed_s": 14.0,
+    "elapsed_s": 14.67,
     "exceeded": false,
     "exceeded_reason": ""
   },
-  "wall_time_s": 13.08,
+  "wall_time_s": 13.94,
   "sessions": 12
 }

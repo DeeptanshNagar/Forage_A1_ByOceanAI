@@ -674,15 +674,15 @@ class Judgment(BaseModel):
 # --------------------------------------------------------------------------- critic / optimizer
 
 
-FailureCategory = Literal[
-    "retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal", "contract_violation", "eval_defect", "judge_uncertain"
-]
+# The four categories the assignment prescribes; every failure gets exactly one of them.
+FailureCategory = Literal["retrieval_miss", "prompt_defect", "hallucination", "wrong_refusal"]
 
 
 class FailureClassification(BaseModel):
     case_id: str
     split: str
     category: FailureCategory
+    subcategory: str = ""  # finer rule label (e.g. contract_violation, eval_defect); drives the optimizer's fix menu
     direction: str = ""  # for wrong_refusal: over_refusal | missed_refusal
     rule: str
     explanation: str = ""
@@ -699,6 +699,7 @@ class ChangeLogEntry(BaseModel):
     iteration: int
     attempt: int
     failure_category: str
+    failure_subcategory: str = ""
     affected_case_ids: list[str]
     fix_id: str
     patch: list[PatchOp]

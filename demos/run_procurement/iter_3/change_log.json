@@ -2,7 +2,8 @@
   {
     "iteration": 3,
     "attempt": 1,
-    "failure_category": "wrong_refusal:missed_refusal",
+    "failure_category": "wrong_refusal",
+    "failure_subcategory": "wrong_refusal:missed_refusal",
     "affected_case_ids": [
       "ref-018",
       "ref-020"
@@ -35,7 +36,8 @@
   {
     "iteration": 3,
     "attempt": 2,
-    "failure_category": "wrong_refusal:missed_refusal",
+    "failure_category": "wrong_refusal",
+    "failure_subcategory": "wrong_refusal:missed_refusal",
     "affected_case_ids": [
       "ref-018",
       "ref-020"

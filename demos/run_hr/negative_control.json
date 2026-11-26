@@ -16,7 +16,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 0.008,
+    "avg_latency_s": 0.007,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -53,7 +53,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 0.008,
+    "avg_latency_s": 0.007,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -90,7 +90,7 @@
     "retrieval_hit": 0.0,
     "citation_validity": null,
     "contract_valid_rate": 1.0,
-    "avg_latency_s": 0.008,
+    "avg_latency_s": 0.007,
     "judge_calls_cases": 0,
     "judge_agreement_rate": null,
     "judge_uncertain": 0,
@@ -148,7 +148,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.006
     },
     {
       "case_id": "ans-002",
@@ -186,7 +186,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-003",
@@ -224,7 +224,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-004",
@@ -262,7 +262,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.006
+      "latency_s": 0.009
     },
     {
       "case_id": "ans-005",
@@ -301,7 +301,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.008
+      "latency_s": 0.007
     },
     {
       "case_id": "ans-006",
@@ -339,7 +339,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.006
+      "latency_s": 0.009
     },
     {
       "case_id": "ans-007",
@@ -377,7 +377,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-008",
@@ -415,7 +415,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.01
+      "latency_s": 0.009
     },
     {
       "case_id": "ans-009",
@@ -453,7 +453,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.008
+      "latency_s": 0.006
     },
     {
       "case_id": "ans-010",
@@ -531,7 +531,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.01
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-012",
@@ -570,7 +570,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.01
+      "latency_s": 0.008
     },
     {
       "case_id": "ans-013",
@@ -608,7 +608,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.008
+      "latency_s": 0.01
     },
     {
       "case_id": "ans-014",
@@ -646,7 +646,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.01
+      "latency_s": 0.008
     },
     {
       "case_id": "ref-015",
@@ -679,7 +679,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.008
+      "latency_s": 0.009
     },
     {
       "case_id": "ref-016",
@@ -745,7 +745,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.008
+      "latency_s": 0.007
     },
     {
       "case_id": "ref-018",
@@ -778,7 +778,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.009
+      "latency_s": 0.006
     },
     {
       "case_id": "ref-019",
@@ -811,7 +811,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.009
+      "latency_s": 0.005
     },
     {
       "case_id": "ref-020",
@@ -844,7 +844,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.01
+      "latency_s": 0.003
     },
     {
       "case_id": "ref-021",
@@ -877,7 +877,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.009
+      "latency_s": 0.003
     },
     {
       "case_id": "ref-022",
@@ -910,7 +910,7 @@
       "verbosity_flag": false,
       "passed": true,
       "reasons": [],
-      "latency_s": 0.006
+      "latency_s": 0.002
     },
     {
       "case_id": "edg-023",
@@ -949,7 +949,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-024",
@@ -988,7 +988,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.006
+      "latency_s": 0.003
     },
     {
       "case_id": "edg-025",
@@ -1027,7 +1027,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.006
+      "latency_s": 0.004
     },
     {
       "case_id": "edg-026",
@@ -1066,7 +1066,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.003
+      "latency_s": 0.007
     },
     {
       "case_id": "edg-027",
@@ -1105,7 +1105,7 @@
       "reasons": [
         "refused an answerable question"
       ],
-      "latency_s": 0.007
+      "latency_s": 0.006
     },
     {
       "case_id": "edg-028",
