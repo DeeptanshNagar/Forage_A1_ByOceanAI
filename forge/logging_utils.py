@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -10,7 +11,13 @@ from pydantic import BaseModel
 from rich.console import Console
 from rich.panel import Panel
 
-console = Console(highlight=False, soft_wrap=True)
+for _stream in (sys.stdout, sys.stderr):  # Windows consoles default to cp1252
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
+console = Console(highlight=False, soft_wrap=True, legacy_windows=False)
 
 
 class EventLog:

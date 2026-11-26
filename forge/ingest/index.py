@@ -11,7 +11,7 @@ from rank_bm25 import BM25Okapi
 
 from ..config import Settings
 from ..schemas import Chunk, Document, RetrievalConfig
-from ..textutils import content_words, words
+from ..textutils import stems, words
 from .chunker import chunk_documents
 from .embeddings import Embedder, get_embedder
 
@@ -40,7 +40,7 @@ class HybridIndex:
         if hasattr(embedder, "fit") and getattr(embedder, "id", "").startswith("tfidf"):
             embedder.fit(texts)
         self.emb = embeddings if embeddings is not None else (embedder.encode(texts) if texts else np.zeros((0, 1)))
-        self._cw = [set(content_words(t)) for t in texts]
+        self._cw = [stems(t) for t in texts]
 
     # ------------------------------------------------------------------ search
     def search(self, query: str, top_k: int = 5, alpha: float = 0.5, min_score: float = 0.0, rerank: bool = True,
@@ -62,7 +62,7 @@ class HybridIndex:
             rank_d = np.empty(n)
             rank_d[np.argsort(-dense, kind="stable")] = np.arange(n)
             rrf += alpha / (RRF_K + rank_d + 1) + (1 - alpha) / (RRF_K + rank_b + 1)
-            qw = set(content_words(q))
+            qw = stems(q)
             lex = np.array([len(qw & cw) / len(qw) if qw else 0.0 for cw in self._cw])
             dense_best = np.maximum(dense_best, dense)
             lex_best = np.maximum(lex_best, lex)

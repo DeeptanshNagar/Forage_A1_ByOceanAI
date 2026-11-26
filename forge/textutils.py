@@ -68,16 +68,30 @@ def content_words(text: str) -> list[str]:
     return [w for w in words(text) if w not in STOPWORDS and (len(w) > 2 or w.isdigit())]
 
 
+def stem(w: str) -> str:
+    """Tiny suffix stripper (language-agnostic enough for matching; not linguistics)."""
+    if len(w) <= 4 or w.isdigit():
+        return w
+    for suf, rep in (("ies", "y"), ("ing", ""), ("ed", ""), ("es", ""), ("s", "")):
+        if w.endswith(suf) and len(w) - len(suf) >= 3 and not w.endswith("ss"):
+            return w[: len(w) - len(suf)] + rep
+    return w
+
+
+def stems(text: str) -> set[str]:
+    return {stem(w) for w in content_words(text)}
+
+
 def token_recall(reference: str, candidate: str) -> float:
-    ref = set(content_words(reference))
+    ref = stems(reference)
     if not ref:
         return 0.0
-    cand = set(content_words(candidate))
+    cand = stems(candidate)
     return len(ref & cand) / len(ref)
 
 
 def jaccard(a: str, b: str) -> float:
-    sa, sb = set(content_words(a)), set(content_words(b))
+    sa, sb = stems(a), stems(b)
     if not sa or not sb:
         return 0.0
     return len(sa & sb) / len(sa | sb)
