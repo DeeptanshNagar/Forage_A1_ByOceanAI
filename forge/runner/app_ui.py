@@ -128,6 +128,7 @@ div[data-testid="stMetricValue"] { font-family:'Space Grotesk', system-ui, sans-
 .stButton button[kind="primary"] { background: linear-gradient(90deg,#4f46e5,#7c3aed); border:0; color:#fff;
                                    box-shadow: 0 8px 20px -10px rgba(79,70,229,.7); }
 .stButton button[kind="primary"]:hover { background: linear-gradient(90deg,#4338ca,#6d28d9); }
+.stButton button[kind="primary"]:disabled { background: #d4d4e8; color:#6b6b80; box-shadow:none; cursor:not-allowed; }
 [data-testid="stFileUploaderDropzone"] { background:#fff; border:1.5px dashed #a5b4fc; border-radius:14px; }
 .stTextArea textarea { background:#fff; }
 </style>
@@ -427,20 +428,39 @@ def stepper(state: dict[str, str], times: dict[str, float]) -> str:
     return '<div class="fx-steps">' + "".join(out) + "</div>"
 
 
+EXAMPLES = {  # label -> (brief file, documents folder); all live in the repo
+    "HR policy": ("demos/brief_hr.txt", "demos/sources/hr"),
+    "Ship-spares procurement": ("demos/brief_procurement.txt", "demos/sources/procurement"),
+    "Cooking FAQ (unseen)": ("tests/fixtures/cooking_faq/brief.txt", "tests/fixtures/cooking_faq/docs"),
+}
+
+
+def _load_example() -> None:
+    ex = EXAMPLES.get(st.session_state.get("example") or "")
+    st.session_state["brief"] = (ROOT / ex[0]).read_text(encoding="utf-8").strip() if ex else ""
+    st.session_state["example_docs"] = str(ROOT / ex[1]) if ex else ""
+
+
 with build_tab:
     form_col, side_col = st.columns([3, 2], gap="large")
     with form_col:
-        brief = st.text_area("Brief", height=150, placeholder="e.g. I need an assistant that answers HR policy questions for shore "
-                             "staff: leave, travel expenses and grievances. It must not give legal advice.")
-        files = st.file_uploader("Documents", accept_multiple_files=True, type=["pdf", "txt", "md", "docx", "csv"],
-                                 help="PDF, TXT, Markdown, DOCX or CSV")
+        st.pills("Start from an example (fills the brief and documents)", list(EXAMPLES), key="example", on_change=_load_example)
+        brief = st.text_area("Brief: describe the assistant you want built (not a question for it)", height=150, key="brief",
+                             placeholder="e.g. I need an assistant that answers HR policy questions for shore staff: leave, "
+                                         "travel expenses and grievances. It must not give legal advice.")
+        files = st.file_uploader("Documents the agent must answer from", accept_multiple_files=True,
+                                 type=["pdf", "txt", "md", "docx", "csv"], help="PDF, TXT, Markdown, DOCX or CSV")
+        ex_docs = Path(st.session_state["example_docs"]) if st.session_state.get("example_docs") and not files else None
+        if ex_docs:
+            st.markdown("Using example documents: " + "".join(chip(f.name, "info") for f in sorted(ex_docs.iterdir()) if f.is_file()),
+                        unsafe_allow_html=True)
         c1, c2 = st.columns(2)
         max_iters = c1.slider("Optimizer iterations (max)", 0, 3, 3)
         n_evals = c2.slider("Eval cases to generate", 20, 40, 30)
-        go = st.button("Build agent", type="primary", icon=":material/bolt:", disabled=not (brief and files),
-                       width="stretch")
-        if not (brief and files):
-            st.caption("Add a brief and at least one document to start.")
+        ready = bool(brief and (files or ex_docs))
+        go = st.button("Build agent", type="primary", icon=":material/bolt:", disabled=not ready, width="stretch")
+        if not ready:
+            st.caption("Add a brief and at least one document, or pick an example above. To ask an existing agent a question, use the Chat tab.")
     with side_col:
         progress = st.empty()
         progress.markdown('<div class="fx-card"><div class="fx-kicker">What happens</div><p>Runs unattended: '
@@ -449,9 +469,12 @@ with build_tab:
                           + stepper({}, {}), unsafe_allow_html=True)
 
     if go:
-        folder = Path(tempfile.mkdtemp(prefix="forge_docs_"))
-        for f in files:
-            (folder / f.name).write_bytes(f.getbuffer())
+        if files:
+            folder = Path(tempfile.mkdtemp(prefix="forge_docs_"))
+            for f in files:
+                (folder / f.name).write_bytes(f.getbuffer())
+        else:
+            folder = ex_docs
         s = settings.model_copy(update={"n_eval_cases": n_evals})
         p = Pipeline(s, docs=str(folder), brief=brief, mode="non_interactive")
         fns = {"ingest": p.stage_ingest, "intake": p.stage_intake, "groundability": p.stage_groundability,
