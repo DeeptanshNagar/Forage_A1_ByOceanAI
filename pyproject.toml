@@ -38,5 +38,5 @@ include = ["forge*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q -p no:langsmith_plugin -p no:anyio"
 markers = ["slow: slower integration tests"]

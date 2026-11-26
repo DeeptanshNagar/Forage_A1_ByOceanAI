@@ -12,7 +12,7 @@ from ..context import RunContext
 from ..logging_utils import console, stage_banner, success
 from ..schemas import (Contradiction, GroundabilityFlag, GroundabilityReport, GroundCheck, Requirements,
                        TopicGroundability, VerifiedEvidence)
-from ..textutils import quote_match_score, split_sentences, truncate
+from ..textutils import quote_match_score, split_sentences, stems, truncate
 
 QUOTE_THRESHOLD = 90.0
 MIN_RETRIEVAL = 0.12
@@ -143,6 +143,18 @@ def find_contradictions(ctx: RunContext, max_sentences: int = 3000) -> list[Cont
     return found[:10]
 
 
+DENSE_RESCUE = 0.45  # synonyms: a strong dense match keeps a topic even if its words are absent
+_CORPUS_STEMS: dict[int, set[str]] = {}
+
+
+def corpus_stems(ctx: RunContext) -> set[str]:
+    key = id(ctx.documents())
+    if key not in _CORPUS_STEMS:
+        _CORPUS_STEMS[key] = set().union(*(stems(d.text + " " + " ".join(s.heading or "" for s in d.sections))
+                                            for d in ctx.documents()))
+    return _CORPUS_STEMS[key]
+
+
 def _capability_backed(ctx: RunContext, cap: str) -> str | None:
     has_csv = any(d.type == "csv" for d in ctx.documents())
     for t in ctx.registry.tools.values():
@@ -160,7 +172,32 @@ def probe_topic(ctx: RunContext, topic: str, kind: str, query: str | None = None
         check, ok = ctx.llm.try_json(GroundCheck, GroundCheck(verdict="no", missing="judge output unusable"),
                                      prompt="groundability_check", variables={"topic": query or topic, "chunks": chunks})
     evidence = verify_quotes(check, hits)
+    # a verbatim quote proves existence, not relevance: it must share a key term with the topic
+    tstems = {s for s in stems(query or topic) if not s.isdigit()}
+    for e in evidence:
+        if e.verified and tstems and not (stems(e.quote) & tstems):
+            e.verified = False
     status, why = classify(check.verdict, evidence, max_score)
+    # deterministic presence rescue: a retrieved sentence containing all key terms of the topic is evidence, even if
+    # the (small) model missed it or quoted badly
+    if kind == "must_answer" and status == "UNSUPPORTED" and len(tstems) >= 1:
+        for h in hits:
+            sent = next((s for s in split_sentences(h.chunk.text) if tstems <= stems(s)), None)
+            if sent:
+                evidence.append(VerifiedEvidence(chunk_id=h.chunk.id, doc=h.chunk.doc, locator=h.chunk.locator,
+                                                 quote=truncate(sent, 300), verified=True, match_score=100.0))
+                status = "PARTIAL"
+                why = (f"model verdict '{check.verdict}' without usable quote, but a retrieved sentence contains all key "
+                       f"terms {sorted(tstems)} (deterministic rescue)")
+                break
+    # deterministic absence check: most key terms of the topic never occur anywhere in the corpus
+    if kind == "must_answer" and tstems:
+        missing = sorted(tstems - corpus_stems(ctx))
+        best_dense = max((h.dense for h in hits), default=0.0)
+        if len(missing) / len(tstems) > 0.5 and best_dense < DENSE_RESCUE and status != "UNSUPPORTED":
+            status = "UNSUPPORTED"
+            why = (f"key terms {missing} never appear in the documents (dense similarity {best_dense:.2f}); "
+                   f"overrides model verdict '{check.verdict}'")
     if not ok:
         why += " (LLM check failed; conservative default)"
     return TopicGroundability(topic=topic, kind=kind, status=status, retrieval_max_score=round(max_score, 3),

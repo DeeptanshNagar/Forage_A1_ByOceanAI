@@ -247,7 +247,8 @@ class EvalBuilder:
                     if len(q.split()) < 3:
                         self.log.reject("refuse", kind, q, "question missing or too short")
                         continue
-                    if kind in ("absent", "out_of_domain"):
+                    about_removed = kind == "must_refuse" and any(token_recall(t, q) >= 0.5 for t in self.req.removed_topics)
+                    if kind in ("absent", "out_of_domain") or about_removed:
                         contained, why = self._docs_contain_answer(q)
                         if contained:
                             self.log.reject("refuse", kind, q, f"mislabel: documents DO contain an answer ({truncate(why, 60)})")

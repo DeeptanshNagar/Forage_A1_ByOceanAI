@@ -15,7 +15,7 @@ from ..ingest.profile import render_profile
 from ..logging_utils import console, info, read_json, stage_banner, success
 from ..schemas import (Assumption, DocumentProfile, IntakeAnswer, IntakeQuestion, IntakeQuestions, Requirements,
                        RequirementsDraft, SimulatedAnswers, ToolNeed)
-from ..textutils import normalize, split_sentences, truncate
+from ..textutils import content_words, normalize, split_sentences, stem, token_recall, truncate
 
 NO_PREF = "no preference"
 
@@ -161,6 +161,50 @@ def _implied_tool_needs(brief: str, answers: list[IntakeAnswer], profile: Docume
     return needs
 
 
+_NEG_RE = re.compile(r"\b(?:must not|must never|should not|should never|shall not|may not|cannot|never|do not|don't|"
+                     r"must refuse to|is not allowed to|are not allowed to)\s+(.+?)(?:[.;]|$)", re.I)
+_GENERIC_CAP_WORDS = {"data", "information", "documents", "document", "text", "answer", "lookup", "search"}
+
+
+def extract_negative_constraints(brief: str) -> list[str]:
+    """'It must not give legal advice or comment on X' -> ['legal advice', 'comment on X'] (deterministic backstop)."""
+    out: list[str] = []
+    for m in _NEG_RE.finditer(brief):
+        clause = re.split(r",?\s+and\s+(?:should|must|will|it)\b", m.group(1))[0]
+        clause = re.sub(r"^(?:give|provide|offer|answer|discuss|handle|do|make|be used for|engage in)\s+", "", clause.strip(), flags=re.I)
+        for part in re.split(r",\s*|\s+or\s+|\s+nor\s+", clause):
+            part = re.sub(r"^(?:give|provide|offer|answer|discuss|handle|do|make|any)\s+", "", part.strip(), flags=re.I).strip(" .")
+            if 3 <= len(part) <= 100 and len(part.split()) <= 12:
+                out.append(part)
+    return _dedup_ci(out)
+
+
+def extract_escalation(brief: str) -> str:
+    m = re.search(r"[^.]*\b(?:point|refer|direct|send|escalate|redirect)\w*\s+(?:\w+\s+){0,3}to\s+[^.]+\.", brief, re.I)
+    if not m:
+        return ""
+    parts = [p for p in re.split(r",\s*(?:and|but)\s+|;\s*", m.group(0)) if re.search(r"\b(?:point|refer|direct|send|escalate|redirect)", p, re.I)]
+    clause = (parts[-1] if parts else m.group(0)).strip().rstrip(".")
+    return clause[0].upper() + clause[1:] + "." if clause else ""
+
+
+def need_supported(capability: str, justification: str, text: str) -> bool:
+    """A tool need survives only if the brief mentions what it is for (capability words or arithmetic/date cues)."""
+    low = text.lower()
+    words = [w for w in capability.replace("-", "_").split("_") if w and w not in _GENERIC_CAP_WORDS]
+    if any(stem(w) in {stem(x) for x in re.findall(r"[a-z]+", low)} for w in words):
+        return True
+    if capability in ("arithmetic", "calculation", "math", "totals") and re.search(ARITHMETIC_CUES, text, re.I):
+        return True
+    if capability in ("date_time", "current_date") and re.search(DATE_CUES, text, re.I):
+        return True
+    if capability in ("live_information", "web_search", "live_weather") and re.search(LIVE_CUES, text, re.I):
+        return True
+    jw = {stem(w) for w in content_words(justification)}
+    bw = {stem(w) for w in content_words(text)}
+    return len(jw & bw) >= 4
+
+
 def _dedup_ci(items) -> list[str]:
     seen, out = set(), []
     for t in items:
@@ -188,14 +232,29 @@ def finalize_requirements(draft: RequirementsDraft, brief: str, profile: Documen
     if not must_answer:
         must_answer = profile.topics[:8]
         assumptions.append(Assumption(field="must_answer_topics", assumption="no topics extracted from the brief; using document topics"))
-    must_refuse = _dedup_ci(t for t in draft.must_refuse_topics if 2 < len(t.strip()) < 120)[:10]
-    # tool needs: keep LLM-proposed needs that map to known capabilities (or describe an unknown capability honestly)
+    refuse_from_brief = extract_negative_constraints(brief)
+    missed = [t for t in refuse_from_brief
+              if not any(token_recall(t, r) >= 0.5 for r in draft.must_refuse_topics)]
+    if missed:
+        assumptions.append(Assumption(field="must_refuse_topics",
+                                      assumption=f"added {len(missed)} refusal topic(s) found deterministically in the brief "
+                                                 "that the model did not extract"))
+    must_refuse = _dedup_ci(list(t for t in draft.must_refuse_topics if 2 < len(t.strip()) < 120) + missed)[:10]
+    escalation = draft.escalation_policy.strip()
+    if not escalation:
+        escalation = extract_escalation(brief)
+    # tool needs: keep LLM-proposed needs only if the brief/answers actually support them (small models invent needs)
+    support_text = brief + " " + " ".join(a.answer for a in answers if a.answer != NO_PREF)
     needs: list[ToolNeed] = []
     for n in draft.tool_needs:
         cap = n.capability.strip().lower().replace(" ", "_")
         if not cap:
             continue
         n.capability = cap
+        if not need_supported(cap, n.justification, support_text):
+            assumptions.append(Assumption(field="tool_needs",
+                                          assumption=f"dropped model-proposed tool need '{cap}': nothing in the brief requires it"))
+            continue
         needs.append(n)
     for n in _implied_tool_needs(brief, answers, profile):
         if n.capability not in {x.capability for x in needs}:
@@ -208,7 +267,7 @@ def finalize_requirements(draft: RequirementsDraft, brief: str, profile: Documen
         purpose=draft.purpose or truncate(brief, 200), scope=draft.scope or must_answer[:5],
         audience=draft.audience or "general users", tone=draft.tone or "professional and concise", language=lang,
         must_answer_topics=must_answer, must_refuse_topics=must_refuse,
-        escalation_policy=draft.escalation_policy or "Tell the user the information is not in the documents and suggest contacting the responsible team.",
+        escalation_policy=escalation or "Tell the user the information is not in the documents and suggest contacting the responsible team.",
         output_format_needs=draft.output_format_needs or ["cite the source document and section for every answer"],
         tool_needs=needs, assumptions=assumptions, open_risks=draft.open_risks, brief=brief, intake=answers,
     )

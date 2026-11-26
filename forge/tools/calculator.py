@@ -4,6 +4,7 @@ from __future__ import annotations
 import ast
 import math
 import operator
+import re
 from typing import Any
 
 from .registry import Tool
@@ -27,7 +28,7 @@ def safe_eval(expr: str) -> float:
         raise CalcError("empty expression")
     if len(expr) > MAX_EXPR_LEN:
         raise CalcError("expression too long")
-    expr = expr.replace("^", "**").replace("×", "*").replace("÷", "/").replace(",", "")
+    expr = re.sub(r"(?<=\d),(?=\d{3}(?!\d))", "", expr.replace("^", "**").replace("×", "*").replace("÷", "/"))
     try:
         tree = ast.parse(expr.strip(), mode="eval")
     except SyntaxError as e:
