@@ -284,14 +284,16 @@ def run_eval(ctx: RunContext, defn: AgentDefinition, cases: list[EvalCase], labe
     rt = AgentRuntime(defn, ctx.settings, llm=ctx.llm, registry=ctx.registry, docs=ctx.documents(), warn=ctx.events.warn)
     doc_texts = {d.name: d.text for d in ctx.documents()}
     embedder = get_embedder(ctx.settings)
-    results, judgments = [], []
-    for i, c in enumerate(cases, 1):
-        with ctx.llm.stage(f"agent:{label}"):
-            res = rt.answer(c.question, case_id=c.id)
-        with ctx.llm.stage(f"judge:{label}"):
-            j = judge_case(ctx.llm, c, res, doc_texts, embedder, ctx.settings, use_llm=use_llm_judge)
-        results.append(res)
-        judgments.append(j)
+    # two phases (all agent calls, then all judge calls): on a single small GPU this avoids swapping the agent and
+    # judge models for every case
+    results = []
+    with ctx.llm.stage(f"agent:{label}"):
+        for c in cases:
+            results.append(rt.answer(c.question, case_id=c.id))
+    judgments = []
+    with ctx.llm.stage(f"judge:{label}"):
+        for c, res in zip(cases, results):
+            judgments.append(judge_case(ctx.llm, c, res, doc_texts, embedder, ctx.settings, use_llm=use_llm_judge))
     w = ctx.settings.composite_weights
     er = EvalRun(results, judgments, aggregate(judgments, w),
                  aggregate([j for j in judgments if j.split == "dev"], w),

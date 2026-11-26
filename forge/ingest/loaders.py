@@ -22,12 +22,12 @@ _MD_HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$")
 
 def _looks_like_heading(line: str) -> bool:
     s = line.strip()
-    if not s or len(s) > 90 or s.endswith((".", ",", ";", ":")) and not re.match(r"^\d+(\.\d+)*\s", s):
+    if not s or len(s) > 90 or s.endswith((".", ",", ";", ":")):
         return False
-    if re.match(r"^(\d+(\.\d+)*\.?|[IVX]+\.|section\s+\d+|article\s+\d+)\s+\S", s, re.I):
+    if re.match(r"^(\d+(\.\d+)*[.)]?|[A-Z]\d+\.|[IVX]+\.|section\s+\d+|article\s+\d+)\s+[A-ZÀ-ɏ]", s, re.I if s[:7].lower() in ("section", "article") else 0):
         return len(s.split()) <= 12
     letters = [c for c in s if c.isalpha()]
-    return bool(letters) and (s.isupper() and len(s.split()) <= 10)
+    return bool(letters) and s.isupper() and len(s.split()) <= 10
 
 
 def _split_by_headings(text: str, page: int | None = None, md: bool = False,

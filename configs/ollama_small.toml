@@ -1,0 +1,32 @@
+# Profile used for the committed demo runs: a 4 GB GPU (GTX 1650) that fits ONE ~3B model at a time.
+# Agent/factory and judge are different model families (Qwen vs Llama) to reduce self-preference.
+[forge]
+llm_backend = "openai"
+base_url = "http://localhost:11434/v1"
+api_key = "ollama"
+agent_model = "qwen2.5:3b-instruct"
+factory_model = "qwen2.5:3b-instruct"
+judge_model = "llama3.2:3b"
+judge_model_2 = ""
+embedding_backend = "auto"
+embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
+temperature_agent = 0.1
+temperature_factory = 0.3
+temperature_judge = 0.0
+max_tokens = 768
+timeout_s = 300
+json_mode = true
+max_prompt_chars = 11000
+seed = 42
+n_eval_cases = 30
+heldout_fraction = 0.35
+max_iters = 3
+max_patch_attempts = 2
+max_tools = 4
+
+[forge.composite_weights]
+pass_rate = 0.40
+fact_coverage = 0.20
+grounded_rate = 0.20
+refusal_f1 = 0.10
+retrieval_hit = 0.10

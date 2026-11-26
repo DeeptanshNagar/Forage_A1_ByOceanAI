@@ -12,7 +12,7 @@ from ..context import RunContext
 from ..logging_utils import console, stage_banner, success
 from ..schemas import (Contradiction, GroundabilityFlag, GroundabilityReport, GroundCheck, Requirements,
                        TopicGroundability, VerifiedEvidence)
-from ..textutils import jaccard, numbers, quote_match_score, split_sentences, truncate
+from ..textutils import quote_match_score, split_sentences, truncate
 
 QUOTE_THRESHOLD = 90.0
 MIN_RETRIEVAL = 0.12
@@ -55,33 +55,91 @@ def classify(verdict: str, evidence: list[VerifiedEvidence], max_score: float) -
     return "UNSUPPORTED", "model says the passages do not cover the topic"
 
 
+UNITS = (r"days?|working days|weeks?|months?|years?|hours?|minutes?|%|percent|usd|eur|gbp|km|kg|"
+         r"kilometres?|kilometers?|nights?|times|pieces|units")
+_UNIT_RE = re.compile(rf"(\d+(?:[.,]\d+)?)\s*({UNITS})\b", re.I)
+_DATE_RE = re.compile(rf"\b(\d{{1,2}})\s+{MONTHS}\b|\b{MONTHS}\s+(\d{{1,2}})\b", re.I)
+
+
 def _values(sentence: str) -> set[str]:
-    vals = set(numbers(sentence))
-    vals |= {m.group(0).lower() for m in re.finditer(MONTHS, sentence, re.I)}
+    """Comparable values: dates (day+month) and numbers attached to a unit. Bare numbers (versions, ids) are ignored."""
+    vals = {f"{m.group(1)} {m.group(2).lower().rstrip('s')}" for m in _UNIT_RE.finditer(sentence)}
+    for m in _DATE_RE.finditer(sentence):
+        day = m.group(1) or m.group(4)
+        mon = (m.group(2) or m.group(3) or "").lower()
+        vals.add(f"date {day} {mon}")
     return vals
 
 
-def find_contradictions(ctx: RunContext, max_sentences: int = 2500) -> list[Contradiction]:
-    """Cross-document sentence pairs that talk about the same thing but state different numbers/dates."""
-    per_doc: dict[str, list[str]] = {}
+NEAR = 8  # a value must sit within this many tokens of the shared phrase to count as "the value of" that phrase
+
+
+def _bigrams(sentence: str) -> dict[tuple[str, str], int]:
+    """Content-word bigrams (stemmed) -> token position of their first word."""
+    from ..textutils import STOPWORDS, stem, words
+
+    toks = words(sentence)
+    content = [(i, stem(t)) for i, t in enumerate(toks)
+               if t not in STOPWORDS and not t[0].isdigit() and len(t) > 2 and not re.fullmatch(MONTHS, t)]
+    out: dict[tuple[str, str], int] = {}
+    for (i, a), (_, b) in zip(content, content[1:]):
+        out.setdefault((a, b), i)
+    return out
+
+
+def _value_positions(sentence: str) -> list[int]:
+    from ..textutils import words
+
+    return [i for i, t in enumerate(words(sentence)) if t[0].isdigit()]
+
+
+def _near(sentence: str, pos: int) -> bool:
+    return any(abs(p - pos) <= NEAR for p in _value_positions(sentence))
+
+
+def find_contradictions(ctx: RunContext, max_sentences: int = 3000) -> list[Contradiction]:
+    """Cross-document sentence pairs that share a distinctive phrase and attach DIFFERENT dates / unit values to it
+    (value within NEAR tokens of the phrase in both). Generic heuristic: flags candidates for humans and the agent
+    prompt; parallel entries inside one document (e.g. per-supplier terms) are not compared."""
+    sents: list[tuple[str, int, str]] = []
     for d in ctx.documents():
         if d.type == "csv":
             continue
-        sents = [s for s in split_sentences(d.text) if len(s.split()) >= 6 and _values(s)]
-        per_doc[d.name] = sents[: max_sentences // max(1, len(ctx.documents()))]
+        for i, s in enumerate(split_sentences(d.text)):
+            if 5 <= len(s.split()) <= 80:
+                sents.append((d.name, i, s))
+    sents = sents[:max_sentences]
+    bg = [_bigrams(s) for _, _, s in sents]
+    vals = [_values(s) for _, _, s in sents]
+    freq: dict[tuple[str, str], int] = {}
+    for b in bg:
+        for x in b:
+            freq[x] = freq.get(x, 0) + 1
+    common = max(3, len(sents) // 10)
     found: list[Contradiction] = []
-    for (da, sa), (db, sb) in itertools.combinations(per_doc.items(), 2):
-        for a in sa:
-            for b in sb:
-                sim = jaccard(a, b)
-                if sim < 0.4:
-                    continue
-                va, vb = _values(a), _values(b)
-                if va and vb and va != vb and not (va <= vb or vb <= va):
-                    found.append(Contradiction(topic=truncate(a, 80), doc_a=da, doc_b=db, quote_a=a, quote_b=b,
-                                               values_a=sorted(va), values_b=sorted(vb),
-                                               note=f"similar statements (overlap {sim:.2f}) with different values"))
-    found.sort(key=lambda c: -jaccard(c.quote_a, c.quote_b))
+    idx = [i for i in range(len(sents)) if vals[i]]
+    for ai, bi in itertools.combinations(idx, 2):
+        (da, ia, sa), (db, ib, sb) = sents[ai], sents[bi]
+        if da == db:
+            continue
+        shared = {x for x in bg[ai].keys() & bg[bi].keys()
+                  if freq[x] <= common and _near(sa, bg[ai][x]) and _near(sb, bg[bi][x])}
+        if not shared:
+            continue
+        va, vb = vals[ai], vals[bi]
+        kinds_a = {v.split()[0] if v.startswith("date") else v.split()[-1] for v in va}
+        kinds_b = {v.split()[0] if v.startswith("date") else v.split()[-1] for v in vb}
+        same_kind = kinds_a & kinds_b
+        if not same_kind:
+            continue
+        ka = {v for v in va if (v.split()[0] if v.startswith("date") else v.split()[-1]) in same_kind}
+        kb = {v for v in vb if (v.split()[0] if v.startswith("date") else v.split()[-1]) in same_kind}
+        if ka and kb and ka.isdisjoint(kb):
+            phrase = " ".join(sorted(shared, key=lambda x: freq[x])[0])
+            found.append(Contradiction(topic=phrase, doc_a=da, doc_b=db, quote_a=sa, quote_b=sb, values_a=sorted(ka),
+                                       values_b=sorted(kb), note=f"both mention '{phrase}' with different values"
+                                       + (" (same document)" if da == db else "")))
+    found.sort(key=lambda c: (c.doc_a == c.doc_b, -len(c.topic)))
     return found[:10]
 
 

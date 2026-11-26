@@ -120,6 +120,36 @@ class SentenceTransformerEmbedder:
         return _l2(np.asarray(self.model.encode(texts, batch_size=32, show_progress_bar=False)))
 
 
+class TransformersEmbedder:
+    """Mean-pooled sentence-transformers checkpoint via plain `transformers` (CPU). Used when the
+    sentence-transformers package cannot be imported; keeps embeddings off the GPU the LLM server uses."""
+
+    def __init__(self, model_name: str):
+        import torch
+        from transformers import AutoModel, AutoTokenizer
+
+        os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
+        self.torch = torch
+        self.tok = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name).eval()
+        self.id = f"hf:{model_name}"
+
+    def fit(self, texts: list[str]) -> None:
+        return None
+
+    def encode(self, texts: list[str]) -> np.ndarray:
+        if not texts:
+            return np.zeros((0, 384), dtype=np.float32)
+        out = []
+        for i in range(0, len(texts), 32):
+            x = self.tok(texts[i: i + 32], padding=True, truncation=True, max_length=256, return_tensors="pt")
+            with self.torch.no_grad():
+                h = self.model(**x).last_hidden_state
+            mask = x["attention_mask"].unsqueeze(-1)
+            out.append(((h * mask).sum(1) / mask.sum(1)).numpy())
+        return _l2(np.vstack(out))
+
+
 class OpenAICompatEmbedder:
     def __init__(self, settings: Settings, model_name: str):
         from openai import OpenAI
@@ -148,9 +178,13 @@ def _try_st(settings: Settings, warn) -> Embedder | None:
         return None
     try:
         return SentenceTransformerEmbedder(name)
+    except Exception:  # noqa: BLE001
+        pass
+    try:
+        return TransformersEmbedder(name)
     except Exception as e:  # noqa: BLE001
         if warn:
-            warn(f"sentence-transformers unavailable ({type(e).__name__}); trying the server's embedding endpoint")
+            warn(f"local embedding model unavailable ({type(e).__name__}); trying the server's embedding endpoint")
         return None
 
 
