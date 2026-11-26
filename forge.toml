@@ -1,0 +1,37 @@
+# ForgeAI configuration. Environment variables (FORGE_*) and .env override these values.
+[forge]
+llm_backend = "openai"                 # "openai" (any OpenAI-compatible server: Ollama, LM Studio, vLLM...) or "mock"
+base_url = "http://localhost:11434/v1"  # Ollama default
+api_key = "ollama"
+agent_model = "qwen2.5:7b-instruct"
+factory_model = "qwen2.5:7b-instruct"
+judge_model = "llama3.1:8b"            # different family from the agent model to reduce self-preference
+judge_model_2 = ""                     # optional second judge for agreement; empty = same judge, second prompt variant
+embedding_backend = "auto"             # auto | sentence-transformers | ollama | tfidf | hash
+embedding_model = "sentence-transformers/all-MiniLM-L6-v2"
+
+temperature_agent = 0.1
+temperature_factory = 0.3
+temperature_judge = 0.0
+max_tokens = 1024
+timeout_s = 180
+json_mode = true
+max_prompt_chars = 12000
+seed = 42
+
+n_eval_cases = 30
+heldout_fraction = 0.35
+max_iters = 3
+max_patch_attempts = 2
+max_tools = 4
+
+# budgets (0 = unlimited)
+budget_tokens = 0
+budget_seconds = 0
+
+[forge.composite_weights]
+pass_rate = 0.40
+fact_coverage = 0.20
+grounded_rate = 0.20
+refusal_f1 = 0.10
+retrieval_hit = 0.10

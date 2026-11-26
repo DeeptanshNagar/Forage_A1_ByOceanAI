@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.env
+.forge_cache/
+.forge_index/
+runs/
+!demos/**
+.venv/
+.streamlit/secrets.toml
