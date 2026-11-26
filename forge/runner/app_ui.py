@@ -431,17 +431,31 @@ def stepper(state: dict[str, str], times: dict[str, float]) -> str:
     return '<div class="fx-steps">' + "".join(out) + "</div>"
 
 
-EXAMPLES = {  # label -> (brief file, documents folder); all live in the repo
-    "HR policy": ("demos/brief_hr.txt", "demos/sources/hr"),
-    "Ship-spares procurement": ("demos/brief_procurement.txt", "demos/sources/procurement"),
-    "Cooking FAQ (unseen)": ("tests/fixtures/cooking_faq/brief.txt", "tests/fixtures/cooking_faq/docs"),
-}
+def _pretty(name: str) -> str:
+    return " ".join(w.upper() if len(w) <= 3 else w.capitalize() for w in name.split("_"))
+
+
+def discover_examples() -> dict[str, tuple[Path, Path]]:
+    """label -> (brief file, documents folder), discovered from the repo layout (no domain names in code):
+    demos/brief_<name>.txt + demos/sources/<name>/, and tests/fixtures/<name>/brief.txt + docs/ (unseen sets)."""
+    out: dict[str, tuple[Path, Path]] = {}
+    for b in sorted((ROOT / "demos").glob("brief_*.txt")):
+        name = b.stem[len("brief_"):]
+        if (ROOT / "demos" / "sources" / name).is_dir():
+            out[_pretty(name)] = (b, ROOT / "demos" / "sources" / name)
+    for b in sorted((ROOT / "tests" / "fixtures").glob("*/brief.txt")):
+        if (b.parent / "docs").is_dir():
+            out[f"{_pretty(b.parent.name)} (unseen)"] = (b, b.parent / "docs")
+    return out
+
+
+EXAMPLES = discover_examples()
 
 
 def _load_example() -> None:
     ex = EXAMPLES.get(st.session_state.get("example") or "")
-    st.session_state["brief"] = (ROOT / ex[0]).read_text(encoding="utf-8").strip() if ex else ""
-    st.session_state["example_docs"] = str(ROOT / ex[1]) if ex else ""
+    st.session_state["brief"] = ex[0].read_text(encoding="utf-8").strip() if ex else ""
+    st.session_state["example_docs"] = str(ex[1]) if ex else ""
 
 
 with build_tab:
@@ -449,8 +463,8 @@ with build_tab:
     with form_col:
         st.pills("Start from an example (fills the brief and documents)", list(EXAMPLES), key="example", on_change=_load_example)
         brief = st.text_area("Brief: describe the assistant you want built (not a question for it)", height=150, key="brief",
-                             placeholder="e.g. I need an assistant that answers HR policy questions for shore staff: leave, "
-                                         "travel expenses and grievances. It must not give legal advice.")
+                             placeholder="e.g. I need an assistant that answers employees' questions about our travel and "
+                                         "expense policy, citing the policy section. It must not give legal advice.")
         files = st.file_uploader("Documents the agent must answer from", accept_multiple_files=True,
                                  type=["pdf", "txt", "md", "docx", "csv"], help="PDF, TXT, Markdown, DOCX or CSV")
         ex_docs = Path(st.session_state["example_docs"]) if st.session_state.get("example_docs") and not files else None
