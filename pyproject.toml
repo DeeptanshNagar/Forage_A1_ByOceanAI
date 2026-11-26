@@ -18,14 +18,13 @@ dependencies = [
   "numpy>=1.24",
   "rank_bm25>=0.2.2",
   "rapidfuzz>=3.0",
-  "scikit-learn>=1.2",
   "pypdf>=4.0",
   "python-docx>=1.0",
   "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
-dense = ["sentence-transformers>=2.2"]
+dense = ["sentence-transformers>=2.2", "transformers>=4.30", "torch>=2.0"]
 ui = ["streamlit>=1.30"]
 synth = ["reportlab>=4.0"]
 dev = ["pytest>=7", "reportlab>=4.0"]

@@ -13,7 +13,7 @@ run id: demo_hr  backend=openai  agent=qwen2.5:3b-instruct judge=llama3.2:3b
 ╭───────────────────────────────╮
 │ Stage 2 · Groundability guard │
 ╰───────────────────────────────╯
-WARNING PARTIAL support for 'sick leave': model says partial; 3 quote(s) verified
+WARNING PARTIAL support for 'sick leave': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['leave', 'sick'] (deterministic rescue)
 WARNING PARTIAL support for 'sick pay': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['pay', 'sick'] (deterministic rescue)
 WARNING UNSUPPORTED topic 'company pension scheme': key terms ['pension', 'scheme'] never appear in the documents (dense similarity 0.30); overrides model verdict 'partial'
 WARNING possible contradiction between code_of_conduct_travel_expenses.md and leave_policy.pdf: ['date 1 april', 'date 31 march'] vs ['date 1 january', 'date 31 december']
@@ -27,9 +27,6 @@ groundability: {'SUPPORTED': 8, 'PARTIAL': 2, 'UNSUPPORTED': 1, 'TOOL_BACKED': 0
 ✔ agent 'HRAssistant' generated (0 tool(s), strategy=heading, top_k=5)
 ╭──────────────────────────╮
 │ Stage 4 · Eval generator │
-╰────────────�• edge: 8/8
-✔ eval set: 30 cases {'answerable': 14, 'refuse': 8, 'edge': 8}; 1 candidate(s) rejected by QC
-╭───────────────────────────────────────────────────────────╮
-│ Judge self-test                                           │
-│ known-good / hallucinated / wrong-number / padded answers │
-╰───────────────────────────────────────────────────────────╯
+╰──────────────────────────╯
+• answerable: 14/14
+• refuse: 8/8
