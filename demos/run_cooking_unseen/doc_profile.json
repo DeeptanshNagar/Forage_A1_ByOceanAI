@@ -1,0 +1,74 @@
+{
+  "folder": "C:\\Users\\HP\\OneDrive\\Desktop\\ForgeAI\\tests\\fixtures\\cooking_faq\\docs",
+  "files": [
+    {
+      "name": "cooking_faq.md",
+      "type": "md",
+      "size_bytes": 605,
+      "n_chars": 541,
+      "n_pages": null,
+      "n_sections": 4,
+      "language": "en",
+      "headings": [
+        "Rice",
+        "Eggs",
+        "Food safety",
+        "Bread"
+      ],
+      "key_terms": [
+        "rice",
+        "needs minutes",
+        "egg needs",
+        "boiled egg",
+        "should",
+        "within",
+        "white",
+        "water",
+        "long",
+        "cooked"
+      ],
+      "summary": "The document covers cooking times for rice, eggs, and bread, as well as food safety guidelines for cooked leftovers and poultry. It includes instructions on how long to cook white rice, how to prepare soft-boiled and hard-boiled eggs, and the importance of proper bread rising times. It also advises on refrigerating leftovers promptly and ensuring poultry is cooked to a safe internal temperature.",
+      "warnings": [],
+      "csv": null
+    },
+    {
+      "name": "kitchen_basics.txt",
+      "type": "txt",
+      "size_bytes": 332,
+      "n_chars": 315,
+      "n_pages": null,
+      "n_sections": 1,
+      "language": "en",
+      "headings": [
+        "KITCHEN BASICS"
+      ],
+      "key_terms": [
+        "them",
+        "one",
+        "knife",
+        "equals"
+      ],
+      "summary": "The text covers the care of knives, understanding basic measurements, and oven temperature settings for roasting vegetables. It includes topics such as knife care, measuring, and oven temperatures.",
+      "warnings": [],
+      "csv": null
+    }
+  ],
+  "total_chars": 856,
+  "languages": {
+    "en": 856
+  },
+  "primary_language": "en",
+  "topics": [
+    "Cooking Times",
+    "Food Safety",
+    "Rice Cooking",
+    "Eggs Cooking",
+    "Bread Cooking",
+    "Leftovers",
+    "Knife Care",
+    "Measurement Basics",
+    "Oven Temperature",
+    "Vegetable Roasting"
+  ],
+  "warnings": []
+}

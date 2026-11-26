@@ -5,7 +5,8 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEMOS = [("HR policy assistant", ROOT / "demos" / "run_hr"), ("Ship-spares procurement assistant", ROOT / "demos" / "run_procurement")]
+DEMOS = [("HR policy assistant", ROOT / "demos" / "run_hr"), ("Ship-spares procurement assistant", ROOT / "demos" / "run_procurement"),
+         ("Cooking FAQ assistant (unseen doc set, built from the UI)", ROOT / "demos" / "run_cooking_unseen")]
 
 
 def j(p: Path):
@@ -48,7 +49,7 @@ def main() -> None:
                 f"- removed by the groundability guard (now refused): {req.get('removed_topics')}",
                 f"- tools attached: {[t['name'] for t in agent['tools']] or 'none'}",
                 f"- remaining failures by category: {fails['by_category']}",
-                f"- LLM calls {rm['calls']}, tokens {rm['total_tokens']}, wall time {rm.get('wall_time_s')} s", ""]
+                f"- LLM calls {rm['calls']} ({rm.get('cached_calls', 0)} from cache), tokens {rm['total_tokens']}, wall time {rm.get('wall_time_s')} s", ""]
     if rows:
         hdr = ["demo", "evals", "v0 composite dev / held-out", "final composite dev / held-out", "negative control",
                "final pass", "halluc.", "judge self-test", "patches accepted / rolled back"]

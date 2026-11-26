@@ -1,0 +1,39 @@
+[
+  {
+    "iteration": 2,
+    "attempt": 1,
+    "failure_category": "prompt_defect",
+    "failure_subcategory": "",
+    "affected_case_ids": [
+      "ans-001",
+      "ans-003",
+      "ans-005",
+      "edg-021",
+      "edg-026"
+    ],
+    "fix_id": "pd_exact_details",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/output_format/-",
+        "value": "Put the specific facts (numbers, dates, limits, names, conditions) from the context into the answer text itself, not only in the sources.",
+        "before": null
+      }
+    ],
+    "rationale": "answers omit key facts: require explicit details in the answer",
+    "score_before": {
+      "dev_composite": 0.7519,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.5882,
+      "heldout_pass_rate": 0.6667
+    },
+    "score_after": {
+      "dev_composite": 0.8407,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.7059,
+      "heldout_pass_rate": 0.6667
+    },
+    "accepted": true,
+    "decision_reason": "dev 0.7519->0.8407 (+0.0888); held-out 0.7124->0.7124 (+0.0000); ACCEPTED"
+  }
+]

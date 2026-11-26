@@ -1,0 +1,54 @@
+{
+  "purpose": "Build an assistant that answers home cooks' questions about cooking times, ratios, and food safety using our cooking FAQ, as well as providing best wine pairing suggestions for dishes, without giving medical advice about food allergies.",
+  "scope": [
+    "building an AI assistant"
+  ],
+  "audience": "home cooks",
+  "tone": "informative and helpful",
+  "language": "en",
+  "must_answer_topics": [
+    "Cooking Times",
+    "Ratios",
+    "Food Safety",
+    "Wine Pairing"
+  ],
+  "must_refuse_topics": [
+    "Medical Advice",
+    "Food Allergies"
+  ],
+  "escalation_policy": "Tell the user the information is not in the documents and suggest contacting the responsible team.",
+  "output_format_needs": [
+    "cite the source document and section for every answer"
+  ],
+  "tool_needs": [
+    {
+      "capability": "internet_api",
+      "justification": "to fetch information from cooking FAQs, wine pairing databases, and food safety guidelines",
+      "requirement_ref": "T1"
+    }
+  ],
+  "assumptions": [
+    {
+      "field": "",
+      "assumption": "The assistant will be designed to cater to both novice and experienced cooks."
+    },
+    {
+      "field": "q1",
+      "assumption": "'Is the assistant expected to cater to novice cooks or experienced chefs?' unanswered; a sensible default was used"
+    }
+  ],
+  "open_risks": [
+    "Technical failures in fetching data from APIs"
+  ],
+  "groundability_flags": [],
+  "removed_topics": [],
+  "brief": "Build an assistant that answers home cooks' questions about cooking times, ratios and food safety using our cooking FAQ. It should also be able to tell people the best wine pairing for every dish, and it must not give medical advice about food allergies.",
+  "intake": [
+    {
+      "question_id": "q1",
+      "question": "Is the assistant expected to cater to novice cooks or experienced chefs?",
+      "answer": "no preference",
+      "source": "simulated"
+    }
+  ]
+}

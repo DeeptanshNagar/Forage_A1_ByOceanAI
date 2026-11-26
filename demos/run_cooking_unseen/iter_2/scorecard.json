@@ -1,0 +1,156 @@
+{
+  "iteration": 2,
+  "agent_version": 1,
+  "fingerprint": "3d59cba43e36",
+  "overall": {
+    "n": 26,
+    "pass_rate": 0.6154,
+    "answerable_correct_rate": 0.4444,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.5556,
+    "grounded_rate": 0.9412,
+    "hallucination_rate": 0.0588,
+    "refusal_precision": 0.8889,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.9412,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.8529,
+    "contract_valid_rate": 0.9231,
+    "avg_latency_s": 3.281,
+    "judge_calls_cases": 17,
+    "judge_agreement_rate": 1.0,
+    "judge_uncertain": 0,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 11,
+        "pass_rate": 0.5455
+      },
+      "edge": {
+        "n": 7,
+        "pass_rate": 0.2857
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.7396
+  },
+  "dev": {
+    "n": 17,
+    "pass_rate": 0.5882,
+    "answerable_correct_rate": 0.4167,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.5833,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "refusal_f1": 1.0,
+    "wrong_refusals": 0,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.7917,
+    "contract_valid_rate": 0.8824,
+    "avg_latency_s": 3.732,
+    "judge_calls_cases": 12,
+    "judge_agreement_rate": 1.0,
+    "judge_uncertain": 0,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 7,
+        "pass_rate": 0.5714
+      },
+      "edge": {
+        "n": 5,
+        "pass_rate": 0.2
+      },
+      "refuse": {
+        "n": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.7519
+  },
+  "heldout": {
+    "n": 9,
+    "pass_rate": 0.6667,
+    "answerable_correct_rate": 0.5,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.5,
+    "grounded_rate": 0.8,
+    "hallucination_rate": 0.2,
+    "refusal_precision": 0.75,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.8571,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 2.431,
+    "judge_calls_cases": 5,
+    "judge_agreement_rate": 1.0,
+    "judge_uncertain": 0,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 4,
+        "pass_rate": 0.5
+      },
+      "edge": {
+        "n": 2,
+        "pass_rate": 0.5
+      },
+      "refuse": {
+        "n": 3,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.7124
+  },
+  "attempts": [
+    {
+      "iteration": 2,
+      "attempt": 1,
+      "failure_category": "prompt_defect",
+      "failure_subcategory": "",
+      "affected_case_ids": [
+        "ans-001",
+        "ans-003",
+        "ans-005",
+        "edg-021",
+        "edg-026"
+      ],
+      "fix_id": "pd_exact_details",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/output_format/-",
+          "value": "Put the specific facts (numbers, dates, limits, names, conditions) from the context into the answer text itself, not only in the sources.",
+          "before": null
+        }
+      ],
+      "rationale": "answers omit key facts: require explicit details in the answer",
+      "score_before": {
+        "dev_composite": 0.7519,
+        "heldout_composite": 0.7124,
+        "dev_pass_rate": 0.5882,
+        "heldout_pass_rate": 0.6667
+      },
+      "score_after": {
+        "dev_composite": 0.8407,
+        "heldout_composite": 0.7124,
+        "dev_pass_rate": 0.7059,
+        "heldout_pass_rate": 0.6667
+      },
+      "accepted": true,
+      "decision_reason": "dev 0.7519->0.8407 (+0.0888); held-out 0.7124->0.7124 (+0.0000); ACCEPTED"
+    }
+  ],
+  "stop": ""
+}

@@ -1,0 +1,91 @@
+{
+  "total_failures": 8,
+  "by_category": {
+    "prompt_defect": 6,
+    "hallucination": 1,
+    "wrong_refusal": 1
+  },
+  "by_category_dev": {
+    "prompt_defect": 5
+  },
+  "by_category_heldout": {
+    "hallucination": 1,
+    "prompt_defect": 1,
+    "wrong_refusal": 1
+  },
+  "by_subcategory": {},
+  "failures": [
+    {
+      "case_id": "ans-001",
+      "split": "dev",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "citation",
+      "rule": "R14: facts present but citations invalid",
+      "explanation": "citation validity 0.00"
+    },
+    {
+      "case_id": "ans-003",
+      "split": "dev",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The expected answer provided facts about cooking white rice, but the test question was about the cooking time of white rice. The assistant's response was accurate but did not address the question, leading to a failed test."
+    },
+    {
+      "case_id": "ans-005",
+      "split": "dev",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The expected question about the temperature for roasting vegetables does not match the provided answer, which gives a temperature in Celsius instead of Fahrenheit or a specific oven temperature range."
+    },
+    {
+      "case_id": "ans-007",
+      "split": "heldout",
+      "category": "hallucination",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R10: evidence retrieved but answer contains unsupported claims/numbers",
+      "explanation": "The answer provided does not correctly account for the total cooking time, which is the sum of the simmering time and the resting time, resulting in a total of 23 minutes, not 23 minutes as stated."
+    },
+    {
+      "case_id": "ans-010",
+      "split": "heldout",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The expected answer includes additional information not requested in the question, such as the resting time, which is why the document assistant failed the test."
+    },
+    {
+      "case_id": "edg-021",
+      "split": "dev",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R12: judges say correct but expected facts not matched | tie-break ['prompt_defect', 'eval_defect'] -> prompt_defect",
+      "explanation": "The provided expected answer contains two distinct questions, but the response only addresses part of the question and provides facts relevant to only one of the questions, leading to an incomplete and potentially confusing response."
+    },
+    {
+      "case_id": "edg-022",
+      "split": "heldout",
+      "category": "wrong_refusal",
+      "subcategory": "",
+      "direction": "over_refusal",
+      "rule": "R6: refused although the evidence was retrieved",
+      "explanation": "The document assistant may have failed to find the required information about tablespoons and cups in the document, leading to a refusal of the question."
+    },
+    {
+      "case_id": "edg-026",
+      "split": "dev",
+      "category": "prompt_defect",
+      "subcategory": "",
+      "direction": "",
+      "rule": "R13: good retrieval, grounded, but expected facts missing",
+      "explanation": "fact coverage 0.50 < 0.6; judge_uncertain: judges disagreed; deterministic verdict used"
+    }
+  ]
+}

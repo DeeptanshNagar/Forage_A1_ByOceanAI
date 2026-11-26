@@ -1,0 +1,156 @@
+{
+  "iteration": 3,
+  "agent_version": 2,
+  "fingerprint": "961572e3f383",
+  "overall": {
+    "n": 26,
+    "pass_rate": 0.6923,
+    "answerable_correct_rate": 0.5556,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.6944,
+    "grounded_rate": 0.9412,
+    "hallucination_rate": 0.0588,
+    "refusal_precision": 0.8889,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.9412,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.8235,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 3.18,
+    "judge_calls_cases": 17,
+    "judge_agreement_rate": 0.9412,
+    "judge_uncertain": 1,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 11,
+        "pass_rate": 0.5455
+      },
+      "edge": {
+        "n": 7,
+        "pass_rate": 0.5714
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.7982
+  },
+  "dev": {
+    "n": 17,
+    "pass_rate": 0.7059,
+    "answerable_correct_rate": 0.5833,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.7917,
+    "grounded_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0,
+    "refusal_f1": 1.0,
+    "wrong_refusals": 0,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 0.75,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 3.57,
+    "judge_calls_cases": 12,
+    "judge_agreement_rate": 0.9167,
+    "judge_uncertain": 1,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 7,
+        "pass_rate": 0.5714
+      },
+      "edge": {
+        "n": 5,
+        "pass_rate": 0.6
+      },
+      "refuse": {
+        "n": 5,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.8407
+  },
+  "heldout": {
+    "n": 9,
+    "pass_rate": 0.6667,
+    "answerable_correct_rate": 0.5,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.5,
+    "grounded_rate": 0.8,
+    "hallucination_rate": 0.2,
+    "refusal_precision": 0.75,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.8571,
+    "wrong_refusals": 1,
+    "missed_refusals": 0,
+    "retrieval_hit": 1.0,
+    "citation_validity": 1.0,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 2.443,
+    "judge_calls_cases": 5,
+    "judge_agreement_rate": 1.0,
+    "judge_uncertain": 0,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 4,
+        "pass_rate": 0.5
+      },
+      "edge": {
+        "n": 2,
+        "pass_rate": 0.5
+      },
+      "refuse": {
+        "n": 3,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.7124
+  },
+  "attempts": [
+    {
+      "iteration": 3,
+      "attempt": 1,
+      "failure_category": "prompt_defect",
+      "failure_subcategory": "",
+      "affected_case_ids": [
+        "ans-001",
+        "ans-003",
+        "ans-005",
+        "edg-021",
+        "edg-026"
+      ],
+      "fix_id": "pd_llm_rule",
+      "patch": [
+        {
+          "op": "add",
+          "path": "/system_prompt/extra_rules/-",
+          "value": "Ensure that the assistant's response directly addresses the question asked and provides relevant information to the question's intent.",
+          "before": null
+        }
+      ],
+      "rationale": "LLM-proposed general rule for extra_rules: Ensure that the assistant's response directly addresses the question asked and provides relevant information to the question's intent.",
+      "score_before": {
+        "dev_composite": 0.8407,
+        "heldout_composite": 0.7124,
+        "dev_pass_rate": 0.7059,
+        "heldout_pass_rate": 0.6667
+      },
+      "score_after": {
+        "dev_composite": 0.8407,
+        "heldout_composite": 0.7124,
+        "dev_pass_rate": 0.7059,
+        "heldout_pass_rate": 0.6667
+      },
+      "accepted": false,
+      "decision_reason": "dev 0.8407->0.8407 (+0.0000); held-out 0.7124->0.7124 (+0.0000); ROLLED BACK: no improvement"
+    }
+  ],
+  "stop": ""
+}

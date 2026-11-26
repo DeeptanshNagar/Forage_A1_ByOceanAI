@@ -21,37 +21,55 @@ validator on the report, and warnings when scores look too good.
 
 ## See it working
 
-Screenshots of the web UI (`python -m forge ui`) running on the local real models (`qwen2.5:3b-instruct` agent, `llama3.2:3b` judge).
+Screenshots of the web UI (`python -m forge ui`) running on the local real models (`qwen2.5:3b-instruct` agent and factory, `llama3.2:3b` judge, 4 GB GPU).
 
-### 1. Describe the agent you want: a brief plus documents
+### 1. Hand it a brief it has never seen and it builds a tested agent unattended
 
-![Build an agent](docs/screenshots/01_build_agent.png)
+![Build an agent from an unseen brief](docs/screenshots/01_build_agent.png)
 
-You write one paragraph saying what the assistant should do and upload the documents it must answer from (or pick a built-in example). ForgeAI then runs ten stages unattended, shown on the right: it reads the documents, writes requirements, checks that the documents can support each topic, generates the agent, generates its tests, checks its own judge, then runs up to three critic-optimizer iterations, a final evaluation, a no-retrieval control and an honest report.
+The cooking-FAQ brief and documents were never used while ForgeAI was developed. One click on **Build agent** runs all ten stages with no human input: read documents → requirements → groundability guard → generate agent → generate evals → judge self-test → critic-optimizer loop → final evaluation → negative control → report. This run took about 17 minutes, almost all of it on the local GPU. Its artifacts are committed in [`demos/run_cooking_unseen/`](demos/run_cooking_unseen/).
 
-### 2. Every run ships with evidence, not just an agent
+### 2. Every agent ships with evidence
 
 ![Results dashboard](docs/screenshots/02_results_dashboard.png)
 
-The HR demo: the original brief, then the headline numbers computed by code from the eval logs. The **no-retrieval control** (0.198) is the same agent with its documents switched off. The large gap to the real score shows the tests actually depend on the documents. The "replayed from cache" tag is shown because this committed run reused recorded real-model outputs (see [Demo results](#demo-results-filled-from-the-committed-artifacts)).
+The HR demo: the brief, then headline numbers computed by code from the eval logs. The **no-retrieval control** (0.198) is the same agent with its documents switched off. The gap to the real score shows the generated tests actually depend on the documents. The "replayed from cache" tag appears because this committed run reused recorded real-model outputs (see [Demo results](#demo-results-filled-from-the-committed-artifacts)).
 
-### 3. The critic-optimizer loop, measured on dev and held-out cases
+### 3. The critic-optimizer loop: targeted patches, kept only if they help
 
-![Score per iteration](docs/screenshots/03_score_per_iteration.png)
+![Optimizer change log](docs/screenshots/03_optimizer_change_log.png)
 
-Iteration 1 tests the first agent (v0). The critic classifies each failure (retrieval miss, prompt defect, hallucination, wrong refusal), and the optimizer applies one targeted patch. Here a wrong refusal was fixed by relaxing the refusal rule. A patch is kept only if dev improves and held-out (never shown to the optimizer) does not drop; otherwise it is rolled back. The score is not 100%: the remaining failures are listed under *What still fails*.
+The procurement demo. Each failure is classified as a retrieval miss, prompt defect, hallucination or wrong refusal, and the optimizer tries one targeted patch at a time. A patch is **kept only if the dev score does not drop and the held-out score (never shown to the optimizer) stays within tolerance**. Here 2 patches were accepted and 4 rolled back. For example, `cv_format` raised held-out but cut dev from 0.740 to 0.613, so it was rolled back. Dev went from 0.740 to 0.883 and held-out from 0.651 to 0.799.
 
-### 4. The groundability guard refuses to invent what the documents don't say
+### 4. The groundability guard won't let the agent make things up
 
 ![Groundability guard](docs/screenshots/04_groundability_guard.png)
 
-Before building anything, every requested topic is checked against the documents with verified quotes. The HR brief asked for the *company pension scheme*, which no document covers, so it became a must-refuse topic instead of something the agent would make up. The guard also found that two documents give **different leave years** (1 Apr–31 Mar vs 1 Jan–31 Dec) and tells the agent to flag this.
+Before building, every requested topic is checked against the documents with verified quotes. The HR brief asked for the *company pension scheme*, which no document covers, so it became a **must-refuse** topic instead of something the agent would invent. The guard also caught two documents giving **different leave years** (1 Apr–31 Mar vs 1 Jan–31 Dec) and tells the agent to flag the conflict.
 
-### 5. The produced agent answers with citations
+### 5. Answers are grounded and cite the exact source
 
-![Chat with a grounded answer](docs/screenshots/05_chat_grounded_answer.png)
+![Grounded answer with citation](docs/screenshots/05_chat_grounded_answer.png)
 
-A live answer from the generated HR agent: the answer, the exact quote, the document and section it came from, and a confidence score. The agent card lists the agent's tools (none, because the brief needs none) and the topics it refuses. The suggested questions are taken from the agent's own generated test set.
+A live answer from the generated HR agent: the answer, the verbatim quote, the document and section, and a confidence score. The suggested questions come from the agent's own generated test set.
+
+### 6. Refuses what it should: out-of-policy requests and manipulation
+
+![Refusals](docs/screenshots/06_chat_refusals.png)
+
+Legal advice is a must-refuse topic from the brief. Fabricating a policy is a manipulation attempt, which the agent declines.
+
+### 7. Catalogue answers come from the exact CSV row, and failures stay visible
+
+![Procurement chat](docs/screenshots/07_chat_procurement.png)
+
+The procurement agent was given exactly two tools, `csv_lookup` and `calculator`, because the brief needs them. A weather or HTTP tool would be a factory defect. It answers the unit price for FIL-1012 citing `spares_catalogue.csv`, row 16. It also shows a **real weakness**: asked for an order total (12 × 61.28 = 735.36), the 3B model declined instead of calling the calculator. This is the kind of failure the report lists under *What still fails*, rather than hiding it.
+
+### 8. The agent built from the unseen brief, in use
+
+![Agent built from the unseen brief](docs/screenshots/08_chat_unseen_agent.png)
+
+**ChefQ** was generated in step 1. It answers from `cooking_faq.md` with the exact sentence, attaches no tools, and refuses *wine pairing*: the brief asked for it, but no document supports it, so the guard moved it to must-refuse. Its report is honest that this run is weaker than the demos: 69.2% pass, and a judge self-test of 65.4%, below the 70% threshold, which the report flags with a warning.
 
 ## Architecture
 
@@ -224,19 +242,27 @@ _Generated by `python scripts/demo_summary.py` from `demos/run_*/`. Real local m
 - removed by the groundability guard (now refused): ['company pension scheme']
 - tools attached: none
 - remaining failures by category: {'prompt_defect': 2, 'hallucination': 1}
-- LLM calls 286, tokens 222113, wall time 13.94 s
+- LLM calls 286 (286 from cache), tokens 222113, wall time 13.94 s
 
 ### Ship-spares procurement assistant — [`REPORT.md`](demos/run_procurement/REPORT.md)
 
 - removed by the groundability guard (now refused): ['internet_api']
 - tools attached: ['csv_lookup', 'calculator']
 - remaining failures by category: {'prompt_defect': 4, 'hallucination': 1, 'wrong_refusal': 2}
-- LLM calls 726, tokens 839067, wall time 19.71 s
+- LLM calls 726 (726 from cache), tokens 839067, wall time 19.71 s
+
+### Cooking FAQ assistant (unseen doc set, built from the UI) — [`REPORT.md`](demos/run_cooking_unseen/REPORT.md)
+
+- removed by the groundability guard (now refused): ['Wine Pairing', 'internet_api']
+- tools attached: none
+- remaining failures by category: {'prompt_defect': 6, 'hallucination': 1, 'wrong_refusal': 1}
+- LLM calls 395 (115 from cache), tokens 265532, wall time 995.16 s
 
 | demo | evals | v0 composite dev / held-out | final composite dev / held-out | negative control | final pass | halluc. | judge self-test | patches accepted / rolled back |
 |---|---|---|---|---|---|---|---|---|
 | HR policy assistant | 28 | 0.923 / 0.844 | 0.970 / 0.844 | 0.198 | 89.3% | 5.0% | 80.8% | 1 / 0 |
 | Ship-spares procurement assistant | 30 | 0.740 / 0.651 | 0.883 / 0.799 | 0.186 | 76.7% | 4.2% | 80.8% | 2 / 4 |
+| Cooking FAQ assistant (unseen doc set, built from the UI) | 26 | 0.743 / 0.712 | 0.841 / 0.712 | 0.213 | 69.2% | 5.9% | 65.4% | 2 / 1 |
 
 **Reading these results honestly**
 - Different domains surfaced different failure categories:

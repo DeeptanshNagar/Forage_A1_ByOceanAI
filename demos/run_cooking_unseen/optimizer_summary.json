@@ -1,0 +1,15 @@
+{
+  "stop_reason": "no applicable fixes left at iteration 3",
+  "final_version": 2,
+  "final_scores": {
+    "dev_composite": 0.8407,
+    "heldout_composite": 0.7124,
+    "dev_pass_rate": 0.7059,
+    "heldout_pass_rate": 0.6667
+  },
+  "tried_fixes": [
+    "pd_citation",
+    "pd_exact_details",
+    "pd_llm_rule"
+  ]
+}

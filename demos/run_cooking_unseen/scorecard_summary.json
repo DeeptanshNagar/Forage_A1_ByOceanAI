@@ -1,0 +1,560 @@
+{
+  "iterations": [
+    {
+      "iteration": 1,
+      "agent_version": 0,
+      "dev": {
+        "n": 17,
+        "pass_rate": 0.5882,
+        "answerable_correct_rate": 0.4167,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5833,
+        "grounded_rate": 1.0,
+        "hallucination_rate": 0.0,
+        "refusal_precision": 0.8333,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.9091,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.7727,
+        "contract_valid_rate": 0.9412,
+        "avg_latency_s": 4.184,
+        "judge_calls_cases": 11,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 7,
+            "pass_rate": 0.5714
+          },
+          "edge": {
+            "n": 5,
+            "pass_rate": 0.2
+          },
+          "refuse": {
+            "n": 5,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7429
+      },
+      "heldout": {
+        "n": 9,
+        "pass_rate": 0.6667,
+        "answerable_correct_rate": 0.5,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5,
+        "grounded_rate": 0.8,
+        "hallucination_rate": 0.2,
+        "refusal_precision": 0.75,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.8571,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 1.0,
+        "contract_valid_rate": 1.0,
+        "avg_latency_s": 2.406,
+        "judge_calls_cases": 5,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 4,
+            "pass_rate": 0.5
+          },
+          "edge": {
+            "n": 2,
+            "pass_rate": 0.5
+          },
+          "refuse": {
+            "n": 3,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7124
+      },
+      "overall": {
+        "n": 26,
+        "pass_rate": 0.6154,
+        "answerable_correct_rate": 0.4444,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5556,
+        "grounded_rate": 0.9375,
+        "hallucination_rate": 0.0625,
+        "refusal_precision": 0.8,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.8889,
+        "wrong_refusals": 2,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.8438,
+        "contract_valid_rate": 0.9615,
+        "avg_latency_s": 3.569,
+        "judge_calls_cases": 16,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 11,
+            "pass_rate": 0.5455
+          },
+          "edge": {
+            "n": 7,
+            "pass_rate": 0.2857
+          },
+          "refuse": {
+            "n": 8,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7337
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "fix_id": "pd_citation",
+          "failure_category": "prompt_defect",
+          "accepted": true,
+          "score_before": {
+            "dev_composite": 0.7429,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.5882,
+            "heldout_pass_rate": 0.6667
+          },
+          "score_after": {
+            "dev_composite": 0.7519,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.5882,
+            "heldout_pass_rate": 0.6667
+          }
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "agent_version": 1,
+      "dev": {
+        "n": 17,
+        "pass_rate": 0.5882,
+        "answerable_correct_rate": 0.4167,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5833,
+        "grounded_rate": 1.0,
+        "hallucination_rate": 0.0,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "refusal_f1": 1.0,
+        "wrong_refusals": 0,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.7917,
+        "contract_valid_rate": 0.8824,
+        "avg_latency_s": 3.732,
+        "judge_calls_cases": 12,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 7,
+            "pass_rate": 0.5714
+          },
+          "edge": {
+            "n": 5,
+            "pass_rate": 0.2
+          },
+          "refuse": {
+            "n": 5,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7519
+      },
+      "heldout": {
+        "n": 9,
+        "pass_rate": 0.6667,
+        "answerable_correct_rate": 0.5,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5,
+        "grounded_rate": 0.8,
+        "hallucination_rate": 0.2,
+        "refusal_precision": 0.75,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.8571,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 1.0,
+        "contract_valid_rate": 1.0,
+        "avg_latency_s": 2.431,
+        "judge_calls_cases": 5,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 4,
+            "pass_rate": 0.5
+          },
+          "edge": {
+            "n": 2,
+            "pass_rate": 0.5
+          },
+          "refuse": {
+            "n": 3,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7124
+      },
+      "overall": {
+        "n": 26,
+        "pass_rate": 0.6154,
+        "answerable_correct_rate": 0.4444,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5556,
+        "grounded_rate": 0.9412,
+        "hallucination_rate": 0.0588,
+        "refusal_precision": 0.8889,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.9412,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.8529,
+        "contract_valid_rate": 0.9231,
+        "avg_latency_s": 3.281,
+        "judge_calls_cases": 17,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 11,
+            "pass_rate": 0.5455
+          },
+          "edge": {
+            "n": 7,
+            "pass_rate": 0.2857
+          },
+          "refuse": {
+            "n": 8,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7396
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "fix_id": "pd_exact_details",
+          "failure_category": "prompt_defect",
+          "accepted": true,
+          "score_before": {
+            "dev_composite": 0.7519,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.5882,
+            "heldout_pass_rate": 0.6667
+          },
+          "score_after": {
+            "dev_composite": 0.8407,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.7059,
+            "heldout_pass_rate": 0.6667
+          }
+        }
+      ]
+    },
+    {
+      "iteration": 3,
+      "agent_version": 2,
+      "dev": {
+        "n": 17,
+        "pass_rate": 0.7059,
+        "answerable_correct_rate": 0.5833,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.7917,
+        "grounded_rate": 1.0,
+        "hallucination_rate": 0.0,
+        "refusal_precision": 1.0,
+        "refusal_recall": 1.0,
+        "refusal_f1": 1.0,
+        "wrong_refusals": 0,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.75,
+        "contract_valid_rate": 1.0,
+        "avg_latency_s": 3.57,
+        "judge_calls_cases": 12,
+        "judge_agreement_rate": 0.9167,
+        "judge_uncertain": 1,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 7,
+            "pass_rate": 0.5714
+          },
+          "edge": {
+            "n": 5,
+            "pass_rate": 0.6
+          },
+          "refuse": {
+            "n": 5,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.8407
+      },
+      "heldout": {
+        "n": 9,
+        "pass_rate": 0.6667,
+        "answerable_correct_rate": 0.5,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.5,
+        "grounded_rate": 0.8,
+        "hallucination_rate": 0.2,
+        "refusal_precision": 0.75,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.8571,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 1.0,
+        "contract_valid_rate": 1.0,
+        "avg_latency_s": 2.443,
+        "judge_calls_cases": 5,
+        "judge_agreement_rate": 1.0,
+        "judge_uncertain": 0,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 4,
+            "pass_rate": 0.5
+          },
+          "edge": {
+            "n": 2,
+            "pass_rate": 0.5
+          },
+          "refuse": {
+            "n": 3,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7124
+      },
+      "overall": {
+        "n": 26,
+        "pass_rate": 0.6923,
+        "answerable_correct_rate": 0.5556,
+        "refuse_correct_rate": 1.0,
+        "fact_coverage": 0.6944,
+        "grounded_rate": 0.9412,
+        "hallucination_rate": 0.0588,
+        "refusal_precision": 0.8889,
+        "refusal_recall": 1.0,
+        "refusal_f1": 0.9412,
+        "wrong_refusals": 1,
+        "missed_refusals": 0,
+        "retrieval_hit": 1.0,
+        "citation_validity": 0.8235,
+        "contract_valid_rate": 1.0,
+        "avg_latency_s": 3.18,
+        "judge_calls_cases": 17,
+        "judge_agreement_rate": 0.9412,
+        "judge_uncertain": 1,
+        "verbosity_flags": 0,
+        "by_category": {
+          "answerable": {
+            "n": 11,
+            "pass_rate": 0.5455
+          },
+          "edge": {
+            "n": 7,
+            "pass_rate": 0.5714
+          },
+          "refuse": {
+            "n": 8,
+            "pass_rate": 1.0
+          }
+        },
+        "composite": 0.7982
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "fix_id": "pd_llm_rule",
+          "failure_category": "prompt_defect",
+          "accepted": false,
+          "score_before": {
+            "dev_composite": 0.8407,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.7059,
+            "heldout_pass_rate": 0.6667
+          },
+          "score_after": {
+            "dev_composite": 0.8407,
+            "heldout_composite": 0.7124,
+            "dev_pass_rate": 0.7059,
+            "heldout_pass_rate": 0.6667
+          }
+        }
+      ]
+    }
+  ],
+  "final": {
+    "overall": {
+      "n": 26,
+      "pass_rate": 0.6923,
+      "answerable_correct_rate": 0.5556,
+      "refuse_correct_rate": 1.0,
+      "fact_coverage": 0.6944,
+      "grounded_rate": 0.9412,
+      "hallucination_rate": 0.0588,
+      "refusal_precision": 0.8889,
+      "refusal_recall": 1.0,
+      "refusal_f1": 0.9412,
+      "wrong_refusals": 1,
+      "missed_refusals": 0,
+      "retrieval_hit": 1.0,
+      "citation_validity": 0.8235,
+      "contract_valid_rate": 1.0,
+      "avg_latency_s": 3.18,
+      "judge_calls_cases": 17,
+      "judge_agreement_rate": 0.9412,
+      "judge_uncertain": 1,
+      "verbosity_flags": 0,
+      "by_category": {
+        "answerable": {
+          "n": 11,
+          "pass_rate": 0.5455
+        },
+        "edge": {
+          "n": 7,
+          "pass_rate": 0.5714
+        },
+        "refuse": {
+          "n": 8,
+          "pass_rate": 1.0
+        }
+      },
+      "composite": 0.7982
+    },
+    "dev": {
+      "n": 17,
+      "pass_rate": 0.7059,
+      "answerable_correct_rate": 0.5833,
+      "refuse_correct_rate": 1.0,
+      "fact_coverage": 0.7917,
+      "grounded_rate": 1.0,
+      "hallucination_rate": 0.0,
+      "refusal_precision": 1.0,
+      "refusal_recall": 1.0,
+      "refusal_f1": 1.0,
+      "wrong_refusals": 0,
+      "missed_refusals": 0,
+      "retrieval_hit": 1.0,
+      "citation_validity": 0.75,
+      "contract_valid_rate": 1.0,
+      "avg_latency_s": 3.57,
+      "judge_calls_cases": 12,
+      "judge_agreement_rate": 0.9167,
+      "judge_uncertain": 1,
+      "verbosity_flags": 0,
+      "by_category": {
+        "answerable": {
+          "n": 7,
+          "pass_rate": 0.5714
+        },
+        "edge": {
+          "n": 5,
+          "pass_rate": 0.6
+        },
+        "refuse": {
+          "n": 5,
+          "pass_rate": 1.0
+        }
+      },
+      "composite": 0.8407
+    },
+    "heldout": {
+      "n": 9,
+      "pass_rate": 0.6667,
+      "answerable_correct_rate": 0.5,
+      "refuse_correct_rate": 1.0,
+      "fact_coverage": 0.5,
+      "grounded_rate": 0.8,
+      "hallucination_rate": 0.2,
+      "refusal_precision": 0.75,
+      "refusal_recall": 1.0,
+      "refusal_f1": 0.8571,
+      "wrong_refusals": 1,
+      "missed_refusals": 0,
+      "retrieval_hit": 1.0,
+      "citation_validity": 1.0,
+      "contract_valid_rate": 1.0,
+      "avg_latency_s": 2.443,
+      "judge_calls_cases": 5,
+      "judge_agreement_rate": 1.0,
+      "judge_uncertain": 0,
+      "verbosity_flags": 0,
+      "by_category": {
+        "answerable": {
+          "n": 4,
+          "pass_rate": 0.5
+        },
+        "edge": {
+          "n": 2,
+          "pass_rate": 0.5
+        },
+        "refuse": {
+          "n": 3,
+          "pass_rate": 1.0
+        }
+      },
+      "composite": 0.7124
+    },
+    "agent_version": 2
+  },
+  "negative_control": {
+    "n": 26,
+    "pass_rate": 0.3077,
+    "answerable_correct_rate": 0.0,
+    "refuse_correct_rate": 1.0,
+    "fact_coverage": 0.0,
+    "grounded_rate": null,
+    "hallucination_rate": 0.0,
+    "refusal_precision": 0.3077,
+    "refusal_recall": 1.0,
+    "refusal_f1": 0.4706,
+    "wrong_refusals": 18,
+    "missed_refusals": 0,
+    "retrieval_hit": 0.0,
+    "citation_validity": null,
+    "contract_valid_rate": 1.0,
+    "avg_latency_s": 0.932,
+    "judge_calls_cases": 0,
+    "judge_agreement_rate": null,
+    "judge_uncertain": 0,
+    "verbosity_flags": 0,
+    "by_category": {
+      "answerable": {
+        "n": 11,
+        "pass_rate": 0.0
+      },
+      "edge": {
+        "n": 7,
+        "pass_rate": 0.0
+      },
+      "refuse": {
+        "n": 8,
+        "pass_rate": 1.0
+      }
+    },
+    "composite": 0.2127
+  }
+}

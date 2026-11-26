@@ -1,0 +1,173 @@
+{
+  "topics": [
+    {
+      "topic": "Cooking Times",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.448,
+      "retrieved": [
+        "cooking_faq#2-8c27ff",
+        "cooking_faq#0-bc5d7b",
+        "kitchen_basics#0-b3a245",
+        "cooking_faq#1-62cebb",
+        "cooking_faq#3-71cc5e"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "cooking_faq#2-8c27ff",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Food safety'",
+          "quote": "Cooked leftovers should be refrigerated within 2 hours and eaten within 3 days. Poultry must reach an internal temperature of 74 degrees Celsius.",
+          "verified": true,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "cooking_faq#0-bc5d7b",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Rice'",
+          "quote": "White rice should simmer covered for 18 minutes, then rest for 5 minutes off the heat. Use a ratio of 1 cup of rice to 1.5 cups of water for long-grain rice.",
+          "verified": false,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "kitchen_basics#0-b3a245",
+          "doc": "kitchen_basics.txt",
+          "locator": "section 'KITCHEN BASICS'",
+          "quote": "One tablespoon equals 3 teaspoons. One cup equals 16 tablespoons.",
+          "verified": false,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "oven temperatures, knife care, and bread dough rising times are not covered in the provided passages.",
+      "rationale": "model says partial; 1 quote(s) verified"
+    },
+    {
+      "topic": "Ratios",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.529,
+      "retrieved": [
+        "cooking_faq#0-bc5d7b",
+        "cooking_faq#1-62cebb",
+        "kitchen_basics#0-b3a245",
+        "cooking_faq#2-8c27ff",
+        "cooking_faq#3-71cc5e"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "cooking_faq#0-bc5d7b",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Rice'",
+          "quote": "White rice should simmer covered for 18 minutes, then rest for 5 minutes off the heat. Use a ratio of 1 cup of rice to 1.5 cups of water for long-grain rice.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "Other ratios and details about ratios are not provided in these passages.",
+      "rationale": "model says partial; 1 quote(s) verified"
+    },
+    {
+      "topic": "Food Safety",
+      "kind": "must_answer",
+      "status": "PARTIAL",
+      "retrieval_max_score": 0.716,
+      "retrieved": [
+        "cooking_faq#2-8c27ff",
+        "kitchen_basics#0-b3a245",
+        "cooking_faq#0-bc5d7b",
+        "cooking_faq#3-71cc5e",
+        "cooking_faq#1-62cebb"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "cooking_faq#2-8c27ff",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Food safety'",
+          "quote": "Cooked leftovers should be refrigerated within 2 hours and eaten within 3 days. Poultry must reach an internal temperature of 74 degrees Celsius.",
+          "verified": false,
+          "match_score": 100.0
+        },
+        {
+          "chunk_id": "cooking_faq#2-8c27ff",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Food safety'",
+          "quote": "Food safety: Cooked leftovers should be refrigerated within 2 hours and eaten within 3 days.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "Other aspects of food safety such as handling, storing, and cooking practices are not covered in the provided passages.",
+      "rationale": "model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['food', 'safety'] (deterministic rescue)"
+    },
+    {
+      "topic": "Wine Pairing",
+      "kind": "must_answer",
+      "status": "UNSUPPORTED",
+      "retrieval_max_score": 0.0,
+      "retrieved": [
+        "cooking_faq#0-bc5d7b",
+        "kitchen_basics#0-b3a245",
+        "cooking_faq#1-62cebb",
+        "cooking_faq#2-8c27ff",
+        "cooking_faq#3-71cc5e"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "cooking_faq#0-bc5d7b",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Rice'",
+          "quote": "[cooking_faq#0-bc5d7b] Rice: How long should white rice be cooked? White rice should simmer covered for 18 minutes, then rest for 5 minutes off the heat. Use a ratio of 1 cup of rice to 1.5 cups of water for long-grain rice.",
+          "verified": false,
+          "match_score": 80.0
+        }
+      ],
+      "missing": "The passage does not provide information on wine pairing, which is necessary to answer questions about wine pairing.",
+      "rationale": "retrieval found nothing relevant (max score 0.00)"
+    },
+    {
+      "topic": "internet_api",
+      "kind": "capability",
+      "status": "UNSUPPORTED",
+      "retrieval_max_score": 0.262,
+      "retrieved": [
+        "cooking_faq#2-8c27ff",
+        "kitchen_basics#0-b3a245",
+        "cooking_faq#0-bc5d7b",
+        "cooking_faq#1-62cebb",
+        "cooking_faq#3-71cc5e"
+      ],
+      "llm_verdict": "partial",
+      "evidence": [
+        {
+          "chunk_id": "cooking_faq#2-8c27ff",
+          "doc": "cooking_faq.md",
+          "locator": "section 'Food safety'",
+          "quote": "Cooked leftovers should be refrigerated within 2 hours and eaten within 3 days. Poultry must reach an internal temperature of 74 degrees Celsius.",
+          "verified": true,
+          "match_score": 100.0
+        }
+      ],
+      "missing": "information about wine pairing databases and food safety guidelines",
+      "rationale": "no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"
+    }
+  ],
+  "contradictions": [],
+  "actions": [
+    "PARTIAL: Cooking Times -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: Ratios -> kept; agent must state which details the documents do not cover",
+    "PARTIAL: Food Safety -> kept; agent must state which details the documents do not cover",
+    "UNSUPPORTED: Wine Pairing -> removed from must-answer, added to must-refuse: the agent must say it lacks this information",
+    "UNSUPPORTED: internet_api -> capability unavailable: removed from tool needs, added to must-refuse"
+  ],
+  "warnings": [
+    "PARTIAL support for 'Cooking Times': model says partial; 1 quote(s) verified",
+    "PARTIAL support for 'Ratios': model says partial; 1 quote(s) verified",
+    "PARTIAL support for 'Food Safety': model verdict 'partial' without usable quote, but a retrieved sentence contains all key terms ['food', 'safety'] (deterministic rescue)",
+    "UNSUPPORTED topic 'Wine Pairing': retrieval found nothing relevant (max score 0.00)",
+    "UNSUPPORTED capability 'internet_api': no functional tool provides 'internet_api'; documents: model says partial; 1 quote(s) verified"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "seed": 42,
+  "candidates_generated": 34,
+  "llm_calls": 27,
+  "accepted": 26,
+  "rejected": 7,
+  "rejected_by_reason": {
+    "near-duplicate of an accepted case": 6,
+    "mislabel: documents DO contain an answer": 1
+  },
+  "deterministic_fallback_cases": 4,
+  "rejections": [
+    {
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many minutes does it take to cook a soft-boiled egg?",
+      "reason": "near-duplicate of an accepted case"
+    },
+    {
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum time cooked leftovers should be left at room temperature before being refrigerated?",
+      "reason": "near-duplicate of an accepted case"
+    },
+    {
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "At what temperature should vegetables be roasted for 25 to 30 minutes?",
+      "reason": "near-duplicate of an accepted case"
+    },
+    {
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "How many minutes does it take to cook a soft-boiled egg?",
+      "reason": "near-duplicate of an accepted case"
+    },
+    {
+      "category": "answerable",
+      "subtype": "single_fact",
+      "question": "What is the maximum time cooked leftovers should be left at room temperature before being refrigerated?",
+      "reason": "near-duplicate of an accepted case"
+    },
+    {
+      "category": "refuse",
+      "subtype": "absent",
+      "question": "How long should I cook the chicken for it to be fully cooked?",
+      "reason": "mislabel: documents DO contain an answer (sentence covers key terms ['cook', …[truncated])"
+    },
+    {
+      "category": "edge",
+      "subtype": "colloquial",
+      "question": "How long does it take to cook a soft-boiled egg, and what should you do after it's done cooking?",
+      "reason": "near-duplicate of an accepted case"
+    }
+  ],
+  "stats": {
+    "total": 26,
+    "by_category": {
+      "answerable": 11,
+      "refuse": 8,
+      "edge": 7
+    },
+    "by_subtype": {
+      "answerable/single_fact": 7,
+      "answerable/fallback": 4,
+      "refuse/adversarial": 2,
+      "refuse/must_refuse": 2,
+      "refuse/out_of_domain": 1,
+      "refuse/absent": 3,
+      "edge/multi_doc": 2,
+      "edge/numeric": 2,
+      "edge/colloquial": 2,
+      "edge/false_premise": 1
+    },
+    "by_split": {
+      "dev": 17,
+      "heldout": 9
+    },
+    "by_difficulty": {
+      "easy": 10,
+      "medium": 8,
+      "hard": 8
+    },
+    "targets": {
+      "answerable": 14,
+      "refuse": 8,
+      "edge": 8
+    },
+    "minimums": {
+      "answerable": 10,
+      "refuse": 5,
+      "edge": 5
+    },
+    "balance_ok": true,
+    "mean_question_evidence_overlap": 0.676,
+    "share_trivial_overlap_gt_0.6": 0.556
+  },
+  "qc_rules": [
+    "every evidence_quote must match the cited source document (fuzzy >= 90)",
+    "answerable/edge: reference retrieval (top-10) must surface the evidence",
+    "absent/out_of_domain refuse cases: rejected if the documents contain a verified answer",
+    "near-duplicates (embedding cosine >= 0.92) rejected",
+    "stratified dev/held-out split; held-out never shown to the optimizer"
+  ]
+}

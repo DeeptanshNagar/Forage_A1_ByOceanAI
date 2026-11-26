@@ -1,0 +1,46 @@
+{
+  "registry_size": 8,
+  "shortlist": [
+    "file_writer_stub",
+    "email_sender_stub",
+    "calculator",
+    "web_search_stub",
+    "current_date",
+    "unit_converter",
+    "http_api"
+  ],
+  "proposed": [
+    {
+      "name": "calculator",
+      "justification": "To answer questions about Cooking Times, a simple calculator tool is sufficient.",
+      "requirement_ref": "A1"
+    },
+    {
+      "name": "calculator",
+      "justification": "To answer questions about Ratios, a simple calculator tool is sufficient.",
+      "requirement_ref": "A2"
+    },
+    {
+      "name": "calculator",
+      "justification": "To answer questions about Food Safety, a simple calculator tool is sufficient.",
+      "requirement_ref": "A3"
+    }
+  ],
+  "pruned": [
+    {
+      "name": "calculator",
+      "reason": "no requirement-level tool need matches this tool's capabilities"
+    },
+    {
+      "name": "calculator",
+      "reason": "no requirement-level tool need matches this tool's capabilities"
+    },
+    {
+      "name": "calculator",
+      "reason": "no requirement-level tool need matches this tool's capabilities"
+    }
+  ],
+  "added_deterministically": [],
+  "final": [],
+  "llm_ok": true
+}

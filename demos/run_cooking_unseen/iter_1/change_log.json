@@ -1,0 +1,39 @@
+[
+  {
+    "iteration": 1,
+    "attempt": 1,
+    "failure_category": "prompt_defect",
+    "failure_subcategory": "",
+    "affected_case_ids": [
+      "ans-001",
+      "ans-003",
+      "ans-005",
+      "edg-021",
+      "edg-026"
+    ],
+    "fix_id": "pd_citation",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/citation_rules/-",
+        "value": "Copy each quote character for character from a single passage; do not shorten, merge or reword quotes.",
+        "before": null
+      }
+    ],
+    "rationale": "citations invalid: quotes must be verbatim",
+    "score_before": {
+      "dev_composite": 0.7429,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.5882,
+      "heldout_pass_rate": 0.6667
+    },
+    "score_after": {
+      "dev_composite": 0.7519,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.5882,
+      "heldout_pass_rate": 0.6667
+    },
+    "accepted": true,
+    "decision_reason": "dev 0.7429->0.7519 (+0.0090); held-out 0.7124->0.7124 (+0.0000); ACCEPTED"
+  }
+]

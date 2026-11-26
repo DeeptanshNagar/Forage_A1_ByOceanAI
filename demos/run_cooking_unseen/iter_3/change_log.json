@@ -1,0 +1,39 @@
+[
+  {
+    "iteration": 3,
+    "attempt": 1,
+    "failure_category": "prompt_defect",
+    "failure_subcategory": "",
+    "affected_case_ids": [
+      "ans-001",
+      "ans-003",
+      "ans-005",
+      "edg-021",
+      "edg-026"
+    ],
+    "fix_id": "pd_llm_rule",
+    "patch": [
+      {
+        "op": "add",
+        "path": "/system_prompt/extra_rules/-",
+        "value": "Ensure that the assistant's response directly addresses the question asked and provides relevant information to the question's intent.",
+        "before": null
+      }
+    ],
+    "rationale": "LLM-proposed general rule for extra_rules: Ensure that the assistant's response directly addresses the question asked and provides relevant information to the question's intent.",
+    "score_before": {
+      "dev_composite": 0.8407,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.7059,
+      "heldout_pass_rate": 0.6667
+    },
+    "score_after": {
+      "dev_composite": 0.8407,
+      "heldout_composite": 0.7124,
+      "dev_pass_rate": 0.7059,
+      "heldout_pass_rate": 0.6667
+    },
+    "accepted": false,
+    "decision_reason": "dev 0.8407->0.8407 (+0.0000); held-out 0.7124->0.7124 (+0.0000); ROLLED BACK: no improvement"
+  }
+]
