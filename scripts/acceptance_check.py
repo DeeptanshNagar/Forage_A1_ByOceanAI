@@ -13,6 +13,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+try:
+    import pydantic, rich, typer  # noqa: F401,E401
+except ImportError as _e:
+    sys.exit(f"{_e}. This interpreter ({sys.executable}) lacks ForgeAI's dependencies; run with the one you installed "
+             "them into (e.g. `py -3.11 scripts/acceptance_check.py`) or `pip install -e .[dev]` first.")
 DEMOS = {"hr": ROOT / "demos" / "run_hr", "procurement": ROOT / "demos" / "run_procurement"}
 ARTIFACTS = ["brief.txt", "doc_profile.json", "intake_qa.json", "requirements.json", "requirements.md",
              "groundability_report.json", "agent_v0.json", "eval_set.json", "eval_generation_log.json", "final_agent.json",
@@ -139,12 +144,33 @@ def c7():
     return True, "sections present; numbers from scorecard_summary.json; narrative number-validator log present"
 
 
+def ollama_preflight(config: str = "configs/ollama_small.toml") -> None:
+    """Fail with an actionable message (not a traceback) when the local model server is not ready.
+    Never falls back to mock: a mock chat is not real-model evidence."""
+    import tomllib
+    import urllib.request
+
+    cfg = tomllib.loads((ROOT / config).read_text(encoding="utf-8"))
+    flat = {k: v for sec in cfg.values() if isinstance(sec, dict) for k, v in sec.items()} | cfg
+    base = str(flat.get("base_url", "http://localhost:11434/v1")).rstrip("/")
+    try:
+        with urllib.request.urlopen(base + "/models", timeout=10) as r:
+            have = {m["id"] for m in json.loads(r.read())["data"]}
+    except Exception as e:  # noqa: BLE001
+        raise AssertionError(f"Ollama not reachable at {base} ({type(e).__name__}). Start Ollama (open the app or "
+                             "run `ollama serve`) and rerun, or use --chat-backend mock for an offline check.") from None
+    want = str(flat.get("agent_model") or flat.get("model") or "qwen2.5:3b-instruct")
+    if want not in have and f"{want}:latest" not in have:
+        raise AssertionError(f"model '{want}' not pulled in Ollama (have: {sorted(have)}). Run `ollama pull {want}`.")
+
+
 def c8(backend: str):
     cmd = [sys.executable, "-m", "forge", "chat", "--agent", str(DEMOS["procurement"] / "final_agent.json"), "-q",
            "What is the warranty period for pumps?"]
     if backend == "mock":
         cmd.append("--mock")
     else:
+        ollama_preflight()
         cmd += ["--config", "configs/ollama_small.toml"]
     code, out = run(cmd, timeout=600)
     assert code == 0, out[-500:]
