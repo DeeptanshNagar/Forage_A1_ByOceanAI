@@ -1,3 +1,4 @@
+from pathlib import Path
 import json
 
 import pytest
@@ -124,3 +125,16 @@ def test_chunk_strategies(tmp_path):
     assert all(c.heading in ("H1", "H2") for c in heading) and heading[0].text.startswith("H1:")
     fixed = chunk_document(md_doc, "fixed", chunk_size=50, chunk_overlap=10)
     assert all(len(c.text.split()) <= 50 for c in fixed)
+
+
+def test_definition_paths_from_another_machine_are_remapped(tmp_path):
+    """Committed definitions hold absolute paths of the build machine; served elsewhere they must still resolve."""
+    from forge.config import REPO_ROOT
+    from forge.runner.agent_runtime import portable_path
+
+    real = REPO_ROOT / "tests" / "fixtures" / "cooking_faq" / "docs"
+    foreign = r"D:\some\other\machine\checkout\tests\fixtures\cooking_faq\docs"
+    assert Path(portable_path(foreign)) == real
+    assert portable_path("/srv/app/tests/fixtures/cooking_faq/docs") == str(real)
+    assert portable_path("not a path") == "not a path"
+    assert portable_path(r"C:\nowhere\nothing_here.csv") == r"C:\nowhere\nothing_here.csv"

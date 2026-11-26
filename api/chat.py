@@ -13,7 +13,6 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import sys
 import time
 from http.server import BaseHTTPRequestHandler
@@ -25,8 +24,7 @@ if str(ROOT) not in sys.path:
 
 from forge.config import load_settings  # noqa: E402
 from forge.llm import LLMError  # noqa: E402
-from forge.runner.agent_runtime import AgentRuntime  # noqa: E402
-from forge.schemas import AgentDefinition  # noqa: E402
+from forge.runner.agent_runtime import AgentRuntime, load_definition  # noqa: E402
 
 AGENTS = {  # whitelist: only committed demo agents can be served
     "hr": "demos/run_hr/final_agent.json",
@@ -54,29 +52,9 @@ def _settings():
     )
 
 
-def _local_path(p: str) -> str:
-    """Definitions store absolute paths from the machine that built them; map them into this bundle."""
-    parts = [x for x in re.split(r"[\\/]+", p) if x]
-    for i, part in enumerate(parts):
-        if part in ("demos", "tests"):
-            return str(ROOT.joinpath(*parts[i:]))
-    return p
-
-
-def _remap(obj):
-    if isinstance(obj, dict):
-        return {k: _remap(v) for k, v in obj.items()}
-    if isinstance(obj, list):
-        return [_remap(v) for v in obj]
-    if isinstance(obj, str) and re.search(r"[\\/](demos|tests)[\\/]", obj):
-        return _local_path(obj)
-    return obj
-
-
 def runtime(agent: str) -> AgentRuntime:
     if agent not in _runtimes:
-        raw = json.loads((ROOT / AGENTS[agent]).read_text(encoding="utf-8"))
-        _runtimes[agent] = AgentRuntime(AgentDefinition.model_validate(_remap(raw)), _settings())
+        _runtimes[agent] = AgentRuntime(load_definition(ROOT / AGENTS[agent]), _settings())
     return _runtimes[agent]
 
 

@@ -317,8 +317,14 @@ class OpenAIBackend:
             except openai.NotFoundError as e:
                 raise LLMUnavailableError(f"model '{model}' not found at {self.settings.base_url} "
                                           f"(for Ollama run: ollama pull {model})") from e
-            except (openai.APIConnectionError, openai.APITimeoutError, openai.InternalServerError,
-                    openai.RateLimitError) as e:
+            except openai.RateLimitError as e:  # hosted free tiers: wait as long as the provider asks (capped)
+                last_exc = e
+                try:
+                    wait = float(e.response.headers.get("retry-after") or 0)
+                except (AttributeError, TypeError, ValueError):
+                    wait = 0.0
+                time.sleep(min(max(wait, 2 ** attempt), self.settings.rate_limit_max_wait_s))
+            except (openai.APIConnectionError, openai.APITimeoutError, openai.InternalServerError) as e:
                 last_exc = e
                 time.sleep(min(2 ** attempt, 8))
         if isinstance(last_exc, openai.APIConnectionError):

@@ -6,11 +6,12 @@ The eval harness uses this same runtime, so evals measure the shipped product.
 from __future__ import annotations
 
 import json
+import re
 import time
 from pathlib import Path
 from typing import Any
 
-from ..config import Settings
+from ..config import REPO_ROOT, Settings
 from ..ingest.index import HybridIndex, build_index
 from ..ingest.loaders import load_folder
 from ..llm import LLM, LLMError, parse_json_loose
@@ -23,8 +24,32 @@ MAX_TOOL_STEPS = 3
 QUOTE_OK = 85.0
 
 
+_ABS_PATH = re.compile(r"^([A-Za-z]:[\\/]|/)")
+
+
+def portable_path(p: str) -> str:
+    """Definitions store absolute paths from the machine that built them. If such a path does not exist here, use the
+    longest trailing part of it that exists under the repo root (e.g. a definition built on Windows, served on Linux)."""
+    if not _ABS_PATH.match(p) or Path(p).exists():
+        return p
+    parts = [x for x in re.split(r"[\\/]+", p) if x and not x.endswith(":")]
+    for i in range(len(parts)):
+        cand = REPO_ROOT.joinpath(*parts[i:])
+        if cand.exists():
+            return str(cand)
+    return p
+
+
+def _portable(obj: Any) -> Any:
+    if isinstance(obj, dict):
+        return {k: _portable(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_portable(v) for v in obj]
+    return portable_path(obj) if isinstance(obj, str) else obj
+
+
 def load_definition(path: str | Path) -> AgentDefinition:
-    return AgentDefinition.model_validate(json.loads(Path(path).read_text(encoding="utf-8")))
+    return AgentDefinition.model_validate(_portable(json.loads(Path(path).read_text(encoding="utf-8"))))
 
 
 def _flatten_tool_output(out: Any) -> str:

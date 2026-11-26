@@ -1,0 +1,26 @@
+# Profile for the hosted Streamlit app (Streamlit Community Cloud): no GPU, no Ollama -> Groq's OpenAI-compatible API.
+# The key is NOT stored here: set FORGE_API_KEY in the host's secrets / environment.
+# Groq's free tier is rate-limited, so retries wait as long as Groq asks and builds are kept small.
+[forge]
+llm_backend = "openai"
+base_url = "https://api.groq.com/openai/v1"
+agent_model = "qwen/qwen3.8-27b"
+factory_model = "qwen/qwen3.8-27b"
+# Same model as the agent: the other Groq chat models reject the tool protocol or JSON reliably enough to judge.
+# Self-preference is weaker-defended here than in the local profile (Qwen agent vs Llama judge); the deterministic
+# checks still veto every LLM pass, and the judge self-test reports its accuracy.
+judge_model = "qwen/qwen3.8-27b"
+judge_model_2 = ""
+embedding_backend = "tfidf"   # no torch on the free host
+temperature_agent = 0.1
+temperature_factory = 0.3
+temperature_judge = 0.0
+max_tokens = 900
+timeout_s = 60
+net_retries = 8
+rate_limit_max_wait_s = 60
+json_mode = true
+max_prompt_chars = 11000
+n_eval_cases = 20
+max_iters = 2
+seed = 42

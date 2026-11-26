@@ -11,23 +11,32 @@ pip install -e ".[ui]"
 forge ui                       # or: streamlit run forge/runner/app_ui.py
 ```
 
-## Streamlit Community Cloud
+## Streamlit Community Cloud (the full app, including the Build tab)
 
-1. Push the repo to GitHub.
-2. New app → main file `forge/runner/app_ui.py`, Python 3.11, requirements file `requirements-deploy.txt`.
-3. Secrets (App settings → Secrets) point the client at a hosted OpenAI-compatible endpoint, since Community Cloud
-   cannot run Ollama:
+1. Go to share.streamlit.io → **Create app** → *Deploy a public app from GitHub*.
+2. Repository `DeeptanshNagar/Agent_Smith_ByOceanAI`, branch `main`, main file path
+   **`deploy/streamlit/streamlit_app.py`**. Its folder holds the app's `requirements.txt`, so the lean root
+   `requirements.txt` stays reserved for the Vercel function.
+3. Advanced settings → Python **3.11** → Secrets:
    ```toml
-   FORGE_BASE_URL = "https://<your-endpoint>/v1"
-   FORGE_API_KEY = "<key>"
-   FORGE_AGENT_MODEL = "<model id>"
-   FORGE_FACTORY_MODEL = "<model id>"
-   FORGE_JUDGE_MODEL = "<a different model id>"
-   FORGE_EMBEDDING_BACKEND = "tfidf"   # avoids downloading torch on the free tier
+   FORGE_API_KEY = "<Groq API key>"
    ```
-   Streamlit exposes secrets as environment variables, and `forge/config.py` reads every `FORGE_*` variable.
-4. Without an endpoint, toggle **Mock LLM backend** in the sidebar: the full pipeline runs offline, with clearly
-   labelled mock results.
+   The entry point selects [`configs/cloud_groq.toml`](../configs/cloud_groq.toml): Groq's OpenAI-compatible API,
+   `qwen/qwen3.8-27b` for every role, TF-IDF embeddings (no torch), rate-limit-aware retries (waits as long as Groq
+   asks, up to 60 s), and small builds (20 evals, 2 iterations) to fit the free tier.
+4. Deploy. A build makes a few hundred model calls, so on Groq's free tier expect it to take a while, rate-limit waits
+   included, and keep the browser tab open while it runs.
+5. Without a key, select **Mock** in the sidebar: the full pipeline runs offline, with clearly labelled mock results.
+
+Differences from the local profile: the judge is the same model family as the agent (Groq's other chat models break the
+JSON/tool protocol), so self-preference is less defended; the deterministic checks still veto every LLM pass and the
+judge self-test reports its accuracy.
+
+## Vercel (results site + live chat API)
+
+`public/` (static page; its data comes from `python scripts/build_site.py`), `api/chat.py` (Python function) and
+`vercel.json`. Set `GROQ_API_KEY` (optionally `GROQ_MODEL`) as a Vercel environment variable, then run `vercel deploy --prod`.
+The factory is not hosted there, because a build exceeds serverless time limits.
 
 ## Hugging Face Spaces (Streamlit SDK)
 
@@ -42,7 +51,7 @@ python_version: "3.11"
 ---
 ```
 
-Add `requirements-deploy.txt` as `requirements.txt` and set the same `FORGE_*` variables as Space secrets. A GPU
+Use `deploy/streamlit/requirements.txt` as `requirements.txt` and set the same `FORGE_*` variables as Space secrets. A GPU
 Space can instead run Ollama in a Docker Space (`sdk: docker`) using `ollama serve & streamlit run …`, with
 `configs/ollama_small.toml` as the config.
 

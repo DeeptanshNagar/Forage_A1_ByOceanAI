@@ -31,6 +31,7 @@ class Settings(BaseModel):
     max_tokens: int = 1024
     timeout_s: float = 180.0
     net_retries: int = 2
+    rate_limit_max_wait_s: float = 8.0  # raise for rate-limited hosted APIs (see configs/cloud_groq.toml)
     json_retries: int = 3
     json_mode: bool = True
     max_prompt_chars: int = 12000

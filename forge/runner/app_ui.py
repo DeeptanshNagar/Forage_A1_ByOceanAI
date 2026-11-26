@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 import sys
 import tempfile
 import time
@@ -162,9 +163,11 @@ def f3(v) -> str:
 
 
 @st.cache_data(ttl=8, show_spinner=False)
-def backend_status(base_url: str) -> tuple[bool, list[str]]:
+def backend_status(base_url: str, api_key: str = "") -> tuple[bool, list[str]]:
     try:
-        with urllib.request.urlopen(base_url.rstrip("/") + "/models", timeout=2) as r:
+        req = urllib.request.Request(base_url.rstrip("/") + "/models",
+                                     headers={"User-Agent": "forgeai-ui", **({"Authorization": f"Bearer {api_key}"} if api_key else {})})
+        with urllib.request.urlopen(req, timeout=4) as r:
             return True, sorted(m["id"] for m in json.loads(r.read())["data"])
     except Exception:  # noqa: BLE001
         return False, []
@@ -191,26 +194,35 @@ def agent_files() -> list[Path]:
 
 with st.sidebar:
     st.markdown('<div class="fx-brand"><i>F</i>ForgeAI</div><div class="fx-kicker">Model backend</div>', unsafe_allow_html=True)
-    mode = st.radio("Backend", ["Local models (Ollama)", "Mock (offline, not model evidence)"], label_visibility="collapsed")
-    mock = mode.startswith("Mock")
+    # FORGE_UI_CONFIG picks the profile on a host (e.g. configs/cloud_groq.toml); locally the small Ollama profile
     small = ROOT / "configs" / "ollama_small.toml"
+    default_cfg = os.environ.get("FORGE_UI_CONFIG") or str(small if small.exists() else ROOT / "forge.toml")
+    default_cfg = str(ROOT / default_cfg) if not Path(default_cfg).is_absolute() else default_cfg
+    local = "localhost" in load_settings(default_cfg).base_url or "127.0.0.1" in load_settings(default_cfg).base_url
+    real_label = "Local models (Ollama)" if local else "Real models (hosted API)"
+    mode = st.radio("Backend", [real_label, "Mock (offline, not model evidence)"], label_visibility="collapsed")
+    mock = mode.startswith("Mock")
     with st.expander("Config file", icon=":material/tune:"):
-        cfg = st.text_input("Config", value=str(small if small.exists() else ROOT / "forge.toml"), label_visibility="collapsed")
+        cfg = st.text_input("Config", value=default_cfg, label_visibility="collapsed")
     settings = load_settings(cfg, llm_backend="mock" if mock else None)
+    is_local = "localhost" in settings.base_url or "127.0.0.1" in settings.base_url
+    server = "Ollama" if is_local else "Model API"
     if mock:
         st.markdown(chip("Mock backend: deterministic fake model", "warn"), unsafe_allow_html=True)
     else:
-        ok, models = backend_status(settings.base_url)
+        ok, models = backend_status(settings.base_url, "" if is_local else settings.api_key)
         wanted = [settings.model_for("agent"), settings.model_for("judge")]
         missing = [m for m in wanted if m not in models and f"{m}:latest" not in models]
         if not ok:
-            st.markdown(chip("Ollama not reachable", "bad"), unsafe_allow_html=True)
-            st.caption("Start the Ollama app (or `ollama serve`), then refresh.")
+            st.markdown(chip(f"{server} not reachable", "bad"), unsafe_allow_html=True)
+            st.caption("Start the Ollama app (or `ollama serve`), then refresh." if is_local
+                       else "Check the API key (FORGE_API_KEY) and base_url in the config.")
         elif missing:
             st.markdown(chip("Model missing", "warn"), unsafe_allow_html=True)
-            st.caption("Run " + ", ".join(f"`ollama pull {m}`" for m in missing))
+            st.caption("Run " + ", ".join(f"`ollama pull {m}`" for m in missing) if is_local
+                       else "Not offered by this API: " + ", ".join(f"`{m}`" for m in missing))
         else:
-            st.markdown(chip("● Ollama connected", "good"), unsafe_allow_html=True)
+            st.markdown(chip(f"● {server} connected", "good"), unsafe_allow_html=True)
     st.markdown(f"""<div class="fx-card" style="margin-top:10px">
       <div class="fx-kicker">Models</div>
       <p><b>Agent / factory</b><br><code>{esc(settings.model_for('agent'))}</code></p>
