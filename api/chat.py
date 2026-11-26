@@ -137,7 +137,9 @@ class handler(BaseHTTPRequestHandler):
             return self._send(503, {"error": "the live model is not configured on this deployment (GROQ_API_KEY missing)"})
         try:
             return self._send(200, answer(agent, question))
-        except LLMError as e:  # includes LLMUnavailableError
-            return self._send(503, {"error": f"the hosted model is unavailable right now: {str(e)[:200]}"})
+        except LLMError as e:  # includes LLMUnavailableError; provider messages can carry account ids, so keep them out
+            if "429" in str(e) or "rate limit" in str(e).lower():
+                return self._send(429, {"error": "the free hosted model is busy (rate limit) - please try again in a minute"})
+            return self._send(503, {"error": "the hosted model is unavailable right now - please try again shortly"})
         except Exception as e:  # noqa: BLE001
-            return self._send(500, {"error": f"{type(e).__name__}: {str(e)[:200]}"})
+            return self._send(500, {"error": f"internal error ({type(e).__name__})"})
