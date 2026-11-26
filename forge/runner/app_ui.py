@@ -198,15 +198,12 @@ with st.sidebar:
     small = ROOT / "configs" / "ollama_small.toml"
     default_cfg = os.environ.get("FORGE_UI_CONFIG") or str(small if small.exists() else ROOT / "forge.toml")
     default_cfg = str(ROOT / default_cfg) if not Path(default_cfg).is_absolute() else default_cfg
-    local = "localhost" in load_settings(default_cfg).base_url or "127.0.0.1" in load_settings(default_cfg).base_url
-    real_label = "Local models (Ollama)" if local else "Real models (hosted API)"
-    mode = st.radio("Backend", [real_label, "Mock (offline, not model evidence)"], label_visibility="collapsed")
+    mode = st.radio("Backend", ["Real models", "Mock (offline, not model evidence)"], label_visibility="collapsed")
     mock = mode.startswith("Mock")
     with st.expander("Config file", icon=":material/tune:"):
         cfg = st.text_input("Config", value=default_cfg, label_visibility="collapsed")
     settings = load_settings(cfg, llm_backend="mock" if mock else None)
     is_local = "localhost" in settings.base_url or "127.0.0.1" in settings.base_url
-    server = "Ollama" if is_local else "Model API"
     if mock:
         st.markdown(chip("Mock backend: deterministic fake model", "warn"), unsafe_allow_html=True)
     else:
@@ -214,7 +211,7 @@ with st.sidebar:
         wanted = [settings.model_for("agent"), settings.model_for("judge")]
         missing = [m for m in wanted if m not in models and f"{m}:latest" not in models]
         if not ok:
-            st.markdown(chip(f"{server} not reachable", "bad"), unsafe_allow_html=True)
+            st.markdown(chip("Model not reachable", "bad"), unsafe_allow_html=True)
             st.caption("Start the Ollama app (or `ollama serve`), then refresh." if is_local
                        else "Check the API key (FORGE_API_KEY) and base_url in the config.")
         elif missing:
@@ -222,7 +219,7 @@ with st.sidebar:
             st.caption("Run " + ", ".join(f"`ollama pull {m}`" for m in missing) if is_local
                        else "Not offered by this API: " + ", ".join(f"`{m}`" for m in missing))
         else:
-            st.markdown(chip(f"● {server} connected", "good"), unsafe_allow_html=True)
+            st.markdown(chip("● Model connected", "good"), unsafe_allow_html=True)
     st.markdown(f"""<div class="fx-card" style="margin-top:10px">
       <div class="fx-kicker">Models</div>
       <p><b>Agent / factory</b><br><code>{esc(settings.model_for('agent'))}</code></p>
