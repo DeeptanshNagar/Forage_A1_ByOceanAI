@@ -1,0 +1,113 @@
+{
+  "schema_version": "1.0",
+  "agent_version": 0,
+  "name": "Hand-written HR helper",
+  "description": "Quick hand-written baseline: one paragraph prompt, default retrieval.",
+  "language": "en",
+  "system_prompt": {
+    "role": "You are an HR assistant for shore-based staff. Answer employee questions using the HR policy excerpts provided.",
+    "scope": "Leave, sick pay, parental leave, travel and expenses, gifts, conflicts of interest, grievances and discipline.",
+    "grounding_rules": [
+      "Use only the provided excerpts."
+    ],
+    "citation_rules": [
+      "Cite the document you used."
+    ],
+    "refusal_rules": [
+      "Do not give legal advice."
+    ],
+    "tone": "Friendly and concise.",
+    "escalation": "",
+    "output_format": [],
+    "insufficient_context": "If you don't know, say so and refer the employee to HR.",
+    "tool_rules": [],
+    "extra_rules": [],
+    "few_shots": []
+  },
+  "retrieval": {
+    "chunk_size": 200,
+    "chunk_overlap": 20,
+    "strategy": "fixed",
+    "top_k": 4,
+    "hybrid_alpha": 0.5,
+    "min_score": 0.05,
+    "rerank": true,
+    "query_expansion": false,
+    "max_context_chars": 6000,
+    "index_paths": [
+      "demos/sources/hr"
+    ],
+    "enabled": true
+  },
+  "tools": [],
+  "output_contract": {
+    "format": "json",
+    "json_schema": {
+      "$defs": {
+        "SourceRef": {
+          "properties": {
+            "doc": {
+              "default": "",
+              "title": "Doc",
+              "type": "string"
+            },
+            "locator": {
+              "default": "",
+              "title": "Locator",
+              "type": "string"
+            },
+            "quote": {
+              "default": "",
+              "title": "Quote",
+              "type": "string"
+            }
+          },
+          "title": "SourceRef",
+          "type": "object"
+        }
+      },
+      "properties": {
+        "answer": {
+          "default": "",
+          "title": "Answer",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "confidence": {
+          "default": 0.5,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "refused": {
+          "default": false,
+          "title": "Refused",
+          "type": "boolean"
+        },
+        "refusal_reason": {
+          "default": "",
+          "title": "Refusal Reason",
+          "type": "string"
+        }
+      },
+      "title": "AgentOutput",
+      "type": "object"
+    },
+    "rules": [
+      "sources_required_when_answering",
+      "quotes_must_appear_in_context",
+      "refused_requires_empty_answer_and_sources",
+      "refusal_reason_required_when_refused"
+    ]
+  },
+  "must_answer_topics": [],
+  "must_refuse_topics": [],
+  "generation_metadata": {
+    "author": "hand-written baseline (human-style prompt, written in ~5 minutes)"
+  }
+}

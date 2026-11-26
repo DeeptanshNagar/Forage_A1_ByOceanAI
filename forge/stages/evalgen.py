@@ -14,10 +14,16 @@ from ..context import RunContext
 from ..ingest.embeddings import get_embedder
 from ..logging_utils import info, stage_banner, success
 from ..schemas import (EvalCandidates, EvalCase, EvalSet, ExpectedFact, GroundCheck, Requirements)
-from ..textutils import (content_words, numbers, quote_match_score, split_sentences, token_recall, truncate)
+from ..textutils import (content_words, numbers, quote_match_score, split_sentences, stem, stems, token_recall,
+                         truncate)
 from .groundability import verify_quotes
 
 QUOTE_THRESHOLD = 90.0
+META_FACT = re.compile(r"\b(the|this) (passage|evidence|quote|document|text) (is|says|states|contains|mentions)\b|"
+                       r"\bevidence quote\b|\bthe correct (number|answer|value)\b|\bis versioned\b", re.I)
+GENERIC_Q_STEMS = {stem(w) for w in ("rule", "rules", "policy", "process", "procedure", "information", "provide",
+                                     "explain", "handle", "details", "employee", "employees", "staff", "user", "company",
+                                     "made", "make", "requirements", "guidelines", "allowed", "there", "about")}
 DEDUP_SIM = 0.92
 
 
@@ -85,6 +91,9 @@ class EvalBuilder:
         for f in facts:
             if not f.fact.strip():
                 continue
+            if META_FACT.search(f.fact):
+                problems.append(f"meta fact (describes the passage, not its content): {truncate(f.fact, 60)}")
+                continue
             quote = f.evidence_quote.strip() or f.fact.strip()
             doc = f.source_doc if f.source_doc in allowed_docs else default_doc
             best_doc, best = doc, quote_match_score(quote, self.doc_texts.get(doc, ""))
@@ -138,6 +147,14 @@ class EvalBuilder:
         hits = self.idx.search(question, top_k=5, alpha=0.5)
         if not hits or hits[0].score < 0.12:
             return False, "no relevant passage"
+        # deterministic check first: a retrieved sentence covering most of the question's key terms
+        key = stems(question) - GENERIC_Q_STEMS
+        if len(key) >= 2:
+            for h in hits[:3]:
+                for s in split_sentences(h.chunk.text):
+                    shared = key & stems(s)
+                    if len(shared) >= 2 and len(shared) / len(key) >= 0.5:
+                        return True, f"sentence covers key terms {sorted(shared)}: {truncate(s, 80)}"
         chunks = [{"id": h.chunk.id, "text": truncate(h.chunk.text, 600)} for h in hits]
         with self.ctx.llm.stage("evalgen"):
             self.log.llm_calls += 1

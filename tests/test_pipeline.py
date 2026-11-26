@@ -94,3 +94,26 @@ def test_no_demo_domain_constants_in_forge():
             if re.search(rf"\b{re.escape(term)}\b", text):
                 offenders.append(f"{path.name}: {term}")
     assert not offenders, offenders
+
+
+def test_regression_mode_and_baseline(settings, tmp_path):
+    import shutil
+
+    from forge.stages.baseline import run_baseline
+    from forge.stages.regression import run_regression
+
+    p = Pipeline(settings, run_id="base", docs=str(COOKING / "docs"), brief=(COOKING / "brief.txt").read_text(),
+                 mode="non_interactive")
+    assert p.run(max_iters=1) == 0
+    new = tmp_path / "newdocs"
+    shutil.copytree(COOKING / "docs", new)
+    f = new / "cooking_faq.md"
+    f.write_text(f.read_text().replace("18 minutes", "20 minutes"))
+    assert run_regression(settings, p.ctx.run_dir, new) == 0
+    reg = json.loads((Path(settings.runs_dir) / "base_regress" / "regression.json").read_text())
+    assert reg["stale"]  # cases whose evidence changed are reported stale, not silently re-scored
+    hand = json.loads((ROOT / "demos" / "hand_written" / "hr_agent.json").read_text())
+    hand["retrieval"]["index_paths"] = [str(COOKING / "docs")]
+    (tmp_path / "hand.json").write_text(json.dumps(hand))
+    text = run_baseline(p.ctx, tmp_path / "hand.json")
+    assert "Where each wins" in text and "hand-written (all)" in text

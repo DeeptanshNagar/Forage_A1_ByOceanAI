@@ -117,7 +117,11 @@ def quote_match_score(quote: str, text: str) -> float:
         if pos < 0:
             return float(fuzz.partial_ratio(q2, t2[:20000]))
         t2 = t2[max(0, pos - 200): pos + len(q2) + 400]
-    return float(fuzz.partial_ratio(q2, t2))
+    score = float(fuzz.partial_ratio(q2, t2))
+    # a near-match with different numbers is NOT verbatim ("18 minutes" vs "20 minutes" must fail)
+    if not set(numbers(q)) <= set(numbers(t)):
+        score = min(score, 80.0)
+    return score
 
 
 def quote_in(quote: str, text: str, threshold: float = 90.0) -> bool:
