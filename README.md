@@ -19,16 +19,39 @@ validator on the report, and warnings when scores look too good.
 > `make mock-demo` use the deterministic **mock** backend; every mock report carries a banner saying it is not model
 > evidence. The default [`forge.toml`](forge.toml) names `qwen2.5:7b-instruct` / `llama3.1:8b` for machines that fit them.
 
-## Screenshots
+## See it working
 
-Web UI (`python -m forge ui`), real local models.
+Screenshots of the web UI (`python -m forge ui`) running on the local real models (`qwen2.5:3b-instruct` agent, `llama3.2:3b` judge).
 
-| | |
-|---|---|
-| ![Results dashboard](docs/screenshots/01_results_dashboard.png) **Results:** scores per iteration, dev vs held-out, against the no-retrieval control | ![Groundability guard](docs/screenshots/02_groundability_guard.png) **Groundability guard:** the pension topic is not in the documents, so it becomes a refusal; a cross-document conflict is flagged |
-| ![Change log](docs/screenshots/03_change_log.png) **Critic → optimizer:** each targeted patch with before/after scores, accepted or rolled back | ![What still fails](docs/screenshots/04_what_still_fails.png) **Honest report:** remaining failures and their category |
-| ![Grounded answer](docs/screenshots/05_chat_grounded_answer.png) **Chat:** answer with verbatim source quotes | ![Refusal](docs/screenshots/06_chat_refusal.png) **Chat:** refuses what the documents do not cover |
-| ![Tool use](docs/screenshots/07_chat_tool_use.png) **Chat:** catalogue lookup + calculator on the procurement agent | ![Build run](docs/screenshots/08_build_agent.png) **Build:** an unseen brief running unattended, stage by stage |
+### 1. Describe the agent you want: a brief plus documents
+
+![Build an agent](docs/screenshots/01_build_agent.png)
+
+You write one paragraph saying what the assistant should do and upload the documents it must answer from (or pick a built-in example). ForgeAI then runs ten stages unattended, shown on the right: it reads the documents, writes requirements, checks that the documents can support each topic, generates the agent, generates its tests, checks its own judge, then runs up to three critic-optimizer iterations, a final evaluation, a no-retrieval control and an honest report.
+
+### 2. Every run ships with evidence, not just an agent
+
+![Results dashboard](docs/screenshots/02_results_dashboard.png)
+
+The HR demo: the original brief, then the headline numbers computed by code from the eval logs. The **no-retrieval control** (0.198) is the same agent with its documents switched off. The large gap to the real score shows the tests actually depend on the documents. The "replayed from cache" tag is shown because this committed run reused recorded real-model outputs (see [Demo results](#demo-results-filled-from-the-committed-artifacts)).
+
+### 3. The critic-optimizer loop, measured on dev and held-out cases
+
+![Score per iteration](docs/screenshots/03_score_per_iteration.png)
+
+Iteration 1 tests the first agent (v0). The critic classifies each failure (retrieval miss, prompt defect, hallucination, wrong refusal), and the optimizer applies one targeted patch. Here a wrong refusal was fixed by relaxing the refusal rule. A patch is kept only if dev improves and held-out (never shown to the optimizer) does not drop; otherwise it is rolled back. The score is not 100%: the remaining failures are listed under *What still fails*.
+
+### 4. The groundability guard refuses to invent what the documents don't say
+
+![Groundability guard](docs/screenshots/04_groundability_guard.png)
+
+Before building anything, every requested topic is checked against the documents with verified quotes. The HR brief asked for the *company pension scheme*, which no document covers, so it became a must-refuse topic instead of something the agent would make up. The guard also found that two documents give **different leave years** (1 Apr–31 Mar vs 1 Jan–31 Dec) and tells the agent to flag this.
+
+### 5. The produced agent answers with citations
+
+![Chat with a grounded answer](docs/screenshots/05_chat_grounded_answer.png)
+
+A live answer from the generated HR agent: the answer, the exact quote, the document and section it came from, and a confidence score. The agent card lists the agent's tools (none, because the brief needs none) and the topics it refuses. The suggested questions are taken from the agent's own generated test set.
 
 ## Architecture
 

@@ -335,7 +335,10 @@ def render_run(d: Path, key: str) -> None:
     with t1:
         a, b = st.columns(2, gap="large")
         with a:
-            st.markdown(f"""<div class="fx-card"><div class="fx-kicker">Scope</div><p>{esc(req.get('scope', ''))}</p>
+            scope = str(req.get("scope") or "")
+            if not scope or scope.lstrip().startswith("["):  # small models sometimes echo section names instead of a scope
+                scope = req.get("purpose", "")
+            st.markdown(f"""<div class="fx-card"><div class="fx-kicker">Scope</div><p>{esc(scope)}</p>
               <div class="fx-kicker" style="margin-top:10px">Audience · tone</div><p>{esc(req.get('audience', ''))} · {esc(req.get('tone', ''))}</p>
               <div class="fx-kicker" style="margin-top:10px">Must answer</div>
               <div>{''.join(chip(x) for x in req.get('must_answer_topics', []))}</div>
