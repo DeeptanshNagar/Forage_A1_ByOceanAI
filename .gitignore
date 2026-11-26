@@ -11,3 +11,4 @@ runs/
 !demos/**
 .venv/
 .streamlit/secrets.toml
+*.log
