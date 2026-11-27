@@ -11,7 +11,7 @@ and hands back a working agent with a report card that **admits what it still ge
 [![Live app](https://img.shields.io/badge/▶%20Try%20the%20full%20app-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://agentsmithbyoceanai.streamlit.app/)
 [![Results site](https://img.shields.io/badge/Results%20%2B%20live%20chat-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://forgeai-six-sigma.vercel.app)
 
-[![CI](https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI/actions/workflows/ci.yml/badge.svg)](https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI/actions/workflows/ci.yml)
+[![CI](https://github.com/DeeptanshNagar/Forage_A1_ByOceanAI/actions/workflows/ci.yml/badge.svg)](https://github.com/DeeptanshNagar/Forage_A1_ByOceanAI/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-ECS%20Fargate-FF9900?logo=amazonwebservices&logoColor=white)

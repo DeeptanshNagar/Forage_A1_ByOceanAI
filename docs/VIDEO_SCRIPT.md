@@ -162,7 +162,7 @@ ForgeAI (Agent Smith): an agent that builds RAG agents from a one-paragraph brie
 
 ▶ Live app: https://agentsmithbyoceanai.streamlit.app/
 ▶ Results + chat: https://forgeai-six-sigma.vercel.app
-▶ Code: https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI
+▶ Code: https://github.com/DeeptanshNagar/Forage_A1_ByOceanAI
 
 00:00 Intro
 00:40 Why this is hard

@@ -13,7 +13,7 @@ and how to run it.
 | **Smaller, safer runtime** | Multi-stage build (no compilers in the final image), runs as an unprivileged user (`uid 10001`), and no secrets baked in: the API key arrives as an environment variable at runtime. |
 | **Self-healing** | A `HEALTHCHECK` on Streamlit's `/_stcore/health`; orchestrators restart unhealthy containers automatically. |
 | **State is explicit** | Runs and the LLM cache live in volumes (`/app/runs`, `/app/.forge_cache`), so containers are disposable and scaling or replacing them loses nothing. |
-| **Verified on every push** | GitHub Actions builds the image, starts it, waits for a healthy status, renders the app inside the container, and publishes it to GHCR (`ghcr.io/deeptanshnagar/agent_smith_byoceanai`). |
+| **Verified on every push** | GitHub Actions builds the image, starts it, waits for a healthy status, renders the app inside the container, and publishes it to GHCR (`ghcr.io/deeptanshnagar/forage_a1_byoceanai`). |
 
 ## Why AWS ECS Fargate (and not App Runner or Lambda)
 
@@ -64,7 +64,7 @@ echo "FORGE_API_KEY=<groq key>" > .env && docker compose --profile cloud up --bu
 # → http://localhost:8501
 ```
 
-Or pull the image that CI publishes: `docker run -p 8501:8501 -e FORGE_API_KEY=<key> ghcr.io/deeptanshnagar/agent_smith_byoceanai:latest`.
+Or pull the image that CI publishes: `docker run -p 8501:8501 -e FORGE_API_KEY=<key> ghcr.io/deeptanshnagar/forage_a1_byoceanai:latest`.
 
 ### On AWS: one click from GitHub
 

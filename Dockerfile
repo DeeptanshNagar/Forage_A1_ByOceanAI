@@ -16,7 +16,7 @@ RUN python -m venv /opt/venv \
 FROM python:3.11-slim AS runtime
 LABEL org.opencontainers.image.title="ForgeAI (Agent Smith)" \
       org.opencontainers.image.description="The agent that builds agents: brief + documents -> tested RAG agent + honest report" \
-      org.opencontainers.image.source="https://github.com/DeeptanshNagar/Agent_Smith_ByOceanAI"
+      org.opencontainers.image.source="https://github.com/DeeptanshNagar/Forage_A1_ByOceanAI"
 
 ENV PATH=/opt/venv/bin:$PATH \
     PYTHONUNBUFFERED=1 \

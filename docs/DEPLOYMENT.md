@@ -14,7 +14,7 @@ forge ui                       # or: streamlit run forge/runner/app_ui.py
 ## Streamlit Community Cloud (the full app, including the Build tab)
 
 1. Go to share.streamlit.io → **Create app** → *Deploy a public app from GitHub*.
-2. Repository `DeeptanshNagar/Agent_Smith_ByOceanAI`, branch `main`, main file path
+2. Repository `DeeptanshNagar/Forage_A1_ByOceanAI`, branch `main`, main file path
    **`deploy/streamlit/streamlit_app.py`**. Its folder holds the app's `requirements.txt`, so the lean root
    `requirements.txt` stays reserved for the Vercel function.
 3. Advanced settings → Python **3.11** → Secrets:
